@@ -1,0 +1,25 @@
+<div ng-controller="employeeCtrl as vm">
+    <div class="row">
+        <div class="col-md-8 table-container">
+            <div style="padding: 10px;">
+                    <table class="table table-striped table-bordered table-hover table-condensed">
+                        <tbody>
+                        <tr>
+                            <th>Application Name</th>
+                            <th>Application Code</th>
+                            <th></th>
+                        </tr>
+                        <tr ng-repeat="app in appList">
+                            <td>
+                                <a ui-sref="admin.appEdit({id:app.id})">
+                                    {{app.appName}}
+                                </a>
+                            </td>
+                            <td>{{app.appCode}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+    </div>
+</div>

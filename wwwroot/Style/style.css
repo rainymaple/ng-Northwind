@@ -1,0 +1,58 @@
+/* Styles go here */
+
+.wizard a {
+  background: #efefef;
+  display: inline-block;
+  margin-right: 5px;
+  min-width: 120px;
+  outline: none;
+  padding: 10px 10px 10px;
+  position: relative;
+  text-decoration: none;
+}
+.wizard .active {
+  background: #007ACC;
+  color: #fff;
+}
+form {
+  background-color: #A4C8E8;
+  border-radius: 2px;
+  box-shadow: 0 1px 1px #ccc;
+  color: #404040;
+  font-size: 14px;
+  padding: 30px 20px;
+}
+form legend {
+  border-radius: 2px;
+  font-family: 'Cookie', cursive;
+  font-weight: normal;
+  color: #404040;
+  font-size: 20px;
+  line-height: 1;
+}
+.legend {
+    font-family: 'Cookie', cursive;
+    font-weight: normal;
+    color: #404040;
+    font-size: 20px;
+    line-height: 1;
+    border-image: none;
+    border: 0 none -moz-use-text-color;
+    border-bottom: 1px solid #1CC09F;
+    margin-bottom: 4px;
+}
+
+.chart {
+  width: 100%;
+  height: 280px;
+}
+
+/* ui-grid style */
+.gridStyle {
+    border: 1px solid rgb(190, 183, 183);
+    /*width: 400px; */
+    height: 300px
+}
+.ui-grid-row:nth-child(even) .ui-grid-cell {
+    background-color: #E4E8E6;
+}

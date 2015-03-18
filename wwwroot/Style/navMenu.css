@@ -1,0 +1,118 @@
+body {
+    color: #676a6c;
+    font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+}
+
+#wrapper {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+.nav > li.active {
+    background: none repeat scroll 0 0 #293846;
+    border-left: 4px solid #19aa8d;
+}
+
+.label-primary, .badge-primary {
+    background-color: #1ab394 !important;
+    color: #ffffff !important;
+}
+
+.navbar-default .landing_link a {
+    background: none repeat scroll 0 0 #1cc09f;
+    color: white;
+}
+
+.nav-header {
+    padding: 33px 25px;
+}
+
+.navbar-static-side {
+    position: absolute;
+    width: 220px;
+    z-index: 101;
+}
+
+.navbar-default {
+    background-color: transparent;
+    border-color: #2f4050;
+}
+
+.nav.nav-second-level > li.active {
+    border: medium none;
+}
+
+.nav-second-level li, .nav-third-level li {
+    border-bottom: none !important;
+}
+
+.nav-second-level li a {
+    padding: 7px 10px 7px 52px;
+}
+
+.nav-second-level li:last-child {
+    margin-bottom: 10px;
+}
+
+.nav > li > a {
+    color: #a7b1c2;
+    font-weight: 600;
+}
+
+.nav > li.active > a {
+    color: #ffffff;
+}
+
+.nav > li > a i {
+    margin-right: 6px;
+}
+
+a {
+    cursor: pointer;
+}
+
+.label {
+    background-color: #d1dade;
+    color: #5e5e5e;
+    font-family: "Open Sans", serif;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    text-shadow: none;
+}
+
+.arrow {
+    float: right;
+}
+
+.logo-element {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    display: none;
+    padding: 18px 0;
+}
+
+.navbar-default .nav > li > a:hover,
+.navbar-default .nav > li > a:focus {
+    background-color: #293846;
+    color: white;
+}
+
+.active > a > .fa.arrow:before {
+    content: "\f107";
+}
+
+.fa.arrow:before {
+    content: "\f104";
+}
+
+.nav-logo {
+    color: rgb(230, 230, 230);
+    font-weight: 800;
+    font-size: 30px;
+    margin: -20px;
+    padding-left: 18px;
+}

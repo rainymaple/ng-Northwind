@@ -1,0 +1,62 @@
+<form name="productForm" class="form-horizontal" >
+  <filedset>
+    <legend>Basic Product Information</legend>
+    <div class="form-group" 
+      ng-class="{'has-error':productForm.productName.$invalid
+                            && productForm.productName.$touched}">
+      <label for="productName" class="col-xs-3 control-label">Product Name</label>
+      <div class="col-xs-8">
+        <input id="productName" name ="productName" 
+          required ng-minlength="4" ng-maxlength = "12"
+          type="text" placeholder="Product Name" 
+          ng-model="product.productName" class="form-control">
+      </div>
+      <span class="help-block" >
+        <span ng-show="productForm.productName.$error.required">*</span>
+        <span ng-show="productForm.productName.$error.minlength">&lt;4</span>
+        <span ng-show="productForm.productName.$error.maxlength">&gt;12</span>
+       </span>
+    </div>
+    <div class="form-group" show-errors>
+      <label for="productCode" class="col-xs-3 control-label">Product Code</label>
+      <div class="col-xs-8">
+        <input type="text" id="productCode" name="productCode" required
+          class="form-control" ui-mask="AAA-****" 
+          ng-model="product.productCode" />
+      </div>
+      <span class="help-block">*</span>
+    </div>
+    <div class="form-group">
+      <label for="availabilityDate" class="col-xs-3 control-label">Availability</label>
+      <div class="col-xs-8">
+        <div class=input-group>
+          <input type="text" id="availabilityDate" class="form-control" datepicker-popup="MMM dd,yyyy" is-open="opened" ng-model="product.releaseDate" />
+          <span class="input-group-btn">
+          <button class="btn btn-default" ng-click="open($event)">
+            <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+        </span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputDescription" class="col-xs-3 control-label">Description</label>
+      <div class="col-xs-8">
+        <textarea rows="3" id="inputDescription" cols="30" ng-model="product.description" placeholder="Description" class="form-control"></textarea>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-xs-9 col-xs-offset-3">
+        <span>
+          <button class="btn btn-primary"
+            ng-click="submit(productForm)">Save</button>
+        </span>
+        <span>
+          <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+        </span>
+      </div>
+    </div>
+  </filedset>
+</form>
+
