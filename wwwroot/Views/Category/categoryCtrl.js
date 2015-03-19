@@ -8,7 +8,7 @@
             columnDefs: getColumnDefs(),
             showColumnMenu: true,
             showFilter: true,
-            showFooter: true,
+            showFooter: false,
             showSelectionCheckbox: true,
             maintainColumnRatios: true,
             jqueryUITheme: true

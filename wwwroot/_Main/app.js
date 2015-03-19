@@ -107,7 +107,7 @@
             productId: productId
         }).$promise;
     }
-
+/*
     app.config(["$stateProvider", "$urlRouterProvider",
 
         function ($stateProvider, $urlRouterProvider) {
@@ -183,6 +183,6 @@
                     }
                 });
         }
-    ]);
-    console.log("app running!");
+    ]);*/
+    //console.log("app running!");
 })();

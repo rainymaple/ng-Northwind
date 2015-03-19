@@ -3,6 +3,7 @@
 
 <head>
     <script src="libs/jquery/dist/jquery.min.js"></script>
+    <script src="libs/lodash/lodash.js"></script>
     <script src="libs/bootstrap/dist/js/bootstrap.js"></script>
     <script src="libs/toastr/toastr.min.js"></script>
     <script src="libs/angularjs/angular.js"></script>
@@ -23,9 +24,10 @@
 
 
 
-    <!--Modules-->
+    <!--Modules and config-->
     <script src="wwwroot/_Main/northwindMock.js"></script>
     <script src="wwwroot/_Main/app.js"></script>
+    <script src="wwwroot/_Main/routeConfig.js"></script>
 
     <!--Services-->
     <script src="wwwroot/Services/dbEntityService.js"></script>
@@ -37,6 +39,7 @@
 
     <!-- Controllers-->
     <script src="wwwroot/Views/Category/categoryCtrl.js"></script>
+    <script src="wwwroot/Views/Employee/employeeCtrl.js"></script>
 
 
     <script src="ValidationDirective.js"></script>
@@ -92,9 +95,7 @@
         </li>
     </ul>
 </div>
-<div class="container">
-    <div ui-view=""></div>
-</div>-->
+
 </body>
 
 </html>

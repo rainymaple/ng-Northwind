@@ -1,38 +1,19 @@
 (function (app) {
-    app.controller('categoryCtrl', ['repositoryService', 'dbEntityService', categoryCtrl]);
+    app.controller('employeeCtrl', ['repositoryService', 'dbEntityService', employeeCtrl]);
 
-    function categoryCtrl(repositoryService, dbEntityService) {
+    function employeeCtrl(repositoryService, dbEntityService) {
         var vm = this;
-        vm.gridOptions = {
-            enableColumnResize: true,
-            columnDefs: getColumnDefs(),
-            showColumnMenu: true,
-            showFilter: true,
-            showFooter: true,
-            showSelectionCheckbox: true,
-            maintainColumnRatios: true,
-            jqueryUITheme: true
-        };
 
-        repositoryService.getDataList(dbEntityService.entities.category).then(function (data) {
-            vm.categoryList = data;
-            vm.gridOptions.data = data;
+        repositoryService.getDataList(dbEntityService.entities.employee).then(function (data) {
+            vm.employeeList = data;
         });
+
+        vm.employeeDetail = function (id) {
+            vm.employee = _.find(vm.employeeList, function (e) {
+                return e.EmployeeID === id;
+            });
+            console.log(vm.employee.EmployeeID);
+        }
     }
 
-    function getColumnDefs() {
-        return [
-            {
-                field: 'CategoryID',
-                displayName: 'Id',
-                width: '40'
-            }, {
-                field: 'CategoryName',
-                displayName: 'Name',
-                width: '180'
-            }, {
-                field: 'Description'
-            }
-        ];
-    }
 })(angular.module('appNorthwind'));

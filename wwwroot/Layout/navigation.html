@@ -21,7 +21,7 @@
             <li ng-class="{active: $state.includes('dataCollection')}">
                 <a ui-sref="dataCollection.studentList"><i class="glyphicon glyphicon-cloud-download"></i> <span class="nav-label">Data Management</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" ng-class="{in: $state.includes('dataCollection')}">
-                    <li ><a >Employees</a></li>
+                    <li ui-sref-active="active"><a ui-sref="employeeList">Employees</a></li>
                     <li ><a >Customers</a></li>
                     <li ><a >Shippers</a></li>
                     <li ><a >Suppliers</a></li>

@@ -14,14 +14,14 @@
   background: #007ACC;
   color: #fff;
 }
-form {
+/*form {
   background-color: #A4C8E8;
   border-radius: 2px;
   box-shadow: 0 1px 1px #ccc;
   color: #404040;
   font-size: 14px;
   padding: 30px 20px;
-}
+}*/
 form legend {
   border-radius: 2px;
   font-family: 'Cookie', cursive;
@@ -34,7 +34,7 @@ form legend {
     font-family: 'Cookie', cursive;
     font-weight: normal;
     color: #404040;
-    font-size: 20px;
+    font-size: 26px;
     line-height: 1;
     border-image: none;
     border: 0 none -moz-use-text-color;
