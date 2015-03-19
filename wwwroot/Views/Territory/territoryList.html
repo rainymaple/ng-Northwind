@@ -1,0 +1,21 @@
+<div ng-controller="territoryCtrl as vm">
+    <div class="legend">Territories</div>
+    <div class="row">
+        <div class="col-lg-10 table-container">
+            <div style="padding: 10px;">
+                <table class="table table-striped table-bordered table-hover table-condensed">
+                    <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr ng-repeat="e in vm.list">
+                        <td>{{e.TerritoryID}}</td>
+                        <td>{{e.TerritoryDescription}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

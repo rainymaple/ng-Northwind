@@ -9,15 +9,50 @@
         $httpBackend.whenGET(/wwwroot/).passThrough();
 
         var requests = {
+            employee: {
+                endpoint: "/api/employee",
+                entities: 'Employees',
+                idField: 'EmployeeID'
+            },
             category: {
                 endpoint: "/api/category",
                 entities: 'Categories',
                 idField: 'CategoryID'
             },
-            employee: {
-                endpoint: "/api/employee",
-                entities: 'Employees',
-                idField: 'EmployeeID'
+            customer: {
+                endpoint: "/api/customer",
+                entities: 'Customers',
+                idField: 'CustomerID'
+            },
+            shipper: {
+                endpoint: "/api/shipper",
+                entities: 'Shippers',
+                idField: 'ShipperID'
+            },
+            supplier: {
+                endpoint: "/api/supplier",
+                entities: 'Suppliers',
+                idField: 'SupplierID'
+            },
+            territory: {
+                endpoint: "/api/territory",
+                entities: 'Territories',
+                idField: 'TerritoryID'
+            },
+            order: {
+                endpoint: "/api/order",
+                entities: 'Orders',
+                idField: 'OrderID'
+            },
+            orderDetails: {
+                endpoint: "/api/orderDetails",
+                entities: 'Order_Details',
+                idField: 'OrderID'
+            },
+            product: {
+                endpoint: "/api/product",
+                entities: 'Products',
+                idField: 'ProductID'
             }
         };
 

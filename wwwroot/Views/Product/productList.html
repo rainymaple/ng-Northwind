@@ -1,0 +1,46 @@
+<!--
+                "ProductID": 1,
+                "ProductName": "Chai",
+                "SupplierID": 1,
+                "CategoryID": 1,
+                "QuantityPerUnit": "10 boxes x 20 bags",
+                "UnitPrice": "18.0000",
+                "UnitsInStock": 39,
+                "UnitsOnOrder": 0,
+                "ReorderLevel": 10,
+                "Discontinued": false
+-->
+
+<div ng-controller="productCtrl as vm">
+    <div class="legend">Products</div>
+    <div class="row">
+        <div class="col-lg-10 table-container">
+            <div style="padding: 10px;">
+                <table class="table table-striped table-bordered table-hover table-condensed">
+                    <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Quantity Per Unit</th>
+                        <th>Unit Price</th>
+                        <th>Units In Stock</th>
+                        <th>Units On Order</th>
+                        <th>Reorder Level</th>
+                        <th>Discontinued</th>
+                    </tr>
+                    <tr ng-repeat="e in vm.list">
+                        <td>{{e.ProductID}}</td>
+                        <td>{{e.ProductName}}</td>
+                        <td>{{e.QuantityPerUnit}}</td>
+                        <td>{{e.UnitPrice}}</td>
+                        <td>{{e.UnitsInStock}}</td>
+                        <td>{{e.UnitsOnOrder}}</td>
+                        <td>{{e.ReorderLevel}}</td>
+                        <td>{{e.Discontinued}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
