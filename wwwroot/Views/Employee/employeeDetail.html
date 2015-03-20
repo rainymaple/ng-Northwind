@@ -1,17 +1,18 @@
-<div class="col-lg-10" ng-show="vm.showDetail" ng-class="{animated:true, fadeInLeft:true}">
+<div class="col-lg-9" ng-show="vm.showDetail" ng-class="{animated:true, fadeInLeft:true}">
     <div class="panel panel-primary" style="margin-top: 20px;">
         <div class="panel-heading">
-            <button class="btn btn-default btn-sm" style="background-color: #337AB7;color:#fff;" ng-click="vm.backToList()">
+            <button class="btn btn-default btn-sm" style="background-color: transparent;color:#fff;"
+                    ng-click="vm.backToList()">
                 <i class="glyphicon glyphicon-chevron-left"></i>
                 Back
             </button>
-            <span style="margin-left: 10px;font-size: 16px;">Employee Detail</span>
+            <div style="display:inline-block;margin-left: 10px;font-size: 16px;">Employee Detail</div>
         </div>
         <div class="panel-body">
             <form name="formEmployee" class="form-horizontal">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group  form-group-sm">
                             <label for="firstName" class="col-md-4 col-sm-3 control-label">First Name</label>
 
                             <div class="col-md-8 col-sm-9">
@@ -21,7 +22,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group  form-group-sm">
                             <label for="lastName" class="col-md-4 col-sm-3 control-label">Last Name</label>
 
                             <div class="col-md-8 col-sm-9">
@@ -33,7 +34,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group  form-group-sm">
                             <label for="title" class="col-md-4 col-sm-3 control-label">Title</label>
 
                             <div class="col-md-8 col-sm-9">
@@ -43,7 +44,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group  form-group-sm">
                             <label for="titleOfCourtesy" class="col-md-4 col-sm-3 control-label">Title of
                                 Courtesy</label>
 
@@ -56,7 +57,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group  form-group-sm">
                             <label for="address" class="col-md-4 col-sm-3 control-label">Address</label>
 
                             <div class="col-md-8 col-sm-9">
@@ -66,7 +67,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group  form-group-sm">
                             <label for="postalCode" class="col-md-4 col-sm-3 control-label">Postal Code</label>
 
                             <div class="col-md-8 col-sm-9">
@@ -78,7 +79,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group  form-group-sm">
                             <label for="country" class="col-md-4 col-sm-3 control-label">Country</label>
 
                             <div class="col-md-8 col-sm-9">
@@ -88,7 +89,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group  form-group-sm">
                             <label for="city" class="col-md-4 col-sm-3 control-label">City</label>
 
                             <div class="col-md-8 col-sm-9">
@@ -100,7 +101,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group  form-group-sm">
                             <label for="homePhone" class="col-md-4 col-sm-3 control-label">HomePhone</label>
 
                             <div class="col-md-8 col-sm-9">
@@ -110,7 +111,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group  form-group-sm">
                             <label for="extension" class="col-md-4 col-sm-3 control-label">Extension</label>
 
                             <div class="col-md-8 col-sm-9">
@@ -131,8 +132,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-4 col-xs-offset-2" style="margin-bottom: 10px;">
-                        <img ng-src="wwwroot/Images/Employee.gif" style="height: 112px;width: 160px;"/>
+                    <div class="col-md-6">
+                        <div class="form-group  form-group-sm">
+                            <label for="extension" class="col-md-4 col-sm-3 control-label">Photo</label>
+
+                            <div class="col-md-8 col-sm-9">
+                                <img ng-src="wwwroot/Images/Employee.gif" style="height: 112px;width: 160px;"/>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
