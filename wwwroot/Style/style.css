@@ -56,3 +56,8 @@ form legend {
 .ui-grid-row:nth-child(even) .ui-grid-cell {
     background-color: #E4E8E6;
 }
+
+/* pagination*/
+ul.pagination{
+    margin: 0;
+}
