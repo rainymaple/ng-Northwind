@@ -23,18 +23,23 @@
             });
         }
 
-        function getDataListByPage(data, page, pageSize) {
+        function getDataListByPage(data, page, pageSize,sortField,sortOrder) {
             // page starts with 1
             if (!data || page <= 0) {
                 return null;
             }
-            pageSize =parseInt(pageSize);
-            var start = (page - 1) * pageSize;
-            var pagedData = _.slice(data, start, start + pageSize);
-            if (!pagedData) {
+            try {
+                //pageSize = parseInt(pageSize);
+                var start = (page - 1) * pageSize;
+                var pagedData = _.slice(data, start, start + pageSize);
+                if (!pagedData) {
+                    return null;
+                }
+                return pagedData;
+            } catch (e) {
+                console.log(e.message);
                 return null;
             }
-            return pagedData;
         }
     }
 })(angular.module('appNorthwind'));
