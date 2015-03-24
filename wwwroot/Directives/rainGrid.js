@@ -91,12 +91,21 @@
                 if (!columnDefs) {
                     for (var property in value) {
                         if (value.hasOwnProperty(property)) {
-                            row.push({fieldName: property, value: value[property], displayName: property});
+                            row.push(
+                                {
+                                    fieldName: property,
+                                    value: value[property],
+                                    displayName: property
+                                });
                         }
                     }
                 } else {
                     angular.forEach(columnDefs, function (col) {
-                        row.push({fieldName: col.field, value: value[col.field], displayName: col.displayName});
+                        row.push({
+                            fieldName: col.field,
+                            value:  value[col.field],
+                            displayName: col.displayName
+                        });
                     });
                 }
                 return row;

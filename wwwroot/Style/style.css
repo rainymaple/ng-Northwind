@@ -58,29 +58,24 @@ form legend {
 }
 
 
-/* rainGrid*/
+/*-- rainGrid --*/
 .rain-grid-table tr th{
     cursor: pointer;
 }
+.rain-grid-table tr th{
+    background-color: #E4E8E6;
+}
+.rain-grid-table tr th:hover{
+    background: linear-gradient(#BCBCBC,#ffffff);
+}
+.rain-grid-table tr th.asc {
+    background: linear-gradient(#ffffff,#89d4ab);
+}
+.rain-grid-table tr th.dsc {
+    background: linear-gradient(#89d4ab,#ffffff);
+}
+
 /* rainGrid pagination*/
 ul.pagination{
     margin: 0;
-}
-.rain-grid-icon-up-dir:before {
-    content: '\c359';
-}
-.rain-grid-table tr th:hover{
-    background-color: #BCBCBC;
-}
-.rain-grid-table tr th span{
-    border: 0 solid;
-    color:#008080;
-}
-.rain-grid-table tr th span.dsc{
-    border-top-width: 2px;
-    border-color: #a30000;
-}
-.rain-grid-table tr th span.asc{
-    border-bottom-width: 2px;
-    border-color: #a30000;
 }

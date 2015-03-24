@@ -24,10 +24,11 @@
     <div class="panel-body">
         <table class="table table-striped table-bordered table-hover table-condensed rain-grid-table">
             <tbody>
-            <tr style="background-color: #E4E8E6;">
-                <th ng-repeat="field in header" ng-click="setSorting(field.fieldName)">
-                    <span ng-class="{dsc:field.fieldName===sortField&&sortOrder==='DSC',
+            <tr >
+                <th ng-repeat="field in header" ng-click="setSorting(field.fieldName)"
+                    ng-class="{dsc:field.fieldName===sortField&&sortOrder==='DSC',
                             asc:field.fieldName===sortField&&sortOrder==='ASC'}">
+                    <span>
                         {{field.displayName}}
                     </span>
                 </th>
