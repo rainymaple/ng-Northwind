@@ -34,14 +34,14 @@
                 </th>
             </tr>
             <tr ng-repeat="row in list">
-                <td ng-repeat="field in row">{{field.value}}</td>
+                <td ng-repeat="field in row">
+                    <span grid-cell-template="field.value" template="field.isCheckbox">
+                        <!--{{field.value}}-->
+                    </span>
+                </td>
             </tr>
             </tbody>
         </table>
-        <div class="ui-checkbox">
-            <input type="checkbox" value="true" id="RememberMe" name="RememberMe" checked="true"/>
-            <label class="checkbox-label" for="RememberMe"></label>
-        </div>
     </div>
 </div>
 

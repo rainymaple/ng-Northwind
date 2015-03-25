@@ -1,0 +1,8 @@
+<div style="display: inline-block;margin: 0 auto;" ng-if="isCheckbox" class="ui-checkbox">
+    <input type="checkbox"  ng-model="value"/>
+    <label class="checkbox-label"  style="margin-top: 0"></label>
+</div>
+<span ng-if="!isCheckbox">
+    {{value}}
+</span>
+

@@ -121,7 +121,8 @@
                         row.push({
                             fieldName: col.field,
                             value: value[col.field],
-                            displayName: col.displayName
+                            displayName: col.displayName,
+                            isCheckbox: col.isCheckbox
                         });
                     });
                 }
