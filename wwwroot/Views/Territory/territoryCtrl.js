@@ -17,12 +17,7 @@
             vm.gridOptions = {
                 enableColumnResize: true,
                 columnDefs: getColumnDefs(),
-                showColumnMenu: true,
-                showFilter: true,
-                showFooter: false,
-                showSelectionCheckbox: true,
-                maintainColumnRatios: true,
-                jqueryUITheme: true
+                enablePage: true
             };
         }
 

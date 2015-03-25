@@ -1,86 +1,103 @@
 (function (app) {
-    app.directive('rainGrid', function () {
+    app.directive('rainGrid', ['$timeout', rainGrid]);
 
+    /*-- Function Directive --*/
+    function rainGrid($timeout) {
+        var _gridOptions = {};
         var _dataList = [];
         var _sortings = [null, 'ASC', 'DSC'];
         var _sortOrder = 0;
         var _sortField = null;
 
         return {
-
             restrict: 'AE',
             templateUrl: 'wwwroot/Directives/rainGrid.html',
             replace: false,
             scope: {
                 rainGrid: '='
             },
-            controller: function ($scope, $timeout) {
-
-                activate();
-
-                // controller functions
-
-                function activate() {
-                    initPage();
-                    var gridOptions = $scope.rainGrid;
-                    /* using $timeout here is to make sure getting data before rendering the html*/
-                    $timeout(function () {
-                        return getGridData(gridOptions)
-                    }).then(function (gridData) {
-                        _dataList = gridData.data;
-                        $scope.header = gridData.header;
-                        $scope.rowCount = _dataList.length;
-                        getPageData();
-                    });
-                }
-
-                function initPage() {
-                    $scope.currentPage = 1;
-                    $scope.maxSize = 3;
-                    $scope.pageSizes = [
-                        {label: ' 5', value: 5},
-                        {label: '10', value: 10},
-                        {label: '20', value: 20}
-                    ];
-                    $scope.pageSize = $scope.pageSizes[1];
-                }
-
-                function getPageData() {
-                    var pagedDataList = getDataListByPage(_dataList, $scope.currentPage, $scope.pageSize.value);
-                    if (pagedDataList) {
-                        $scope.list = pagedDataList;
-                    }
-                    return $scope.list;
-                }
-
-                // page event handlers
-                $scope.pageSizeChanged = function (pageSize) {
-                    $scope.currentPage = 1;
-                    getPageData();
-                };
-                $scope.pageChanged = function () {
-                    getPageData();
-                };
-
-                $scope.setSorting = function (sortField) {
-                    if (_sortField !== sortField) {
-                        _sortOrder = 1;
-                    } else {
-                        _sortOrder = _sortOrder + 1;
-                        if (_sortOrder > 2) {
-                            _sortOrder = 0;
-                        }
-                    }
-                    _sortField = sortField;
-                    $scope.sortField = sortField;
-                    $scope.sortOrder = _sortings[_sortOrder];
-                    getPageData();
-                }
-            }
+            controller: controller
 
         };
 
+        /*-- Function Controller --*/
 
+        function controller($scope) {
+
+            activate();
+
+            // controller functions
+
+            function activate() {
+                /* using $timeout here is to make sure getting data before rendering the html*/
+                $timeout(function () {
+                    _gridOptions = $scope.rainGrid;
+                    return getGridData(_gridOptions)
+                }).then(function (gridData) {
+                    initPage();
+                    initData(gridData);
+                });
+            }
+
+            function initPage() {
+                $scope.enablePage = _gridOptions.enablePage;
+                $scope.currentPage = 1;
+                $scope.maxSize = 3;
+                $scope.pageSizes = [
+                    {label: ' 5', value: 5},
+                    {label: '10', value: 10},
+                    {label: '20', value: 20}
+                ];
+                $scope.pageSize = $scope.pageSizes[1];
+            }
+
+            function initData(gridData) {
+                _dataList = gridData.data;
+                $scope.header = gridData.header;
+                $scope.rowCount = _dataList.length;
+                getPageData();
+            }
+
+            function getPageData() {
+                if (!_gridOptions.enablePage) {
+                    $scope.list = _dataList;
+                    return $scope.list;
+                }
+                var pagedDataList = getDataListByPage(_dataList, $scope.currentPage, $scope.pageSize.value);
+                if (pagedDataList) {
+                    $scope.list = pagedDataList;
+                }
+                return $scope.list;
+            }
+
+            // page event handlers
+            $scope.pageSizeChanged = function (pageSize) {
+                $scope.currentPage = 1;
+                getPageData();
+            };
+            $scope.pageChanged = function () {
+                getPageData();
+            };
+
+            $scope.setSorting = function (sortField) {
+                if (_sortField !== sortField) {
+                    _sortOrder = 1;
+                } else {
+                    _sortOrder = _sortOrder + 1;
+                    if (_sortOrder > 2) {
+                        _sortOrder = 0;
+                    }
+                }
+                _sortField = sortField;
+                $scope.sortField = sortField;
+                $scope.sortOrder = _sortings[_sortOrder];
+                getPageData();
+            }
+        }
+
+        /*--  Directive Functions --*/
+
+        // Building the header and rows
         function getGridData(gridOptions) {
             var list = gridOptions.data;
             var columnDefs = gridOptions.columnDefs;
@@ -103,7 +120,7 @@
                     angular.forEach(columnDefs, function (col) {
                         row.push({
                             fieldName: col.field,
-                            value:  value[col.field],
+                            value: value[col.field],
                             displayName: col.displayName
                         });
                     });
@@ -117,7 +134,8 @@
             return gridList;
         }
 
-        function getDataListByPage(data, page, pageSize, sortField, sortOrder) {
+        // Paging
+        function getDataListByPage(data, page, pageSize) {
             // page starts with 1
             if (!data || page <= 0) {
                 return null;
@@ -156,5 +174,5 @@
         }
 
 
-    });
+    }
 })(angular.module('appNorthwind'));

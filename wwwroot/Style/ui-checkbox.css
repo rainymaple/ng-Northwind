@@ -1,0 +1,62 @@
+
+
+/* SQUARED FOUR */
+
+.ui-checkbox input[type=checkbox] {
+    visibility: hidden;
+}
+
+.ui-checkbox {
+    width: 22px;
+    margin-left: -12px;
+    position: relative;
+}
+
+input[type=checkbox]+label.checkbox-label:after {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.ui-checkbox label {
+    cursor: pointer;
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    top: 0;
+    margin-top: 5px;
+    background-color: #FFF;
+    border: 1px solid #D3CFC8;
+}
+
+.ui-checkbox label:after {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    opacity: 0;
+    content: '';
+    position: absolute;
+    width: 9px;
+    height: 5px;
+    background: transparent;
+    top: 4px;
+    left: 4px;
+    border: 3px solid #FFF;
+    border-top: none;
+    border-right: none;
+
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+.ui-checkbox input[type=checkbox]:checked + label {
+
+    background: #337AB7;
+}
+
+.ui-checkbox input[type=checkbox]:checked + label:after {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
+    opacity: 1;
+}

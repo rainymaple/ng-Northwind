@@ -8,7 +8,7 @@
 
         // controller functions
 
-        function activate(){
+        function activate() {
             setGridOptions();
             repositoryService.getDataList(dbEntityService.entities.product).then(function (data) {
                 vm.gridOptions.data = data;
@@ -16,10 +16,10 @@
         }
 
 
-
         function setGridOptions() {
             vm.gridOptions = {
-                columnDefs: getColumnDefs()
+                columnDefs: getColumnDefs(),
+                enablePage: true
             };
         }
 
@@ -54,7 +54,8 @@
                 },
                 {
                     field: 'Discontinued',
-                    displayName: 'Discontinued'
+                    displayName: 'Discontinued',
+                    isCheckbox:true
                 }
             ];
         }
