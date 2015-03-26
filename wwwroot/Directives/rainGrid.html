@@ -2,7 +2,9 @@
     <div class="panel-heading">
         <div class="clearfix" ng-show="enablePage">
             <div class="pull-left" style="margin-top: 5px;">
-                <i class="fa fa-sort-amount-desc" style="font-size: 20px;"></i>
+                <i class="fa fa-sort-amount-asc" style="font-size: 20px;" ng-show="sortOrder==='ASC'"></i>
+                <i class="fa fa-sort-amount-desc" style="font-size: 20px;" ng-show="sortOrder==='DSC'"></i>
+                <i class="fa fa-file-o " style="font-size: 20px;" ng-show="!sortOrder"></i>
             </div>
             <div class="pull-right">
                 <div class="clearfix">
