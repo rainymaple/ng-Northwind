@@ -2,7 +2,12 @@
     <input type="checkbox"  ng-model="value"/>
     <label class="checkbox-label"  style="margin-top: 0"></label>
 </div>
-<span ng-if="!isCheckbox">
+<span ng-if="isDetailLink">
+    <a ng-click="linkFunc()">{{value}}</a>
+</span>
+
+
+<span ng-if="!isCheckbox && !isDetailLink">
     {{value}}
 </span>
 

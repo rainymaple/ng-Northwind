@@ -1,6 +1,9 @@
 <div class="rain-grid-panel panel panel-success">
     <div class="panel-heading">
         <div class="clearfix" ng-show="enablePage">
+            <div class="pull-left" style="margin-top: 5px;">
+                <i class="fa fa-sort-amount-desc" style="font-size: 20px;"></i>
+            </div>
             <div class="pull-right">
                 <div class="clearfix">
                     <div class="pull-left" style="margin-top: 5px; margin-right: 5px;">Page size:</div>
@@ -37,7 +40,8 @@
                 <td ng-repeat="field in row">
                     <span grid-cell-template="field.value"
                           is-checkbox="field.isCheckbox"
-                          link-func-by-id="field.linkFuncById">
+                          is-detail-link="field.isDetailLink"
+                          func-detail="gotoDetail(field.id)">
                         <!--{{field.value}}-->
                     </span>
                 </td>

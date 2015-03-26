@@ -26,7 +26,6 @@
     <link rel="stylesheet" href="wwwroot/Style/ui-checkbox.css"/>
 
 
-
     <!--Modules and config-->
     <script src="wwwroot/_Main/northwindMock.js"></script>
     <script src="wwwroot/_Main/app.js"></script>
@@ -63,18 +62,17 @@
 
 <body ng-app="appNorthwind">
 <!-- Wrapper-->
-<div id="wrapper" >
+<div id="wrapper">
 
     <!-- Navigation -->
     <div ng-include="'wwwroot/Layout/navigation.html'"></div>
 
-    <!-- Page wraper -->
-    <!-- ng-class with current state name give you the ability to extended customization your view -->
+    <!-- Page wrapper -->
     <div id="page-wrapper" class="gray-bg">
 
         <!-- Page wrapper -->
         <!--<div ng-include="'App/Layout/topNavBar.html'"></div>
--->
+
         <!-- Main view  -->
         <div ui-view></div>
 
@@ -86,24 +84,7 @@
 
 </div>
 <!-- End wrapper-->
-<!--<div class="container ">
-    <ul class="nav nav-pills">
-        <li>
-            <a ui-sref="productGridList">Product List ng-grid</a>
-        </li>
-        <li>
-            <a ui-sref="productList">Product List</a>
-        </li>
-        <li>
-            <a ui-sref="productEdit.info({productId:0})">Add Product
-                <i class="glyphicon glyphicon-plus"></i>
-            </a>
-        </li>
-        <li>
-            <a ui-sref="priceAnalytics">Price Analytics</a>
-        </li>
-    </ul>
-</div>
+
 
 </body>
 

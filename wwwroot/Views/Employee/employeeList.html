@@ -2,31 +2,8 @@
     <div class="legend">Employees</div>
     <div class="row" ng-class="{animated:vm.isFromBack, fadeInRight:true}" ng-show="!vm.showDetail">
         <div class="col-lg-10 table-container">
-            <div style="padding: 10px;">
-                <table class="table table-striped table-bordered table-hover table-condensed">
-                    <tbody>
-                    <tr>
-                        <th>Id</th>
-                        <th>FirstName</th>
-                        <th>LastName</th>
-                        <th>Title</th>
-                        <th>Country</th>
-                        <th>Region</th>
-                    </tr>
-                    <tr ng-repeat="emp in vm.employeeList">
-                        <td>{{emp.EmployeeID}}</td>
-                        <td>
-                            <a ng-click="vm.employeeDetail(emp.EmployeeID)">
-                                {{emp.FirstName}}
-                            </a>
-                        </td>
-                        <td>{{emp.LastName}}</td>
-                        <td>{{emp.Title}}</td>
-                        <td>{{emp.Country}}</td>
-                        <td>{{emp.Region}}</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div style="padding: 10px;" class="table-responsive">
+                <div rain-grid="vm.gridOptions" func-detail="vm.employeeDetail(id)"></div>
             </div>
         </div>
     </div>

@@ -2,7 +2,7 @@
     app.directive('rainGrid', ['$timeout', rainGrid]);
 
     /*-- Function Directive --*/
-    function rainGrid($timeout) {
+    function rainGrid() {
         var _gridOptions = {};
         var _dataList = [];
         var _sortings = [null, 'ASC', 'DSC'];
@@ -14,7 +14,8 @@
             templateUrl: 'wwwroot/Directives/rainGrid.html',
             replace: false,
             scope: {
-                rainGrid: '='
+                rainGrid: '=',
+                funcDetail: '&'
             },
             controller: controller
 
@@ -29,14 +30,16 @@
             // controller functions
 
             function activate() {
-                /* using $timeout here is to make sure getting data before rendering the html*/
-                $timeout(function () {
-                    _gridOptions = $scope.rainGrid;
-                    return getGridData(_gridOptions)
-                }).then(function (gridData) {
-                    initPage();
-                    initData(gridData);
-                });
+                _gridOptions = {enablePage: true, pageSize: 10};
+                _gridOptions = _.assign(_gridOptions, $scope.rainGrid);
+                _gridOptions.data.then(
+                    function(dataList){
+                        _gridOptions.dataList = dataList;
+                        var gridData = getGridData(_gridOptions);
+                        initPage();
+                        initData(gridData);
+                    }
+                )
             }
 
             function initPage() {
@@ -49,17 +52,27 @@
                     {label: '20', value: 20}
                 ];
                 $scope.pageSize = $scope.pageSizes[1];
+                if (_gridOptions.pageSize) {
+                    var pageSize = _.find($scope.pageSizes, function (size) {
+                        return size.value == _gridOptions.pageSize;
+                    });
+                    if (pageSize) {
+                        $scope.pageSize = pageSize;
+                    }
+                }
+
             }
 
             function initData(gridData) {
                 _dataList = gridData.data;
                 $scope.header = gridData.header;
                 $scope.rowCount = _dataList.length;
+                $scope.enablePage = _gridOptions.enablePage && ($scope.rowCount > $scope.pageSizes[0].value);
                 getPageData();
             }
 
             function getPageData() {
-                if (!_gridOptions.enablePage) {
+                if (!$scope.enablePage) {
                     $scope.list = _dataList;
                     return $scope.list;
                 }
@@ -71,6 +84,14 @@
             }
 
             // page event handlers
+
+            $scope.gotoDetail = function (id) {
+                if (!id) {
+                    throw "gridOptions.idField is missing or invalid";
+                }
+                $scope.funcDetail({'id': id});
+            };
+
             $scope.pageSizeChanged = function (pageSize) {
                 $scope.currentPage = 1;
                 getPageData();
@@ -99,35 +120,36 @@
 
         // Building the header and rows
         function getGridData(gridOptions) {
-            var list = gridOptions.data;
+            var list = gridOptions.dataList;
             var columnDefs = gridOptions.columnDefs;
 
             var gridList = {};
-            gridList.data = _.map(list, function (value) {
-                var row = [];
+            gridList.data = _.map(list, function (rowData) {
+                var newRow = [];
                 if (!columnDefs) {
-                    for (var property in value) {
-                        if (value.hasOwnProperty(property)) {
-                            row.push(
+                    for (var property in rowData) {
+                        if (rowData.hasOwnProperty(property)) {
+                            newRow.push(
                                 {
                                     fieldName: property,
-                                    value: value[property],
+                                    value: rowData[property],
                                     displayName: property
                                 });
                         }
                     }
                 } else {
                     angular.forEach(columnDefs, function (col) {
-                        row.push({
+                        newRow.push({
+                            id: rowData[gridOptions.idField],
                             fieldName: col.field,
-                            value: value[col.field],
+                            value: rowData[col.field],
                             displayName: col.displayName,
                             isCheckbox: col.isCheckbox,
-                            linkFuncById: col.linkFuncById
+                            isDetailLink: col.isDetailLink
                         });
                     });
                 }
-                return row;
+                return newRow;
             });
             var firstRow = gridList.data[0];
             if (firstRow) {

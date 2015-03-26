@@ -11,7 +11,8 @@
             scope: {
                 gridCellTemplate: '=',
                 isCheckbox: '=',
-                linkFuncById: '='
+                isDetailLink: '=',
+                funcDetail: '&'
             },
             link: link
 
@@ -19,7 +20,12 @@
 
         function link(scope, el, attr) {
             scope.value = scope.gridCellTemplate;
-            var linkFuncById = $parse(scope.linkFuncById + '(' + 9 + ')');
+            if (scope.isDetailLink) {
+                scope.linkFunc = function () {
+                    scope.funcDetail();
+                }
+
+            }
         }
 
 

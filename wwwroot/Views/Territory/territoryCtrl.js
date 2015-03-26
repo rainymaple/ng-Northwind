@@ -4,37 +4,34 @@
     function territoryCtrl(repositoryService, dbEntityService) {
         var vm = this;
 
+        activate();
 
-        (function () {
-            setGridOptions();
-            repositoryService.getDataList(dbEntityService.entities.territory).then(function (data) {
-                vm.gridOptions.data = data;
-            });
+        // Controller Functions
 
-        })();
-
-        function setGridOptions() {
-            vm.gridOptions = {
-                enableColumnResize: true,
-                columnDefs: getColumnDefs(),
-                enablePage: true
-            };
+        function activate() {
+            vm.gridOptions = setGridOptions();
+            vm.gridOptions.data = repositoryService.getDataList(dbEntityService.entities.territory);
         }
 
-        function getColumnDefs() {
-            return [
-                {
-                    field: 'TerritoryID',
-                    displayName: 'Id',
-                    width: '40'
-                }, {
-                    field: 'TerritoryDescription',
-                    displayName: 'Description',
-                    width: '180'
-                }
-            ];
-        }
+    }
 
+    function setGridOptions() {
+        return {
+            columnDefs: getColumnDefs(),
+            idField: 'TerritoryID'
+        };
+    }
+
+    function getColumnDefs() {
+        return [
+            {
+                field: 'TerritoryID',
+                displayName: 'Id'
+            }, {
+                field: 'TerritoryDescription',
+                displayName: 'Description'
+            }
+        ];
     }
 
 })(angular.module('appNorthwind'));
