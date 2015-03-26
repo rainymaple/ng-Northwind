@@ -122,7 +122,8 @@
                             fieldName: col.field,
                             value: value[col.field],
                             displayName: col.displayName,
-                            isCheckbox: col.isCheckbox
+                            isCheckbox: col.isCheckbox,
+                            linkFuncById: col.linkFuncById
                         });
                     });
                 }

@@ -15,6 +15,9 @@
             });
         }
 
+        vm.productDetail = function (id) {
+            console.log(id);
+        };
 
         function setGridOptions() {
             vm.gridOptions = {
@@ -30,7 +33,8 @@
                     displayName: 'Id'
                 }, {
                     field: 'ProductName',
-                    displayName: 'Name'
+                    displayName: 'Name',
+                    linkFuncById: 'vm.productDetail'
                 },
                 {
                     field: 'QuantityPerUnit',
@@ -55,7 +59,7 @@
                 {
                     field: 'Discontinued',
                     displayName: 'Discontinued',
-                    isCheckbox:true
+                    isCheckbox: true
                 }
             ];
         }

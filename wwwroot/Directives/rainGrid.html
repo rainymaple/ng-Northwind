@@ -35,7 +35,9 @@
             </tr>
             <tr ng-repeat="row in list">
                 <td ng-repeat="field in row">
-                    <span grid-cell-template="field.value" template="field.isCheckbox">
+                    <span grid-cell-template="field.value"
+                          is-checkbox="field.isCheckbox"
+                          link-func-by-id="field.linkFuncById">
                         <!--{{field.value}}-->
                     </span>
                 </td>
