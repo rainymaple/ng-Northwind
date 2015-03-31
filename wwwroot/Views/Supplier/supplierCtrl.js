@@ -18,7 +18,7 @@
     function setGridOptions() {
         return {
             columnDefs: getColumnDefs(),
-            pageSize: 20,
+            //pageSize: 20,
             idField: 'SupplierID'
         };
     }

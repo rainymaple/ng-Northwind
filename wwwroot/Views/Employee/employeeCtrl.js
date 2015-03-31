@@ -14,7 +14,6 @@
             var employeeData = repositoryService.getDataList(dbEntityService.entities.employee);
 
             vm.gridOptions.data = employeeData;
-
             employeeData.then(function (data) {
                 vm.employeeList = data;
             });
@@ -38,7 +37,8 @@
         return {
             columnDefs: getColumnDefs(),
             enablePage: true,
-            idField: 'EmployeeID'
+            idField: 'EmployeeID',
+            selectable: false
         };
     }
 
@@ -50,7 +50,7 @@
             }, {
                 field: 'FirstName',
                 displayName: 'First Name',
-                isDetailLink: true
+                isLink: true
             },
             {
                 field: 'LastName',

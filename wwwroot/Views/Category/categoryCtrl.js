@@ -3,36 +3,49 @@
 
     function categoryCtrl(repositoryService, dbEntityService) {
         var vm = this;
-        vm.gridOptions = {
-            enableColumnResize: true,
+
+        activate();
+
+        // controller functions
+
+        function activate() {
+            vm.gridOptions = setGridOptions();
+            vm.gridOptions.data = repositoryService.getDataList(dbEntityService.entities.category);
+            vm.gridOptions.data.then(function(data){
+                if(data.length>0){
+                    vm.categoryId = data[0].CategoryID;
+                }
+            })
+        }
+
+        vm.onSelect = function(id){
+            vm.categoryId= id;
+        }
+    }
+
+
+    function setGridOptions() {
+        return {
             columnDefs: getColumnDefs(),
-            showColumnMenu: true,
-            showFilter: true,
-            showFooter: false,
-            showSelectionCheckbox: true,
-            maintainColumnRatios: true,
-            jqueryUITheme: true
+            enablePage: true,
+            idField: 'CategoryID',
+            //pageSize: 5,
+            selectable: true,
+            selectFirstRow: true
         };
-
-        repositoryService.getDataList(dbEntityService.entities.category).then(function (data) {
-                vm.categoryList = data;
-                vm.gridOptions.data = data;
-            });
-
     }
 
     function getColumnDefs() {
         return [
             {
                 field: 'CategoryID',
-                displayName: 'Id',
-                width: '40'
+                displayName: 'Id'
             }, {
                 field: 'CategoryName',
-                displayName: 'Name',
-                width: '180'
+                displayName: 'Name'
             }, {
-                field: 'Description'
+                field: 'Description',
+                displayName: 'Description'
             }
         ];
     }

@@ -88,7 +88,7 @@ form legend {
     color: #fff;
     background-color: #4B7976;
     border-color: #4B7976;
-    height: 40px;
+    height: 35px;
 }
 
 .rain-grid-table tr th {
@@ -111,7 +111,30 @@ form legend {
     background: linear-gradient(#89d4ab, #ffffff);
 }
 
+.rain-grid-table .row-selected td
+{
+    background-color: #B9F0E3;
+}
 /* rainGrid pagination*/
 ul.pagination {
     margin: 0;
 }
+
+.rain-page select{
+    height: 24px;
+    padding: 1px 5px;
+}
+
+.rain-page ul.pagination-sm a{
+    padding: 3px 5px;
+}
+/*
+.pace .pace-progress{
+    width: 100%;
+    background: #1ab394;
+    position: fixed;
+    z-index: 2000;
+    top: 0px;
+    height: 2px;
+}
+*/

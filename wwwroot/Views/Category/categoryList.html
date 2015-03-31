@@ -1,21 +1,16 @@
 <div ng-controller="categoryCtrl as vm">
     <div class="legend">Categories</div>
     <div class="row">
-        <!--<div class="col-xs-12">
-            <table class="table table-striped table-bordered table-hover table-condensed">
-                <tbody>
-                <tr ng-repeat="c in vm.categoryList">
-                    <td>{{c.CategoryID}}</td>
-                    <td>{{c.CategoryName}}</td>
-                    <td>{{c.Description}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>-->
-            <div class="col-md-8">
-                <div style="padding: 10px;">
-                <div class="gridStyle" ui-grid="vm.gridOptions"></div>
-                    </div>
+        <div class="col-lg-10">
+            <div class="table-responsive">
+                <div rain-grid="vm.gridOptions" func-on-select="vm.onSelect(id)"></div>
             </div>
+        </div>
     </div>
+    <div class="row">
+        <div class="col-lg-10">
+            <div product-list-dir category-id="vm.categoryId"></div>
+        </div>
+    </div>
+
 </div>

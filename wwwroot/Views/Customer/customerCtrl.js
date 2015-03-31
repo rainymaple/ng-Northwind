@@ -3,10 +3,55 @@
 
     function customerCtrl(repositoryService, dbEntityService) {
         var vm = this;
+        activate();
 
-        repositoryService.getDataList(dbEntityService.entities.customer).then(function (data) {
-            vm.customerList = data;
-        });
+        // controller functions
+
+        function activate() {
+            vm.gridOptions = setGridOptions();
+            vm.gridOptions.data = repositoryService.getDataList(dbEntityService.entities.customer);
+        }
+
     }
 
+    function setGridOptions() {
+        return {
+            columnDefs: getColumnDefs(),
+            idField: 'CustomerID',
+            selectable: false
+        };
+    }
+
+    function getColumnDefs() {
+        return [
+            {
+                field: 'CustomerID',
+                displayName: 'Id'
+            },
+            {
+                field: 'CompanyName',
+                displayName: 'Company'
+            },
+            {
+                field: 'ContactName',
+                displayName: 'Contact'
+            },
+            {
+                field: 'ContactTitle',
+                displayName: 'Title'
+            },
+            {
+                field: 'Country',
+                displayName: 'Country'
+            },
+            {
+                field: 'Phone',
+                displayName: 'Phone'
+            },
+            {
+                field: 'Fax',
+                displayName: 'Fax'
+            }
+        ];
+    }
 })(angular.module('appNorthwind'));

@@ -18,8 +18,9 @@
                 return $http.get(entity.url).then(function (result) {
                     return result.data;
                 });
-            }, 300);
-            /*return $http.get(entity.url).then(function (result) {
+            }, 200);
+
+            /* return $http.get(entity.url).then(function (result) {
              return result.data;
              });*/
         }

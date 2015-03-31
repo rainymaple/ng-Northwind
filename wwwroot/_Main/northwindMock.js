@@ -53,6 +53,12 @@
                 endpoint: "/api/product",
                 entities: 'Products',
                 idField: 'ProductID'
+            },
+            productByCategoryId: {
+                endpoint: '/api/productByCategoryId',
+                entities: 'Products',
+                idField: 'ProductID',
+                filterId: 'CategoryID'
             }
         };
 
@@ -67,7 +73,9 @@
 
             $httpBackend.whenGET(editingRegex).respond(function (method, url, data) {
 
-                var entity = {}; // return this if not found
+                var entity = []; // return this if not found
+
+                var filterId = request.filterId||request.idField;
 
                 var entities = northwindDb[request.entities];
                 var parameters = url.split('/');
@@ -76,9 +84,8 @@
 
                 if (id > 0) {
                     for (var i = 0; i < entities.length; i++) {
-                        if (entities[i][request.idField] == id) {
-                            entity = entities[i]; // find the entity with this id
-                            break;
+                        if (entities[i][filterId] == id) {
+                            entity.push(entities[i]); // find the entity with this id
                         }
                     }
                 }

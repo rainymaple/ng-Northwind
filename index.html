@@ -16,12 +16,15 @@
     <script src="libs/d3/d3.min.js"></script>
     <script src="libs/angular-ui-utils/ui-utils.js"></script>
     <script src="libs/angular-charts/dist/angular-charts.min.js"></script>
+    <!--<script src="libs/angular-loading-bar/build/loading-bar.js"></script>-->
     <script src="wwwroot/Script/ui-bootstrap-tpls-0.12.1.min.js"></script>
+    <!--<script src="wwwroot/Script/pace.js"></script>-->
 
     <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.css"/>
     <link rel="stylesheet" href="libs/toastr/toastr.css"/>
     <link rel="stylesheet" href="libs/fontawesome/css/font-awesome.css"/>
     <link rel="stylesheet" href="libs/angular-ui-grid/ui-grid.css"/>
+    <!--<link rel="stylesheet" href="libs/angular-loading-bar/build/loading-bar.css"/>-->
     <link rel="stylesheet" href="wwwroot/Style/animate.css"/>
     <link rel="stylesheet" href="wwwroot/Style/ui-checkbox.css"/>
 
@@ -39,8 +42,10 @@
     <script src="wwwroot/Directives/metismenu.js"></script>
     <script src="wwwroot/Directives/sideMenu.js"></script>
     <script src="wwwroot/Directives/rainGrid.js"></script>
-    <script src="wwwroot/Directives/iboxTools.js"></script>
+    <script src="wwwroot/Directives/rainCheckbox.js"></script>
     <script src="wwwroot/Directives/rainGridCell.js"></script>
+    <script src="wwwroot/Views/Product/productListDir.js"></script>
+
 
     <!-- Controllers-->
     <script src="wwwroot/Views/Employee/employeeCtrl.js"></script>
@@ -69,13 +74,13 @@
 
     <!-- Page wrapper -->
     <div id="page-wrapper" class="gray-bg">
-
         <!-- Page wrapper -->
         <!--<div ng-include="'App/Layout/topNavBar.html'"></div>
 
         <!-- Main view  -->
-        <div ui-view></div>
-
+        <div id="main-view" style="position:relative;">
+            <div ui-view></div>
+        </div>
         <!-- Footer -->
         <!--<div ng-include="'App/Layout/footer.html'"></div>-->
 

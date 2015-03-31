@@ -10,9 +10,12 @@
             replace: false,
             scope: {
                 gridCellTemplate: '=',
+                isSelector: '=',
+                isCurrency: '=',
+                isNumber: '=',
                 isCheckbox: '=',
-                isDetailLink: '=',
-                funcDetail: '&'
+                isLink: '=',
+                funcLink: '&'
             },
             link: link
 
@@ -20,9 +23,9 @@
 
         function link(scope, el, attr) {
             scope.value = scope.gridCellTemplate;
-            if (scope.isDetailLink) {
+            if (scope.isLink) {
                 scope.linkFunc = function () {
-                    scope.funcDetail();
+                    scope.funcLink();
                 }
 
             }

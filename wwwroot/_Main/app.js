@@ -2,6 +2,7 @@
     "use strict";
     var app = angular.module("appNorthwind", [
         "ui.router", "ui.mask", "ui.bootstrap", "angularCharts",'ui.grid'
+        /*,'angular-loading-bar'*/
         ,'northwindDbMock'
     ]);
 

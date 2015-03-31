@@ -2,30 +2,7 @@
     <div class="legend">Customers</div>
     <div class="row">
         <div class="col-lg-10 table-container">
-            <div style="padding: 10px;">
-                <table class="table table-striped table-bordered table-hover table-condensed">
-                    <tbody>
-                    <tr>
-                        <th>Id</th>
-                        <th>Company</th>
-                        <th>Contact</th>
-                        <th>Title</th>
-                        <th>Country</th>
-                        <th>Phone</th>
-                        <th>Fax</th>
-                    </tr>
-                    <tr ng-repeat="e in vm.customerList">
-                        <td>{{e.CustomerID}}</td>
-                        <td>{{e.CompanyName}}</td>
-                        <td>{{e.ContactName}}</td>
-                        <td>{{e.ContactTitle}}</td>
-                        <td>{{e.Country}}</td>
-                        <td>{{e.Phone}}</td>
-                        <td>{{e.Fax}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+            <div rain-grid="vm.gridOptions"></div>
         </div>
     </div>
 </div>

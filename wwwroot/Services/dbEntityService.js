@@ -30,6 +30,10 @@
                     name: 'product',
                     url: getUrl('product')
                 },
+                productByCategoryId: {
+                    name: 'productByCategoryId',
+                    url: getUrl('productByCategoryId')
+                },
                 order: {
                     name: 'order',
                     url: getUrl('order')

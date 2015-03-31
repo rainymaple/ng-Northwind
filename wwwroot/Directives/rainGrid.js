@@ -1,13 +1,41 @@
+/*
+    gridOptions= {
+         data: promiseData,
+         columnDefs: getColumnDefs(),
+         enablePage: true,
+         idField: 'CategoryID',
+         pageSize: 10,
+         selectable: true,
+         selectFirstRow: true,
+         title : 'Categories'
+     };
+    function getColumnDefs(){
+        return [
+            {
+                 field: 'CategoryID',
+                 displayName: 'Id'
+             },
+             {
+                 field: 'CategoryName',
+                 displayName: 'Name',
+                 isLink: true,
+                 isCurrency: false,
+                 isNumber: false,
+                 isCheckbox: true,
+             }
+         ]
+    }
+     // function attributes
+         func-link,
+         funk-on-select
+
+* */
+
 (function (app) {
     app.directive('rainGrid', ['$timeout', rainGrid]);
 
     /*-- Function Directive --*/
     function rainGrid() {
-        var _gridOptions = {};
-        var _dataList = [];
-        var _sortings = [null, 'ASC', 'DSC'];
-        var _sortOrder = 0;
-        var _sortField = null;
 
         return {
             restrict: 'AE',
@@ -15,7 +43,8 @@
             replace: false,
             scope: {
                 rainGrid: '=',
-                funcDetail: '&'
+                funcLink: '&',
+                funcOnSelect: '&'
             },
             controller: controller
 
@@ -25,21 +54,40 @@
 
         function controller($scope) {
 
+            var _gridOptions = {};
+            var _dataList = [];
+            var _sortings = [null, 'ASC', 'DSC'];
+            var _sortOrder = 0;
+            var _sortField = null;
+
+            $scope.$watch('rainGrid.data', function () {
+                activate();
+            });
+
             activate();
 
             // controller functions
 
             function activate() {
-                _gridOptions = {enablePage: true, pageSize: 10};
-                _gridOptions = _.assign(_gridOptions, $scope.rainGrid);
+                buildGridOptions();
+                //Pace.restart();
                 _gridOptions.data.then(
-                    function(dataList){
+                    function (dataList) {
                         _gridOptions.dataList = dataList;
                         var gridData = getGridData(_gridOptions);
                         initPage();
                         initData(gridData);
+                        //cfpLoadingBar.complete();
+                        //Pace.stop();
                     }
                 )
+            }
+
+            function buildGridOptions() {
+                _gridOptions = {enablePage: true, pageSize: 10, selectable: false};
+                _gridOptions = _.assign(_gridOptions, $scope.rainGrid);
+                $scope.selectable = _gridOptions.selectable;
+                $scope.title=_gridOptions.title;
             }
 
             function initPage() {
@@ -64,7 +112,7 @@
             }
 
             function initData(gridData) {
-                _dataList = gridData.data;
+                _dataList = gridData.rows;
                 $scope.header = gridData.header;
                 $scope.rowCount = _dataList.length;
                 $scope.enablePage = _gridOptions.enablePage && ($scope.rowCount > $scope.pageSizes[0].value);
@@ -73,7 +121,7 @@
 
             function getPageData() {
                 if (!$scope.enablePage) {
-                    $scope.list = _dataList;
+                    $scope.list = sortData(_dataList);
                     return $scope.list;
                 }
                 var pagedDataList = getDataListByPage(_dataList, $scope.currentPage, $scope.pageSize.value);
@@ -85,11 +133,11 @@
 
             // page event handlers
 
-            $scope.gotoDetail = function (id) {
+            $scope.linkTo = function (id) {
                 if (!id) {
                     throw "gridOptions.idField is missing or invalid";
                 }
-                $scope.funcDetail({'id': id});
+                $scope.funcLink({'id': id});
             };
 
             $scope.pageSizeChanged = function (pageSize) {
@@ -113,90 +161,130 @@
                 $scope.sortField = sortField;
                 $scope.sortOrder = _sortings[_sortOrder];
                 getPageData();
-            }
-        }
+            };
 
-        /*--  Directive Functions --*/
+            $scope.selectRow = function (row) {
+                if (!$scope.selectable) {
+                    return;
+                }
+                var isSelected = row.rowSelected;
+                angular.forEach($scope.list, function (row) {
+                    row.rowSelected = false;
+                });
+                row.rowSelected = !isSelected;
+                if (row.rowSelected && $scope.funcOnSelect) {
+                    $scope.funcOnSelect({id: row.id});
+                }
+            };
 
-        // Building the header and rows
-        function getGridData(gridOptions) {
-            var list = gridOptions.dataList;
-            var columnDefs = gridOptions.columnDefs;
-
-            var gridList = {};
-            gridList.data = _.map(list, function (rowData) {
-                var newRow = [];
-                if (!columnDefs) {
-                    for (var property in rowData) {
-                        if (rowData.hasOwnProperty(property)) {
-                            newRow.push(
-                                {
-                                    fieldName: property,
-                                    value: rowData[property],
-                                    displayName: property
-                                });
+            // Sorting
+            function sortData(dataList) {
+                var sortOrder = _sortings[_sortOrder];
+                if (!_sortField || !sortOrder) {
+                    return dataList;
+                }
+                var sortedData = _.sortBy(dataList, function (row) {
+                    var rowData = row.rowData;
+                    var sortedValue = null;
+                    for (var i = 0; i < rowData.length; i++) {
+                        if (rowData[i].fieldName === _sortField) {
+                            sortedValue = rowData[i].value;
+                            return sortedValue;
                         }
                     }
-                } else {
-                    angular.forEach(columnDefs, function (col) {
-                        newRow.push({
-                            id: rowData[gridOptions.idField],
-                            fieldName: col.field,
-                            value: rowData[col.field],
-                            displayName: col.displayName,
-                            isCheckbox: col.isCheckbox,
-                            isDetailLink: col.isDetailLink
-                        });
-                    });
+                });
+                return sortOrder === _sortings[1] ? sortedData : sortedData.reverse();
+            }   // end of sortData
+
+
+            // Building the header and rows
+            function getGridData(gridOptions) {
+                var list = gridOptions.dataList;
+                var columnDefs = gridOptions.columnDefs;
+                var idField = null;
+                var id = null;
+
+
+                var gridList = {rows: [], header: buildHeader(columnDefs)};
+                if (list.length == 0) {
+                    return gridList;
                 }
-                return newRow;
-            });
-            var firstRow = gridList.data[0];
-            if (firstRow) {
-                gridList.header = firstRow;
-            }
-            return gridList;
-        }
+                gridList.rows = _.map(list, function (rowData) {
+                    var row = [];
+                    if (!columnDefs) {
+                        for (var property in rowData) {
+                            if (rowData.hasOwnProperty(property)) {
+                                row.push(
+                                    {
+                                        fieldName: property,
+                                        value: rowData[property],
+                                        displayName: property
+                                    });
+                            }
+                        }
+                    } else {
+                        idField = gridOptions.idField;
+                        if (idField) {
+                            id = rowData[gridOptions.idField];
+                        }
+                        angular.forEach(columnDefs, function (col) {
+                            row.push({
+                                id: rowData[gridOptions.idField],
+                                fieldName: col.field,
+                                value: rowData[col.field],
+                                displayName: col.displayName,
+                                isCheckbox: col.isCheckbox,
+                                isCurrency: col.isCurrency,
+                                isNumber: col.isNumber,
+                                isLink: col.isLink,
+                                isSelector: col.isSelector
+                            });
+                        });
+                    }
+                    return {rowData: row, rowSelected: false, idField: idField, id: id};
+                });
+                if (gridOptions.selectFirstRow && gridList.rows.length > 0) {
+                    gridList.rows[0].rowSelected = true;
+                }
 
-        // Paging
-        function getDataListByPage(data, page, pageSize) {
-            // page starts with 1
-            if (!data || page <= 0) {
-                return null;
-            }
-            try {
-                data = sortData(data, 'ProductName', true);
+                return gridList;
+            }   // end of getGridData
 
-                var start = (page - 1) * pageSize;
-                var pagedData = _.slice(data, start, start + pageSize);
-                if (!pagedData) {
+            // Paging
+            function getDataListByPage(dataList, page, pageSize) {
+                // page starts with 1
+                if (!dataList || page <= 0) {
                     return null;
                 }
-                return pagedData;
-            } catch (e) {
-                console.log(e.message);
-                return null;
-            }
-        }
+                try {
+                    dataList = sortData(dataList);
 
-        // Sorting
-        function sortData(data) {
-            var sortOrder = _sortings[_sortOrder];
-            if (!_sortField || !sortOrder) {
-                return data;
-            }
-            var sortedData = _.sortBy(data, function (row) {
-                var sortedValue = null;
-                for (var i = 0; i < row.length; i++) {
-                    if (row[i].fieldName === _sortField) {
-                        sortedValue = row[i].value;
-                        return sortedValue;
+                    var start = (page - 1) * pageSize;
+                    var pagedData = _.slice(dataList, start, start + pageSize);
+                    if (!pagedData) {
+                        return null;
                     }
+                    return pagedData;
+                } catch (e) {
+                    console.log(e.message);
+                    return null;
                 }
+            }   // end of getDataListByPage
+
+        }   // end of controller
+
+        /*--  Directive Functions --*/
+        function buildHeader(columnDefs) {
+            var row = [];
+            angular.forEach(columnDefs, function (col) {
+                row.push({
+                    fieldName: col.field,
+                    displayName: col.displayName
+                });
             });
-            return sortOrder === _sortings[1] ? sortedData : sortedData.reverse();
+            return row;
         }
 
 
-    }
+    }   // end of rainGrid
 })(angular.module('appNorthwind'));

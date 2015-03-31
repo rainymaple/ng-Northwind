@@ -1,27 +1,46 @@
 (function (app) {
-    app.controller('productCtrl', ['repositoryService', 'dbEntityService', productCtrl]);
+    app.directive('productListDir', ['repositoryService', 'dbEntityService', productListDir]);
 
-    function productCtrl(repositoryService, dbEntityService) {
-        var vm = this;
+    function productListDir(repositoryService, dbEntityService) {
+        return {
+            restrict: 'AE',
+            templateUrl: 'wwwroot/Views/Product/productListDir.html',
+            replace: false,
+            scope: {
+                categoryId: '='
+            },
+            controller: controller
 
-        activate();
-
-        // controller functions
-
-        function activate() {
-            vm.gridOptions = setGridOptions();
-            vm.gridOptions.data = repositoryService.getDataList(dbEntityService.entities.product);
-        }
-
-        vm.productDetail = function (id) {
-            console.log(id);
         };
+
+        function controller($scope) {
+            $scope.gridOptions = setGridOptions();
+
+            getProducts();
+
+            $scope.$watch('categoryId', function () {
+                getProducts();
+            });
+
+            function getProducts() {
+                if ($scope.categoryId === undefined) {
+                    $scope.categoryId = 0;
+                }
+                $scope.gridOptions.data = repositoryService.getDataById(
+                    dbEntityService.entities.productByCategoryId, $scope.categoryId);
+            }
+
+        }   // controller
+
     }
+
 
     function setGridOptions() {
         return {
             columnDefs: getColumnDefs(),
-            idField: 'ProductID'
+            pageSize: 5,
+            idField: 'ProductID',
+            title: 'Products'
         };
     }
 
@@ -66,5 +85,4 @@
             }
         ];
     }
-
 })(angular.module('appNorthwind'));
