@@ -1,0 +1,16 @@
+<div ng-controller="orderListCtrl as vm">
+    <div class="legend">Orders</div>
+    <div class="row">
+        <div class="col-lg-10">
+            <div class="table-responsive">
+                <div rain-grid="vm.gridOptions" func-on-select="vm.onSelect(id)"></div>
+            </div>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-lg-10">
+                <div order-detail-list-dir order-id="vm.orderId"></div>
+            </div>
+        </div>
+
+</div>

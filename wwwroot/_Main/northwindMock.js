@@ -47,7 +47,7 @@
             },
             orderDetails: {
                 endpoint: "/api/orderDetails",
-                entities: 'Order_Details',
+                entities: 'OrderDetails',
                 idField: 'OrderID'
             },
             product: {

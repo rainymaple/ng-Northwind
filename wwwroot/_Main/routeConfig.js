@@ -38,6 +38,10 @@
                 .state("productList", {
                     url: "/products",
                     templateUrl: "wwwroot/Views/Product/productList.html"
+                })
+                .state("orderList", {
+                    url: "/orders",
+                    templateUrl: "wwwroot/Views/Order/orderList.html"
                 });
         }
     ]);

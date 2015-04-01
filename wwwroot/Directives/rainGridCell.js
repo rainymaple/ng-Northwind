@@ -10,11 +10,12 @@
             replace: false,
             scope: {
                 gridCellTemplate: '=',
-                isSelector: '=',
+                isDate: '=',
                 isCurrency: '=',
                 isNumber: '=',
                 isCheckbox: '=',
                 isLink: '=',
+                decimal:'=',
                 funcLink: '&'
             },
             link: link
@@ -29,6 +30,7 @@
                 }
 
             }
+
         }
 
 

@@ -22,6 +22,7 @@
                  isCurrency: false,
                  isNumber: false,
                  isCheckbox: true,
+                 isDate:false
              }
          ]
     }
@@ -236,8 +237,9 @@
                                 isCheckbox: col.isCheckbox,
                                 isCurrency: col.isCurrency,
                                 isNumber: col.isNumber,
+                                decimal: col.decimal,
                                 isLink: col.isLink,
-                                isSelector: col.isSelector
+                                isDate: col.isDate
                             });
                         });
                     }
