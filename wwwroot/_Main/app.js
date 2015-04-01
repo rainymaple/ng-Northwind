@@ -1,7 +1,7 @@
 (function () {
     "use strict";
     var app = angular.module("appNorthwind", [
-        "ui.router", "ui.mask", "ui.bootstrap", "angularCharts",'ui.grid'
+        "ui.router", "ui.mask", "ui.bootstrap", "angularCharts",'ui.grid','ngAnimate'
         /*,'angular-loading-bar'*/
         ,'northwindDbMock'
     ]);

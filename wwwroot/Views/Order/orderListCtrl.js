@@ -3,6 +3,8 @@
 
     function orderListCtrl(repositoryService, dbEntityService) {
         var vm = this;
+        vm.selectedRow = false;
+        vm.showDetail = true;
 
         activate();
 
@@ -20,6 +22,7 @@
 
         vm.onSelect = function (id) {
             vm.orderId = id;
+            vm.selectedRow = true;
         }
     }
 
@@ -46,20 +49,20 @@
             }, {
                 field: 'OrderDate',
                 displayName: 'Order Date',
-                isDate:true
+                isDate: true
             }, {
                 field: 'RequiredDate',
                 displayName: 'Required Date',
-                isDate:true
+                isDate: true
             }, {
                 field: 'ShippedDate',
                 displayName: 'Shipped Date',
-                isDate:true
+                isDate: true
             }, {
                 field: 'Freight',
                 displayName: 'Freight',
-                isNumber:true,
-                decimal : 2
+                isNumber: true,
+                decimal: 2
             }, {
                 field: 'ShipName',
                 displayName: 'ShipName'

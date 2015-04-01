@@ -128,6 +128,13 @@
                 var pagedDataList = getDataListByPage(_dataList, $scope.currentPage, $scope.pageSize.value);
                 if (pagedDataList) {
                     $scope.list = pagedDataList;
+                    angular.forEach($scope.list,function(row){
+                        if(row.rowSelected){
+                            if(row != $scope.selectedRow){
+                                row.rowSelected = false;
+                            }
+                        }
+                    })
                 }
                 return $scope.list;
             }
@@ -173,6 +180,9 @@
                     row.rowSelected = false;
                 });
                 row.rowSelected = !isSelected;
+                if (row.rowSelected){
+                    $scope.selectedRow = row;
+                }
                 if (row.rowSelected && $scope.funcOnSelect) {
                     $scope.funcOnSelect({id: row.id});
                 }

@@ -7,7 +7,16 @@
             template: getTemplate(),
             replace: false,
             scope: {
-                rainCheckbox: '='
+                rainCheckbox: '=',
+                readonly: '='
+            },
+            controller: function ($scope) {
+                $scope.onclick = function () {
+                    if ($scope.readonly === true) {
+                        return;
+                    }
+                    $scope.rainCheckbox = !$scope.rainCheckbox;
+                }
             }
         }
     }
@@ -16,7 +25,7 @@
         return '<div style="display: block;padding-right: 30px;" class="clearfix">' +
             '<div style="margin:0 auto" class="ui-checkbox">' +
             '<input type="checkbox" ng-model="rainCheckbox"/>' +
-            '<label class="checkbox-label" style="margin-top: 0"></label>' +
+            '<label class="checkbox-label" style="margin-top: 0" ng-click="onclick()"></label>' +
             '</div>' +
             '</div>';
     }
