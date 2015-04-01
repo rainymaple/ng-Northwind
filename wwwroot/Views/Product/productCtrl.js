@@ -1,7 +1,7 @@
 (function (app) {
-    app.controller('productCtrl', ['repositoryService', 'dbEntityService', productCtrl]);
+    app.controller('productCtrl', ['repositoryService', 'dbEntityService','$modal', productCtrl]);
 
-    function productCtrl(repositoryService, dbEntityService) {
+    function productCtrl(repositoryService, dbEntityService, $modal) {
         var vm = this;
 
         activate();
@@ -14,9 +14,26 @@
         }
 
         vm.productDetail = function (id) {
-            console.log(id);
+            showProductModal(id);
         };
+
+
+        function showProductModal(id) {
+            var modalInstance = $modal.open({
+                templateUrl: 'wwwroot/Views/Product/productModal.html',
+                controller:'productModalCtrl',
+                resolve: {
+                    productId: function(){return id;}
+                }
+            });
+
+            modalInstance.result.then(function (obj) {
+                // return value from $modalInstance.close(obj)
+            }, function () {
+            });
+        }
     }
+
 
     function setGridOptions() {
         return {

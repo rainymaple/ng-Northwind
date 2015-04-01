@@ -1,7 +1,8 @@
 (function () {
     "use strict";
     var app = angular.module("appNorthwind", [
-        "ui.router", "ui.mask", "ui.bootstrap", "angularCharts",'ui.grid','ngAnimate'
+        "ui.router", "ui.mask", "ui.bootstrap",
+        "angularCharts",'ui.grid','ngAnimate'
         /*,'angular-loading-bar'*/
         ,'northwindDbMock'
     ]);
@@ -132,7 +133,7 @@
                 })
                 .state("productDetail", {
                     url: "/products/:productId",
-                    templateUrl: "../../productDetail.html",
+                    templateUrl: "../../productModal.html",
                     controller: "productDetailCtrl",
                     resolve: {
                         productResource: "productResource",
