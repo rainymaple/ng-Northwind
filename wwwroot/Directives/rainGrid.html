@@ -33,22 +33,24 @@
             <tr>
                 <th ng-repeat="field in header" ng-click="setSorting(field.fieldName)"
                     ng-class="{dsc:field.fieldName===sortField&&sortOrder==='DSC',
-                            asc:field.fieldName===sortField&&sortOrder==='ASC'}">
+                            asc:field.fieldName===sortField&&sortOrder==='ASC'}"
+                    ng-if="!field.isHidden">
                     <span>
                         {{field.displayName}}
                     </span>
                 </th>
             </tr>
             <tr ng-repeat="row in list" ng-click="selectRow(row)" ng-class="{'row-selected':row.rowSelected}">
-                <td ng-repeat="field in row.rowData">
+                <td ng-repeat="field in row.rowData" ng-if="!field.isHidden">
                     <span grid-cell-template="field.value"
                           is-date = "field.isDate"
                           is-checkbox="field.isCheckbox"
                           is-currency = "field.isCurrency"
                           is-number = "field.isNumber"
                           is-link="field.isLink"
+                          is-hidden="field.isHidden"
                           decimal="field.decimal"
-                          func-link="linkTo(field.id)">
+                          func-link="linkTo(row.rowData,field.linkFunc.funcName,field.linkFunc.funcIdField)">
                         <!--{{field.value}}-->
                     </span>
                 </td>

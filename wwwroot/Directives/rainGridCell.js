@@ -15,6 +15,7 @@
                 isNumber: '=',
                 isCheckbox: '=',
                 isLink: '=',
+                isHidden: '=',
                 decimal:'=',
                 funcLink: '&'
             },

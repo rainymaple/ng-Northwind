@@ -1,7 +1,7 @@
 (function (app) {
-    app.controller('productCtrl', ['repositoryService', 'dbEntityService','$modal', productCtrl]);
+    app.controller('productCtrl', ['repositoryService', 'dbEntityService', 'commonService', productCtrl]);
 
-    function productCtrl(repositoryService, dbEntityService, $modal) {
+    function productCtrl(repositoryService, dbEntityService, commonService) {
         var vm = this;
 
         activate();
@@ -13,23 +13,24 @@
             vm.gridOptions.data = repositoryService.getDataList(dbEntityService.entities.product);
         }
 
-        vm.productDetail = function (id) {
+        vm.linkFunc = function (row, funcName, funcIdField) {
+            var field = _.find(row, function (col) {
+                return col.fieldName === funcIdField;
+            });
+            var id = field.value;
+            if (funcName === 'productDetail') {
+                productDetail(id);
+            }
+        };
+
+        var productDetail = function (id) {
             showProductModal(id);
         };
 
 
         function showProductModal(id) {
-            var modalInstance = $modal.open({
-                templateUrl: 'wwwroot/Views/Product/productModal.html',
-                controller:'productModalCtrl',
-                resolve: {
-                    productId: function(){return id;}
-                }
-            });
-
-            modalInstance.result.then(function (obj) {
-                // return value from $modalInstance.close(obj)
-            }, function () {
+            var modalInstance = commonService.showProductModal(id);
+            modalInstance.then(function () {
             });
         }
     }
@@ -50,7 +51,8 @@
             }, {
                 field: 'ProductName',
                 displayName: 'Name',
-                isLink: true
+                isLink: true,
+                linkFunc: {funcName: 'productDetail', funcIdField: 'ProductID'}
             },
             {
                 field: 'QuantityPerUnit',

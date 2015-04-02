@@ -1,36 +1,37 @@
 /*
-    gridOptions= {
-         data: promiseData,
-         columnDefs: getColumnDefs(),
-         enablePage: true,
-         idField: 'CategoryID',
-         pageSize: 10,
-         selectable: true,
-         selectFirstRow: true,
-         title : 'Categories'
-     };
-    function getColumnDefs(){
-        return [
-            {
-                 field: 'CategoryID',
-                 displayName: 'Id'
-             },
-             {
-                 field: 'CategoryName',
-                 displayName: 'Name',
-                 isLink: true,
-                 isCurrency: false,
-                 isNumber: false,
-                 isCheckbox: true,
-                 isDate:false
-             }
-         ]
-    }
-     // function attributes
-         func-link,
-         funk-on-select
+ gridOptions= {
+ data: promiseData,
+ columnDefs: getColumnDefs(),
+ enablePage: true,
+ idField: 'CategoryID',
+ pageSize: 10,
+ selectable: false,
+ selectFirstRow: false,
+ title : 'Categories'
+ };
+ function getColumnDefs(){
+ return [
+ {
+ field: 'CategoryID',
+ displayName: 'Id'
+ },
+ {
+ field: 'CategoryName',
+ displayName: 'Name',
+ isLink: false,
+ isCurrency: false,
+ isNumber: false,
+ isCheckbox: false,
+ isDate: false,
+ isHidden: false
+ }
+ ]
+ }
+ // function attributes
+ func-link,
+ funk-on-select
 
-* */
+ * */
 
 (function (app) {
     app.directive('rainGrid', ['$timeout', rainGrid]);
@@ -88,7 +89,7 @@
                 _gridOptions = {enablePage: true, pageSize: 10, selectable: false};
                 _gridOptions = _.assign(_gridOptions, $scope.rainGrid);
                 $scope.selectable = _gridOptions.selectable;
-                $scope.title=_gridOptions.title;
+                $scope.title = _gridOptions.title;
             }
 
             function initPage() {
@@ -128,9 +129,9 @@
                 var pagedDataList = getDataListByPage(_dataList, $scope.currentPage, $scope.pageSize.value);
                 if (pagedDataList) {
                     $scope.list = pagedDataList;
-                    angular.forEach($scope.list,function(row){
-                        if(row.rowSelected){
-                            if(row != $scope.selectedRow){
+                    angular.forEach($scope.list, function (row) {
+                        if (row.rowSelected) {
+                            if (row != $scope.selectedRow) {
                                 row.rowSelected = false;
                             }
                         }
@@ -141,11 +142,11 @@
 
             // page event handlers
 
-            $scope.linkTo = function (id) {
-                if (!id) {
+            $scope.linkTo = function (row,funcName,funcIdField) {
+                /*if (!id) {
                     throw "gridOptions.idField is missing or invalid";
-                }
-                $scope.funcLink({'id': id});
+                }*/
+                $scope.funcLink({'row': row,'funcName':funcName,'funcIdField':funcIdField});
             };
 
             $scope.pageSizeChanged = function (pageSize) {
@@ -180,7 +181,7 @@
                     row.rowSelected = false;
                 });
                 row.rowSelected = !isSelected;
-                if (row.rowSelected){
+                if (row.rowSelected) {
                     $scope.selectedRow = row;
                 }
                 if (row.rowSelected && $scope.funcOnSelect) {
@@ -249,7 +250,9 @@
                                 isNumber: col.isNumber,
                                 decimal: col.decimal,
                                 isLink: col.isLink,
-                                isDate: col.isDate
+                                isDate: col.isDate,
+                                isHidden: col.isHidden||false,
+                                linkFunc: col.linkFunc||{funcName:'',funcIdField:''}
                             });
                         });
                     }
@@ -291,7 +294,8 @@
             angular.forEach(columnDefs, function (col) {
                 row.push({
                     fieldName: col.field,
-                    displayName: col.displayName
+                    displayName: col.displayName,
+                    isHidden: col.isHidden
                 });
             });
             return row;

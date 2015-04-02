@@ -1,10 +1,10 @@
 (function (app) {
-    app.directive('orderDetailListDir', ['repositoryService', 'dbEntityService', orderDetailListDir]);
+    app.directive('orderDetailListDir', ['repositoryService', 'dbEntityService', 'commonService', orderDetailListDir]);
 
-    function orderDetailListDir(repositoryService, dbEntityService) {
+    function orderDetailListDir(repositoryService, dbEntityService, commonService) {
         return {
             restrict: 'AE',
-            template: '<div class="table-responsive"><div rain-grid="gridOptions"></div></div>',
+            template: '<div class="table-responsive"><div rain-grid="gridOptions" func-link="productDetail(id)"></div></div>',
             replace: false,
             scope: {
                 orderId: '='
@@ -30,6 +30,11 @@
                     dbEntityService.entities.orderDetails, $scope.orderId);
             }
 
+            $scope.productDetail = function (id) {
+                var modalInstance = commonService.showProductModal(id);
+                modalInstance.then(function () {
+                });
+            };
         }   // controller
 
     }
@@ -50,9 +55,14 @@
                 field: 'OrderID',
                 displayName: 'Id'
             }, {
+                field: 'ProductID',
+                displayName: 'ProductID',
+                isHidden: true
+            },{
                 field: 'ProductName',
                 displayName: 'Product Name',
-                isLink: true
+                isLink: true,
+                funcName:"productDetail"
             },
             {
                 field: 'UnitPrice',

@@ -1,7 +1,7 @@
 (function (app) {
-    app.controller('orderListCtrl', ['repositoryService', 'dbEntityService', orderListCtrl]);
+    app.controller('orderListCtrl', ['repositoryService', 'dbEntityService','commonService', orderListCtrl]);
 
-    function orderListCtrl(repositoryService, dbEntityService) {
+    function orderListCtrl(repositoryService, dbEntityService,commonService) {
         var vm = this;
         vm.selectedRow = false;
         vm.showDetail = true;
@@ -23,7 +23,10 @@
         vm.onSelect = function (id) {
             vm.orderId = id;
             vm.selectedRow = true;
-        }
+        };
+
+
+
     }
 
 
