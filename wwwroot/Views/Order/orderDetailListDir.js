@@ -4,7 +4,7 @@
     function orderDetailListDir(repositoryService, dbEntityService, commonService) {
         return {
             restrict: 'AE',
-            template: '<div class="table-responsive"><div rain-grid="gridOptions" func-link="productDetail(id)"></div></div>',
+            templateUrl: 'wwwroot/Views/Order/orderDetailListDir.html',
             replace: false,
             scope: {
                 orderId: '='
@@ -30,10 +30,16 @@
                     dbEntityService.entities.orderDetails, $scope.orderId);
             }
 
-            $scope.productDetail = function (id) {
-                var modalInstance = commonService.showProductModal(id);
-                modalInstance.then(function () {
-                });
+
+            var linkFunctions = {
+                productDetail: function (id) {
+                    var modalInstance = commonService.showProductModal(id);
+                    modalInstance.then(function () {
+                    });
+                }
+            };
+            $scope.linkFunc = function (row, funcName, funcIdField) {
+                commonService.rainGridLinkFunc(row, funcName, funcIdField, linkFunctions);
             };
         }   // controller
 
@@ -58,11 +64,11 @@
                 field: 'ProductID',
                 displayName: 'ProductID',
                 isHidden: true
-            },{
+            }, {
                 field: 'ProductName',
                 displayName: 'Product Name',
                 isLink: true,
-                funcName:"productDetail"
+                linkFunc: {funcName: 'productDetail', funcIdField: 'ProductID'}
             },
             {
                 field: 'UnitPrice',

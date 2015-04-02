@@ -1,9 +1,9 @@
 <div ng-controller="employeeCtrl as vm">
     <div class="legend">Employees</div>
-    <div class="row" ng-class="{animated:vm.isFromBack, fadeInRight:true}" ng-show="!vm.showDetail">
+    <div class="row" ng-class="{'go-backward':vm.isFromBack}" ng-show="!vm.showDetail">
         <div class="col-lg-10 table-container">
             <div style="padding: 10px;" class="table-responsive">
-                <div rain-grid="vm.gridOptions" func-link="vm.employeeDetail(id)"></div>
+                <div rain-grid="vm.gridOptions"  func-link="vm.linkFunc(row,funcName,funcIdField)"></div>
             </div>
         </div>
     </div>

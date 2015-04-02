@@ -1,7 +1,7 @@
 (function (app) {
-    app.controller('productCtrl', ['repositoryService', 'dbEntityService', 'commonService', productCtrl]);
+    app.controller('productCtrl', ['repositoryService', 'dbEntityService', 'commonService', '$parse', productCtrl]);
 
-    function productCtrl(repositoryService, dbEntityService, commonService) {
+    function productCtrl(repositoryService, dbEntityService, commonService, $parse) {
         var vm = this;
 
         activate();
@@ -13,18 +13,13 @@
             vm.gridOptions.data = repositoryService.getDataList(dbEntityService.entities.product);
         }
 
-        vm.linkFunc = function (row, funcName, funcIdField) {
-            var field = _.find(row, function (col) {
-                return col.fieldName === funcIdField;
-            });
-            var id = field.value;
-            if (funcName === 'productDetail') {
-                productDetail(id);
+        var linkFunctions = {
+            productDetail: function (id) {
+                showProductModal(id);
             }
         };
-
-        var productDetail = function (id) {
-            showProductModal(id);
+        vm.linkFunc = function (row, funcName, funcIdField) {
+            commonService.rainGridLinkFunc(row, funcName, funcIdField,linkFunctions);
         };
 
 

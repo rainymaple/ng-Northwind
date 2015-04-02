@@ -1,7 +1,7 @@
 (function (app) {
-    app.controller('employeeCtrl', ['repositoryService', 'dbEntityService', employeeCtrl]);
+    app.controller('employeeCtrl', ['repositoryService', 'dbEntityService', 'commonService', employeeCtrl]);
 
-    function employeeCtrl(repositoryService, dbEntityService) {
+    function employeeCtrl(repositoryService, dbEntityService, commonService) {
         var vm = this;
         vm.showDetail = false;
         vm.isFromBack = false;
@@ -19,13 +19,17 @@
             });
         }
 
-        vm.employeeDetail = function (id) {
-            vm.employee = _.find(vm.employeeList, function (e) {
-                vm.showDetail = true;
-                return e.EmployeeID === id;
-            });
+        var linkFunctions = {
+            employeeDetail: function (id) {
+                vm.employee = _.find(vm.employeeList, function (e) {
+                    vm.showDetail = true;
+                    return e.EmployeeID === id;
+                });
+            }
         };
-
+        vm.linkFunc = function (row, funcName, funcIdField) {
+            commonService.rainGridLinkFunc(row, funcName, funcIdField, linkFunctions);
+        };
 
         vm.backToList = function () {
             vm.isFromBack = true;
@@ -50,7 +54,8 @@
             }, {
                 field: 'FirstName',
                 displayName: 'First Name',
-                isLink: true
+                isLink: true,
+                linkFunc: {funcName: 'employeeDetail', funcIdField: 'EmployeeID'}
             },
             {
                 field: 'LastName',

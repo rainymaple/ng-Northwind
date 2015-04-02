@@ -1,37 +1,38 @@
 /*
- gridOptions= {
- data: promiseData,
- columnDefs: getColumnDefs(),
- enablePage: true,
- idField: 'CategoryID',
- pageSize: 10,
- selectable: false,
- selectFirstRow: false,
- title : 'Categories'
- };
- function getColumnDefs(){
- return [
- {
- field: 'CategoryID',
- displayName: 'Id'
- },
- {
- field: 'CategoryName',
- displayName: 'Name',
- isLink: false,
- isCurrency: false,
- isNumber: false,
- isCheckbox: false,
- isDate: false,
- isHidden: false
- }
- ]
- }
- // function attributes
- func-link,
- funk-on-select
+    gridOptions = {
+        data: promiseData,
+        columnDefs: getColumnDefs(),
+        enablePage: true,
+        idField: 'CategoryID',
+        pageSize: 10,
+        selectable: false,
+        selectFirstRow: false,
+        title: 'Categories'
+    };
+    function getColumnDefs() {
+        return [
+            {
+                field: 'CategoryID',
+                displayName: 'Id'
+            },
+            {
+                field: 'CategoryName',
+                displayName: 'Name',
+                isLink: false,
+                isCurrency: false,
+                isNumber: false,
+                isCheckbox: false,
+                isDate: false,
+                isHidden: false,
+                linkFunc: {funcName: 'employeeDetail', funcIdField: 'EmployeeID'}
+            }
+        ]
+     // function attributes
+         func-link,
+         funk-on-select
 
- * */
+ }*/
+
 
 (function (app) {
     app.directive('rainGrid', ['$timeout', rainGrid]);
@@ -142,11 +143,11 @@
 
             // page event handlers
 
-            $scope.linkTo = function (row,funcName,funcIdField) {
+            $scope.linkTo = function (row, funcName, funcIdField) {
                 /*if (!id) {
-                    throw "gridOptions.idField is missing or invalid";
-                }*/
-                $scope.funcLink({'row': row,'funcName':funcName,'funcIdField':funcIdField});
+                 throw "gridOptions.idField is missing or invalid";
+                 }*/
+                $scope.funcLink({'row': row, 'funcName': funcName, 'funcIdField': funcIdField});
             };
 
             $scope.pageSizeChanged = function (pageSize) {
@@ -251,8 +252,8 @@
                                 decimal: col.decimal,
                                 isLink: col.isLink,
                                 isDate: col.isDate,
-                                isHidden: col.isHidden||false,
-                                linkFunc: col.linkFunc||{funcName:'',funcIdField:''}
+                                isHidden: col.isHidden || false,
+                                linkFunc: col.linkFunc || {funcName: '', funcIdField: ''}
                             });
                         });
                     }
