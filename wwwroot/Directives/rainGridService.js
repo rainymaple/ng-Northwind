@@ -2,25 +2,55 @@
     app.factory('rainGridService', ['$parse', rainGridService]);
     function rainGridService($parse) {
         return {
-            showProductModal: showProductModal
+            rainGridLinkFunc: rainGridLinkFunc,
+            filterData : filterData,
+            modifyPaginationIcons:modifyPaginationIcons,
+            getDataListByPage:getDataListByPage
         };
 
         // Service Functions
 
-        function showProductModal(productId){
-            var modalInstance = $modal.open({
-                templateUrl: 'wwwroot/Views/Product/productModal.html',
-                controller:'productModalCtrl',
-                resolve: {
-                    productId: function(){return productId;}
-                }
+        function rainGridLinkFunc(params, linkFunctions) {
+            var field = _.find(params.row, function (col) {
+                return col.fieldName === params.funcIdField;
             });
+            if (field) {
+                var id = field.value;
+                var func = params.funcName + '(' + id + ')';
+                var parseFunc = $parse(func);
+                parseFunc(linkFunctions);
+            }
+        }
 
-            return modalInstance.result;
-            /*modalInstance.result.then(function (obj) {
-             // return value from $modalInstance.close(obj)
-             }, function () {
-             });*/
+        function filterData(data,filter){
+            return data;
+        }
+
+        function getDataListByPage(dataList, page, pageSize) {
+            // page starts with 1
+            if (!dataList || page <= 0) {
+                return null;
+            }
+            try {
+                //dataList = sortData(dataList);
+
+                var start = (page - 1) * pageSize;
+                var pagedData = _.slice(dataList, start, start + pageSize);
+                if (!pagedData) {
+                    return null;
+                }
+                return pagedData;
+            } catch (e) {
+                console.log(e.message);
+                return null;
+            }
+        }   // end of getDataListByPage
+
+        function modifyPaginationIcons(){
+            $('ul.pagination a:contains("<<"):first').html("<i class='fa fa-angle-double-left page-arrow'></i>");
+            $('ul.pagination a:contains(">>"):first').html("<i class='fa fa-angle-double-right page-arrow'></i>");
+            $('ul.pagination a:contains("<"):first').html("<i class='fa fa-angle-left page-arrow'></i>");
+            $('ul.pagination a:contains(">"):first').html("<i class='fa fa-angle-right page-arrow'></i>");
         }
     }
 })(angular.module('appNorthwind'));

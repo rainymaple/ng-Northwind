@@ -38,8 +38,8 @@
                     });
                 }
             };
-            $scope.linkFunc = function (row, funcName, funcIdField) {
-                commonService.rainGridLinkFunc(row, funcName, funcIdField, linkFunctions);
+            $scope.linkFunc = function (params) {
+                commonService.rainGridLinkFunc(params,linkFunctions);
             };
         }   // controller
 

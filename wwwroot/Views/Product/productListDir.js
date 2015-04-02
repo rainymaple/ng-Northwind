@@ -1,7 +1,7 @@
 (function (app) {
-    app.directive('productListDir', ['repositoryService', 'dbEntityService', productListDir]);
+    app.directive('productListDir', ['repositoryService', 'dbEntityService','commonService', productListDir]);
 
-    function productListDir(repositoryService, dbEntityService) {
+    function productListDir(repositoryService, dbEntityService,commonService) {
         return {
             restrict: 'AE',
             templateUrl: 'wwwroot/Views/Product/productListDir.html',
@@ -30,6 +30,17 @@
                     dbEntityService.entities.productByCategoryId, $scope.categoryId);
             }
 
+
+            var linkFunctions = {
+                productDetail: function (id) {
+                    var modalInstance = commonService.showProductModal(id);
+                    modalInstance.then(function () {
+                    });
+                }
+            };
+            $scope.linkFunc = function (params) {
+                commonService.rainGridLinkFunc(params,linkFunctions);
+            };
         }   // controller
 
     }
@@ -52,7 +63,8 @@
             }, {
                 field: 'ProductName',
                 displayName: 'Name',
-                isLink: true
+                isLink: true,
+                linkFunc: {funcName: 'productDetail', funcIdField: 'ProductID'}
             },
             {
                 field: 'QuantityPerUnit',

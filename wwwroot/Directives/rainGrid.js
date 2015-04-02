@@ -35,7 +35,7 @@
 
 
 (function (app) {
-    app.directive('rainGrid', ['$timeout', rainGrid]);
+    app.directive('rainGrid', ['$timeout','rainGridService', rainGrid]);
 
     /*-- Function Directive --*/
     function rainGrid() {
@@ -55,10 +55,11 @@
 
         /*-- Function Controller --*/
 
-        function controller($scope) {
+        function controller($scope,rainGridService) {
 
-            var _gridOptions = {};
-            var _dataList = [];
+            $scope.gridOptions = {};
+            var _dataList =[];
+            var _dataRows =[];
             var _sortings = [null, 'ASC', 'DSC'];
             var _sortOrder = 0;
             var _sortField = null;
@@ -74,27 +75,29 @@
             function activate() {
                 buildGridOptions();
                 //Pace.restart();
-                _gridOptions.data.then(
+                $scope.gridOptions.data.then(
                     function (dataList) {
-                        _gridOptions.dataList = dataList;
-                        var gridData = getGridData(_gridOptions);
+                        $scope.gridOptions.dataList = dataList;
+                        $scope.gridData = getGridData($scope.gridOptions);
                         initPage();
-                        initData(gridData);
+                        initData($scope.gridData);
+                        rainGridService.modifyPaginationIcons();
                         //cfpLoadingBar.complete();
                         //Pace.stop();
+
                     }
                 )
             }
 
             function buildGridOptions() {
-                _gridOptions = {enablePage: true, pageSize: 10, selectable: false};
-                _gridOptions = _.assign(_gridOptions, $scope.rainGrid);
-                $scope.selectable = _gridOptions.selectable;
-                $scope.title = _gridOptions.title;
+                $scope.gridOptions = {enablePage: true, pageSize: 10, selectable: false};
+                $scope.gridOptions = _.assign($scope.gridOptions, $scope.rainGrid);
+                $scope.selectable = $scope.gridOptions.selectable;
+                $scope.title = $scope.gridOptions.title;
             }
 
             function initPage() {
-                $scope.enablePage = _gridOptions.enablePage;
+                $scope.enablePage = $scope.gridOptions.enablePage;
                 $scope.currentPage = 1;
                 $scope.maxSize = 3;
                 $scope.pageSizes = [
@@ -103,9 +106,9 @@
                     {label: '20', value: 20}
                 ];
                 $scope.pageSize = $scope.pageSizes[1];
-                if (_gridOptions.pageSize) {
+                if ($scope.gridOptions.pageSize) {
                     var pageSize = _.find($scope.pageSizes, function (size) {
-                        return size.value == _gridOptions.pageSize;
+                        return size.value == $scope.gridOptions.pageSize;
                     });
                     if (pageSize) {
                         $scope.pageSize = pageSize;
@@ -114,20 +117,32 @@
 
             }
 
-            function initData(gridData) {
-                _dataList = gridData.rows;
+            function initData(gridData,filters) {
+
+                $scope.currentPage = 1;
+                _sortOrder = 0;
+                _sortField = null;
+
+                _dataRows = gridData.rows;
+                if(filters){
+                    _dataRows = rainGridService.filterData(_dataRows,filters);
+                }
                 $scope.header = gridData.header;
-                $scope.rowCount = _dataList.length;
-                $scope.enablePage = _gridOptions.enablePage && ($scope.rowCount > $scope.pageSizes[0].value);
-                getPageData();
+                $scope.rowCount = _dataRows.length;
+                $scope.enablePage = $scope.gridOptions.enablePage && ($scope.rowCount > $scope.pageSizes[0].value);
+
+                // _dataRows is original and unsorted, _dataList is sorted;
+                _dataList = _dataRows;
+                getPageData(_dataList);
             }
 
-            function getPageData() {
+            function getPageData(dataList) {
                 if (!$scope.enablePage) {
-                    $scope.list = sortData(_dataList);
+                    $scope.list = dataList;
                     return $scope.list;
                 }
-                var pagedDataList = getDataListByPage(_dataList, $scope.currentPage, $scope.pageSize.value);
+                var pagedDataList = rainGridService.getDataListByPage(dataList, $scope.currentPage, $scope.pageSize.value);
+
                 if (pagedDataList) {
                     $scope.list = pagedDataList;
                     angular.forEach($scope.list, function (row) {
@@ -147,18 +162,20 @@
                 /*if (!id) {
                  throw "gridOptions.idField is missing or invalid";
                  }*/
-                $scope.funcLink({'row': row, 'funcName': funcName, 'funcIdField': funcIdField});
+                var params ={'row': row, 'funcName': funcName, 'funcIdField': funcIdField};
+                $scope.funcLink({params:params});
             };
 
             $scope.pageSizeChanged = function (pageSize) {
                 $scope.currentPage = 1;
-                getPageData();
-            };
-            $scope.pageChanged = function () {
-                getPageData();
+                getPageData(_dataList);
             };
 
-            $scope.setSorting = function (sortField) {
+            $scope.pageChanged = function () {
+                getPageData(_dataList);
+            };
+
+            $scope.sortingChanged = function (sortField) {
                 if (_sortField !== sortField) {
                     _sortOrder = 1;
                 } else {
@@ -170,7 +187,8 @@
                 _sortField = sortField;
                 $scope.sortField = sortField;
                 $scope.sortOrder = _sortings[_sortOrder];
-                getPageData();
+                _dataList = sortData(_dataRows);
+                getPageData(_dataList);
             };
 
             $scope.selectRow = function (row) {
@@ -261,31 +279,12 @@
                 });
                 if (gridOptions.selectFirstRow && gridList.rows.length > 0) {
                     gridList.rows[0].rowSelected = true;
+                    $scope.selectedRow = gridList.rows[0];
                 }
 
                 return gridList;
             }   // end of getGridData
 
-            // Paging
-            function getDataListByPage(dataList, page, pageSize) {
-                // page starts with 1
-                if (!dataList || page <= 0) {
-                    return null;
-                }
-                try {
-                    dataList = sortData(dataList);
-
-                    var start = (page - 1) * pageSize;
-                    var pagedData = _.slice(dataList, start, start + pageSize);
-                    if (!pagedData) {
-                        return null;
-                    }
-                    return pagedData;
-                } catch (e) {
-                    console.log(e.message);
-                    return null;
-                }
-            }   // end of getDataListByPage
 
         }   // end of controller
 

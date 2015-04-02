@@ -35,11 +35,11 @@
             },
             {
                 field: 'ContactName',
-                displayName: 'Contact'
+                displayName: 'Contact Name'
             },
             {
                 field: 'ContactTitle',
-                displayName: 'Contact'
+                displayName: 'Contact Title'
             },
             {
                 field: 'Country',

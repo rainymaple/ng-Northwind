@@ -1,9 +1,8 @@
 (function (app) {
     app.factory('commonService', ['$modal', '$parse', commonService]);
-    function commonService($modal, $parse) {
+    function commonService($modal) {
         return {
-            showProductModal: showProductModal,
-            rainGridLinkFunc: rainGridLinkFunc
+            showProductModal: showProductModal
         };
 
         // Service Functions
@@ -26,17 +25,6 @@
              });*/
         }
 
-        function rainGridLinkFunc(row, funcName, funcIdField, linkFunctions) {
-            var field = _.find(row, function (col) {
-                return col.fieldName === funcIdField;
-            });
-            if (field) {
-                var id = field.value;
-                var func = funcName + '(' + id + ')';
-                var parseFunc = $parse(func);
-                parseFunc(linkFunctions);
-            }
-        }
 
     }
 })(angular.module('appNorthwind'));

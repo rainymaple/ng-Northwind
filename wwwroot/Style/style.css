@@ -120,6 +120,12 @@ ul.pagination {
     margin: 0;
 }
 
+ul.pagination .page-arrow{
+    margin-left: 4px;
+    margin-right: 4px;
+    font-size: 14px;
+    font-weight: bold;
+}
 .rain-page select{
     height: 24px;
     padding: 1px 5px;
