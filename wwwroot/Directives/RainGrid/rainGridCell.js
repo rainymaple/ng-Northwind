@@ -6,7 +6,7 @@
 
         return {
             restrict: 'AE',
-            templateUrl: 'wwwroot/Directives/rainGridCell.html',
+            templateUrl: 'wwwroot/Directives/RainGrid/rainGridCell.html',
             replace: false,
             scope: {
                 gridCellTemplate: '=',

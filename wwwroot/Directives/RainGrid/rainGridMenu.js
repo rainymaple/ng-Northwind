@@ -4,7 +4,7 @@
     function rainGridMenu() {
         return {
             restrict: "AE",
-            templateUrl: "wwwroot/Directives/rainGridMenu.html",
+            templateUrl: "wwwroot/Directives/RainGrid/rainGridMenu.html",
             replace: false,
             scope: true,
             controller: function ($scope) {

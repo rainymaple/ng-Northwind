@@ -1,7 +1,8 @@
 (function (app) {
-    app.directive('orderDetailListDir', ['repositoryService', 'dbEntityService', 'commonService', orderDetailListDir]);
+    app.directive('orderDetailListDir', ['repositoryService', 'dbEntityService',
+        'commonService', 'rainGridService',orderDetailListDir]);
 
-    function orderDetailListDir(repositoryService, dbEntityService, commonService) {
+    function orderDetailListDir(repositoryService, dbEntityService, commonService,rainGridService) {
         return {
             restrict: 'AE',
             templateUrl: 'wwwroot/Views/Order/orderDetailListDir.html',
@@ -39,7 +40,7 @@
                 }
             };
             $scope.linkFunc = function (params) {
-                commonService.rainGridLinkFunc(params,linkFunctions);
+                rainGridService.rainGridLinkFunc(params,linkFunctions);
             };
         }   // controller
 

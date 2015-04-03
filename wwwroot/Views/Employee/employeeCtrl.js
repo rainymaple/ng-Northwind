@@ -1,7 +1,7 @@
 (function (app) {
-    app.controller('employeeCtrl', ['repositoryService', 'dbEntityService', 'commonService', employeeCtrl]);
+    app.controller('employeeCtrl', ['repositoryService', 'dbEntityService', 'rainGridService', employeeCtrl]);
 
-    function employeeCtrl(repositoryService, dbEntityService, commonService) {
+    function employeeCtrl(repositoryService, dbEntityService, rainGridService) {
         var vm = this;
         vm.showDetail = false;
         vm.isFromBack = false;
@@ -28,7 +28,7 @@
             }
         };
         vm.linkFunc = function (params) {
-            commonService.rainGridLinkFunc(params,linkFunctions);
+            rainGridService.rainGridLinkFunc(params,linkFunctions);
         };
 
         vm.backToList = function () {

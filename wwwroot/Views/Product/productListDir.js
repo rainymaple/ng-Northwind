@@ -1,7 +1,8 @@
 (function (app) {
-    app.directive('productListDir', ['repositoryService', 'dbEntityService','commonService', productListDir]);
+    app.directive('productListDir', ['repositoryService', 'dbEntityService','commonService', 'rainGridService',
+        productListDir]);
 
-    function productListDir(repositoryService, dbEntityService,commonService) {
+    function productListDir(repositoryService, dbEntityService,commonService,rainGridService) {
         return {
             restrict: 'AE',
             templateUrl: 'wwwroot/Views/Product/productListDir.html',
@@ -39,7 +40,7 @@
                 }
             };
             $scope.linkFunc = function (params) {
-                commonService.rainGridLinkFunc(params,linkFunctions);
+                rainGridService.rainGridLinkFunc(params,linkFunctions);
             };
         }   // controller
 
