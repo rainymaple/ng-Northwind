@@ -1,13 +1,14 @@
 (function (app) {
-    app.factory('rainGridService', ['$parse', rainGridService]);
-    function rainGridService($parse) {
+    app.factory('rainGridService', ['$parse','$modal', rainGridService]);
+    function rainGridService($parse,$modal) {
         return {
             rainGridLinkFunc: rainGridLinkFunc,
             filterData: filterData,
             modifyPaginationIcons: modifyPaginationIcons,
             getDataListByPage: getDataListByPage,
             buildGridData: buildGridData,
-            sortData: sortData
+            sortData: sortData,
+            showFilterModal:showFilterModal
         };
 
         // Service Functions
@@ -126,7 +127,7 @@
                 var rowData = row.rowData;
                 var sortedValue = null;
                 for (var i = 0; i < rowData.length; i++) {
-                    if (rowData[i].fieldName === _sortField) {
+                    if (rowData[i].fieldName === sortField) {
                         sortedValue = rowData[i].value;
                         return sortedValue;
                     }
@@ -140,6 +141,24 @@
             $('ul.pagination a:contains(">>"):first').html("<i class='fa fa-angle-double-right page-arrow'></i>");
             $('ul.pagination a:contains("<"):first').html("<i class='fa fa-angle-left page-arrow'></i>");
             $('ul.pagination a:contains(">"):first').html("<i class='fa fa-angle-right page-arrow'></i>");
+        }
+
+        function showFilterModal(gridOptions) {
+            var modalInstance = $modal.open({
+                templateUrl: 'wwwroot/Directives/RainGrid/rainGridFilterModal.html',
+                controller: 'rainGridFilterModalCtrl',
+                resolve: {
+                    columnDefs: function () {
+                        return gridOptions.columnDefs;
+                    }
+                }
+            });
+
+            return modalInstance.result;
+            /*modalInstance.result.then(function (obj) {
+             // return value from $modalInstance.close(obj)
+             }, function () {
+             });*/
         }
     }
 })(angular.module('appNorthwind'));

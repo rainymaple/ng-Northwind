@@ -1,17 +1,18 @@
 (function (app) {
-    app.directive('rainGridMenu', [rainGridMenu]);
+    app.directive('rainGridMenu', ['rainGridService',rainGridMenu]);
 
-    function rainGridMenu() {
+    function rainGridMenu(rainGridService) {
         return {
             restrict: "AE",
             templateUrl: "wwwroot/Directives/RainGrid/rainGridMenu.html",
             replace: false,
             scope: true,
             controller: function ($scope) {
+                // menu config
                 $scope.status = {
                     isopen: false
                 };
-                var aa = $scope.gridOptions;
+
                 $scope.toggled = function (open) {
                     console.log('Dropdown is now: ', open);
                 };
@@ -21,6 +22,14 @@
                     $event.stopPropagation();
                     $scope.status.isopen = !$scope.status.isopen;
                 };
+
+                // event handlers
+
+                $scope.doFilter = function () {
+                    var modalInstance = rainGridService.showFilterModal($scope.gridOptions);
+                    modalInstance.then(function () {
+                    });
+                }
             }
         }
     }

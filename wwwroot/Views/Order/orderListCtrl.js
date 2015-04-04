@@ -36,6 +36,7 @@
             enablePage: true,
             idField: 'OrderID',
             pageSize: 5,
+            title: 'Order List',
             selectable: true,
             selectFirstRow: false
         };

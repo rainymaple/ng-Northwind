@@ -38,17 +38,9 @@
 
             function activate() {
                 buildGridOptions();
-                //Pace.restart();
                 $scope.gridOptions.data.then(
                     function (dataList) {
-                        $scope.gridOptions.dataList = dataList;
-                        $scope.gridData = getGridData($scope.gridOptions);
-                        initPage();
-                        initData($scope.gridData);
-                        rainGridService.modifyPaginationIcons();
-                        //cfpLoadingBar.complete();
-                        //Pace.stop();
-
+                        initRainGrid(dataList);
                     }
                 )
             }
@@ -59,6 +51,15 @@
                 $scope.selectable = $scope.gridOptions.selectable;
                 $scope.showToolMenu = $scope.gridOptions.showToolMenu;
                 $scope.title = $scope.gridOptions.title;
+            }
+
+            function initRainGrid(dataList) {
+                $scope.gridOptions.dataList = dataList;
+                $scope.gridData = getGridData($scope.gridOptions);
+                initPage();
+                initData($scope.gridData);
+                rainGridService.modifyPaginationIcons();
+                //cfpLoadingBar.complete();
             }
 
             function initPage() {
@@ -121,6 +122,16 @@
                 return $scope.list;
             }
 
+            // Building the header and rows
+            function getGridData(gridOptions) {
+                var gridList = rainGridService.buildGridData(gridOptions);
+                if (gridList.rows.length > 0 && gridList.rows[0].rowSelected) {
+                    $scope.selectedRow = gridList.rows[0];
+                }
+                return gridList;
+            }   // end of getGridData
+
+
             // page event handlers
 
             $scope.linkTo = function (row, funcName, funcIdField) {
@@ -172,15 +183,6 @@
                     $scope.funcOnSelect({id: row.id});
                 }
             };
-
-            // Building the header and rows
-            function getGridData(gridOptions) {
-                var gridList = rainGridService.buildGridData(gridOptions);
-                if (gridList.rows.length > 0 && gridList.rows[0].rowSelected) {
-                    $scope.selectedRow = gridList.rows[0];
-                }
-                return gridList;
-            }   // end of getGridData
 
 
         }   // end of controller
