@@ -82,6 +82,7 @@ form legend {
 /*-- rainGrid --*/
 .rain-grid-panel{
     margin-top: 10px;
+    min-height: 200px;
 }
 .rain-grid-panel .panel-heading {
     padding: 5px 15px;
