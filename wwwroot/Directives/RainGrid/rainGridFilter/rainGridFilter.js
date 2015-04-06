@@ -1,23 +1,77 @@
 (function (app) {
-    app.directive('fieldSelect', ['rainGridService', fieldSelect]);
+    app.directive('rainGridFilter', ['rainGridService', rainGridFilter]);
 
     /*-- Function Directive --*/
-    function fieldSelect() {
+    function rainGridFilter(rainGridService) {
         return {
             restrict: 'AE',
-            template: template(),
+            templateUrl: 'wwwroot/Directives/RainGrid/rainGridFilter/rainGridFilter.html',
             replace: false,
-            controller: controller
+            scope: {
+                filter: '=',
+                columns: '=',
+                deleteFilter: '&'
+            },
+            controller: function ($scope) {
 
+                activate();
+                function activate() {
+                    getFilterColumn();
+                    setContraints($scope.filter.col);
+                    buildBoolValues();
+                    $scope.isBool = $scope.filter.col.isBoolean;
+                }
+
+
+                // event handlers
+                $scope.columnChanged = setContraints;
+
+                $scope.removeFilter = function (col) {
+                    $scope.deleteFilter({col: col})
+                };
+
+                function getFilterColumn() {
+                    var index = -1;
+                    for (var i = 0; i < $scope.columns.length; i++) {
+                        if ($scope.columns[i].value === $scope.filter.col.value) {
+                            index = i;
+                            break;
+                        }
+                    }
+                    if (index === -1) {
+                        $scope.filter.col = {}
+                    } else {
+                        $scope.filter.col = $scope.columns[index];
+                    }
+                }
+
+                function setContraints(col) {
+                    $scope.constraints = rainGridService.getFilterContraintsByColumnType(col);
+
+                    if ($scope.filter.constraint) {
+                        var index = -1;
+                        for (var i = 0; i < $scope.constraints.length; i++) {
+                            if ($scope.constraints[i].value === $scope.filter.constraint.value) {
+                                index = i;
+                                break;
+                            }
+                        }
+                        if (index === -1) {
+                            $scope.filter.constraint = {};
+                        } else {
+                            $scope.filter.constraint = $scope.constraints[index];
+                        }
+                    }
+                    $scope.isBool = $scope.filter.col.isBoolean;
+                }
+
+                function buildBoolValues(){
+                    $scope.boolValues = [{label:'true',value:true},{label:'false',value:false}];
+                }
+            }
         };
-        function controller($scope) {
-            var aa = $scope.columnDefs;
-        }
 
-        function template() {
-            return '<select class="form-control input-sm" ng-model="col" ' +
-                'ng-options="colDef as colDef.label for colDef in columns';
-                /*'ng-options="colDef.field as colDef.displayName for colDef in columnDefs"> </select>';*/
-        }
     }   // end of fieldSelect
+
+
 })(angular.module('appNorthwind'));

@@ -83,6 +83,16 @@
 
             }
 
+            $scope.filterData = function (filters) {
+                _dataList = rainGridService.filterData(_dataRows, filters);
+                $scope.rowCount = _dataList.length;
+                $scope.enablePage = $scope.gridOptions.enablePage && ($scope.rowCount > $scope.pageSizes[0].value);
+                $scope.sortField = null;
+                $scope.sortOrder = null;
+                $scope.currentPage = 1;
+                getPageData(_dataList);
+            };
+
             function initData(gridData, filters) {
 
                 $scope.currentPage = 1;
@@ -97,7 +107,7 @@
                 $scope.rowCount = _dataRows.length;
                 $scope.enablePage = $scope.gridOptions.enablePage && ($scope.rowCount > $scope.pageSizes[0].value);
 
-                // _dataRows is original and unsorted, _dataList is sorted;
+                // _dataRows is original(neither sorted nor filtered), _dataList might be sorted and/or filtered;
                 _dataList = _dataRows;
                 getPageData(_dataList);
             }
@@ -163,7 +173,7 @@
                 _sortField = sortField;
                 $scope.sortField = sortField;
                 $scope.sortOrder = _sortings[_sortIndex];
-                _dataList = rainGridService.sortData(_dataRows, _sortings, _sortField, _sortIndex);
+                _dataList = rainGridService.sortData(_dataList, _sortings, _sortField, _sortIndex);
                 getPageData(_dataList);
             };
 

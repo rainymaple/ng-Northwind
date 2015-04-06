@@ -1,14 +1,15 @@
 (function (app) {
-    app.factory('rainGridService', ['$parse','$modal', rainGridService]);
-    function rainGridService($parse,$modal) {
+    app.factory('rainGridService', ['$parse', '$modal', rainGridService]);
+    function rainGridService($parse, $modal) {
         return {
             rainGridLinkFunc: rainGridLinkFunc,
-            filterData: filterData,
             modifyPaginationIcons: modifyPaginationIcons,
             getDataListByPage: getDataListByPage,
             buildGridData: buildGridData,
             sortData: sortData,
-            showFilterModal:showFilterModal
+            showFilterModal: showFilterModal,
+            getFilterContraintsByColumnType: getFilterContraintsByColumnType,
+            filterData: filterData
         };
 
         // Service Functions
@@ -23,10 +24,6 @@
                 var parseFunc = $parse(func);
                 parseFunc(linkFunctions);
             }
-        }
-
-        function filterData(data, filter) {
-            return data;
         }
 
         function getDataListByPage(dataList, page, pageSize) {
@@ -48,7 +45,6 @@
                 return null;
             }
         }   // end of getDataListByPage
-
 
         function buildHeader(columnDefs) {
             var row = [];
@@ -143,13 +139,17 @@
             $('ul.pagination a:contains(">"):first').html("<i class='fa fa-angle-right page-arrow'></i>");
         }
 
-        function showFilterModal(gridOptions) {
+        // Filtering
+        function showFilterModal(gridOptions, filters) {
             var modalInstance = $modal.open({
                 templateUrl: 'wwwroot/Directives/RainGrid/rainGridFilterModal.html',
                 controller: 'rainGridFilterModalCtrl',
                 resolve: {
                     columnDefs: function () {
                         return gridOptions.columnDefs;
+                    },
+                    filters: function () {
+                        return filters;
                     }
                 }
             });
@@ -159,6 +159,96 @@
              // return value from $modalInstance.close(obj)
              }, function () {
              });*/
-        }
+        }   // end of showFilterModal
+
+        function getFilterContraintsByColumnType(col) {
+            var constraints = [];
+            var type = 'text';
+            if (col.isNumber || col.isCurrency) {
+                type = 'number';
+            } else if (col.isBoolean) {
+                type = 'bool';
+            } else if (col.isDate) {
+                type = 'date';
+            }
+            switch (type) {
+                case 'number':
+                    constraints = [
+                        {label: 'equal to', value: 'equalTo'},
+                        {label: 'greater than', value: 'greaterThan'},
+                        {label: 'less than', value: 'lessThan'}
+                    ];
+                    break;
+                case 'bool':
+                    constraints = [
+                        {label: 'equal to', value: 'equalTo'}
+                    ];
+                    break;
+                case 'date':
+                    constraints = [
+                        {label: 'equal to', value: 'equalTo'},
+                        {label: 'greater than', value: 'greaterThan'},
+                        {label: 'less than', value: 'lessThan'}
+                    ];
+                    break;
+                default :
+                    constraints = [
+                        {label: 'equal to', value: 'equalTo'},
+                        {label: 'greater than', value: 'greaterThan'},
+                        {label: 'less than', value: 'lessThan'},
+                        {label: 'contains', value: 'contains'},
+                        {label: 'starts with', value: 'startsWith'}
+                    ];
+            }
+            return constraints;
+        }   // end of getFilterContraintsByColumnType
+
+        function filterData(_dataRows, filters) {
+            var _dataList = [];
+            if (filters.length === 0 || !filters[0].col) {
+                _dataList = _dataRows;
+            } else {
+                _dataList = _.filter(_dataRows, function (row) {
+                    var rowData = row.rowData;
+                    var condition = true;
+                    for (var i = 0; i < rowData.length; i++) {
+                        var column = rowData[i];
+                        for (var j = 0; j < filters.length; j++) {
+                            var filter = filters[j];
+                            var filteredField = filter.col.value;
+                            var filterConstraint = filter.constraint.value;
+                            var filterExpression = filter.expression;
+                            if (column.fieldName === filteredField) {
+                                switch (filterConstraint) {
+                                    case 'equalTo':
+                                        condition = condition && column.value == filterExpression;
+                                        break;
+                                    case 'greaterThan':
+                                        condition = condition && column.value > filterExpression;
+                                        break;
+                                    case 'lessThan':
+                                        condition = condition && column.value < filterExpression;
+                                        break;
+                                    case 'contains':
+                                        condition = condition && column.value.indexOf(filterExpression) >= 0;
+                                        break;
+                                    case 'startsWith':
+                                        condition = condition && column.value.indexOf(filterExpression) === 0;
+                                        break;
+                                }
+                                if (!condition) {
+                                    break;
+                                }
+                            }
+                        }
+                        if (!condition) {
+                            break;
+                        }
+                    }
+                    return condition;
+                });
+            }
+            return _dataList;
+        }   // end of filterData
     }
 })(angular.module('appNorthwind'));

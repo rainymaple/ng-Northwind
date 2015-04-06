@@ -7,23 +7,12 @@
                 <i class="fa fa-file-o " style="font-size: 18px;" ng-show="!sortOrder"></i>
                 <span style="margin-left: 5px;font-weight: bold;">{{title}}</span>
             </div>
-            <div class="rain-page pull-right" ng-show="enablePage">
+            <div class="rain-page pull-right">
                 <div class="clearfix">
-                    <div class="pull-left" style="margin-top: 5px; margin-right: 5px;">Page size:</div>
-                    <div class="pull-left" style="margin-right: 20px;">
-                        <select class="form-control input-sm" ng-model="pageSize" style=""
-                                ng-change="pageSizeChanged(pageSize)"
-                                ng-options="size as size.label for size in pageSizes">
-                        </select>
+
+                    <div class="pull-left" ng-if="showToolMenu">
+                        <div rain-grid-menu filter-data="filterData(filters)" grid-options="gridOptions"></div>
                     </div>
-                    <div class="pull-left" style="height: 24px;">
-                        <pagination total-items="rowCount" ng-model="currentPage" max-size="maxSize"
-                                    class="pagination-sm" boundary-links="true" rotate="false"
-                                    first-text="<<" previous-text="<" next-text=">" last-text=">>"
-                                    items-per-page="pageSize.value" ng-change="pageChanged()">
-                        </pagination>
-                    </div>
-                    <div class="pull-left" rain-grid-menu ng-if="showToolMenu"></div>
                 </div>
             </div>
         </div>
@@ -58,6 +47,25 @@
             </tr>
             </tbody>
         </table>
+        <div>
+            <div class="pull-left" style="margin-top: 5px; margin-right: 5px;" ng-show="enablePage">Page size:</div>
+            <div class="pull-left" style="margin-right: 20px;" ng-show="enablePage">
+                <select class="form-control input-sm" ng-model="pageSize" style=""
+                        ng-change="pageSizeChanged(pageSize)"
+                        ng-options="size as size.label for size in pageSizes">
+                </select>
+            </div>
+            <div class="pull-left" style="height: 24px;" ng-show="enablePage">
+                <pagination total-items="rowCount" ng-model="currentPage" max-size="maxSize"
+                            class="pagination-sm" boundary-links="true" rotate="false"
+                            first-text="<<" previous-text="<" next-text=">" last-text=">>"
+                            items-per-page="pageSize.value" ng-change="pageChanged()">
+                </pagination>
+            </div>
+            <div class="pull-left" style="margin: 5px 5px 0 15px;">
+                <span style="margin-right: 5px;">Total:</span>{{rowCount}}
+            </div>
+        </div>
     </div>
 </div>
 
