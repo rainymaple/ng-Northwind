@@ -1,7 +1,7 @@
 (function (app) {
-    app.controller('territoryCtrl', ['repositoryService', 'dbEntityService', territoryCtrl]);
+    app.controller('territoryCtrl', ['repositoryService', 'dbEntityConfig', territoryCtrl]);
 
-    function territoryCtrl(repositoryService, dbEntityService) {
+    function territoryCtrl(repositoryService, dbEntityConfig) {
         var vm = this;
 
         activate();
@@ -10,7 +10,7 @@
 
         function activate() {
             vm.gridOptions = setGridOptions();
-            vm.gridOptions.data = repositoryService.getDataList(dbEntityService.entities.territory);
+            vm.gridOptions.data = repositoryService.getDataList(dbEntityConfig.entities.territory);
         }
 
     }

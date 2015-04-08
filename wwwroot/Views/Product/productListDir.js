@@ -1,8 +1,8 @@
 (function (app) {
-    app.directive('productListDir', ['repositoryService', 'dbEntityService','commonService', 'rainGridService',
+    app.directive('productListDir', ['repositoryService', 'dbEntityConfig','commonService', 'rainGridService',
         productListDir]);
 
-    function productListDir(repositoryService, dbEntityService,commonService,rainGridService) {
+    function productListDir(repositoryService, dbEntityConfig,commonService,rainGridService) {
         return {
             restrict: 'AE',
             templateUrl: 'wwwroot/Views/Product/productListDir.html',
@@ -28,7 +28,7 @@
                     $scope.categoryId = 0;
                 }
                 $scope.gridOptions.data = repositoryService.getDataById(
-                    dbEntityService.entities.productByCategoryId, $scope.categoryId);
+                    dbEntityConfig.entities.productByCategoryId, $scope.categoryId);
             }
 
 

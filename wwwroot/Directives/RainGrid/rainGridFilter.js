@@ -5,7 +5,7 @@
     function rainGridFilter(rainGridService) {
         return {
             restrict: 'AE',
-            templateUrl: 'wwwroot/Directives/RainGrid/rainGridFilter/rainGridFilter.html',
+            templateUrl: 'wwwroot/Directives/RainGrid/rainGridFilter.html',
             replace: false,
             scope: {
                 filter: '=',
@@ -15,16 +15,17 @@
             controller: function ($scope) {
 
                 activate();
+
                 function activate() {
                     getFilterColumn();
-                    setContraints($scope.filter.col);
+                    setConstraints($scope.filter.col);
                     buildBoolValues();
                     $scope.isBool = $scope.filter.col.isBoolean;
                 }
 
 
                 // event handlers
-                $scope.columnChanged = setContraints;
+                $scope.columnChanged = setConstraints;
 
                 $scope.removeFilter = function (col) {
                     $scope.deleteFilter({col: col})
@@ -45,8 +46,8 @@
                     }
                 }
 
-                function setContraints(col) {
-                    $scope.constraints = rainGridService.getFilterContraintsByColumnType(col);
+                function setConstraints(col) {
+                    $scope.constraints = rainGridService.getFilterConstraintsByColumnType(col);
 
                     if ($scope.filter.constraint) {
                         var index = -1;

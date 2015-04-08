@@ -27,6 +27,8 @@
             var _sortings = [null, 'ASC', 'DSC'];
             var _sortIndex = 0;
             var _sortField = null;
+            var _isFiltered = false;
+            var _dataRowsFiltered = [];
 
             $scope.$watch('rainGrid.data', function () {
                 activate();
@@ -86,6 +88,13 @@
 
             $scope.filterData = function (filters) {
                 _dataList = rainGridService.filterData(_dataRows, filters);
+
+                _isFiltered = (filters.length > 0 && !!filters[0].col);
+                if (_isFiltered) {
+                    _dataRowsFiltered = _dataList;
+                }
+
+                // after filtering, remove sorting and go to the first page
                 $scope.rowCount = _dataList.length;
                 $scope.enablePage = $scope.gridOptions.enablePage && ($scope.rowCount > $scope.pageSizes[0].value);
                 $scope.sortField = null;
@@ -94,16 +103,14 @@
                 getPageData(_dataList);
             };
 
-            function initData(gridData, filters) {
+            function initData(gridData) {
 
                 $scope.currentPage = 1;
                 _sortIndex = 0;
                 _sortField = null;
 
                 _dataRows = gridData.rows;
-                if (filters) {
-                    _dataRows = rainGridService.filterData(_dataRows, filters);
-                }
+
                 $scope.header = gridData.header;
                 $scope.rowCount = _dataRows.length;
                 $scope.enablePage = $scope.gridOptions.enablePage && ($scope.rowCount > $scope.pageSizes[0].value);
@@ -174,7 +181,9 @@
                 _sortField = sortField;
                 $scope.sortField = sortField;
                 $scope.sortOrder = _sortings[_sortIndex];
-                _dataList = rainGridService.sortData(_dataList, _sortings, _sortField, _sortIndex);
+
+                var rows = _isFiltered ? _dataRowsFiltered : _dataRows;
+                _dataList = rainGridService.sortData(rows, _sortings, _sortField, _sortIndex);
                 getPageData(_dataList);
             };
 

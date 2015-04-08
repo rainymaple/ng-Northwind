@@ -8,7 +8,7 @@
             buildGridData: buildGridData,
             sortData: sortData,
             showFilterModal: showFilterModal,
-            getFilterContraintsByColumnType: getFilterContraintsByColumnType,
+            getFilterConstraintsByColumnType: getFilterConstraintsByColumnType,
             filterData: filterData
         };
 
@@ -161,7 +161,7 @@
              });*/
         }   // end of showFilterModal
 
-        function getFilterContraintsByColumnType(col) {
+        function getFilterConstraintsByColumnType(col) {
             var constraints = [];
             var type = 'text';
             if (col.isNumber || col.isCurrency) {
@@ -204,50 +204,55 @@
         }   // end of getFilterContraintsByColumnType
 
         function filterData(_dataRows, filters) {
+
             var _dataList = [];
+
+            // if there's not filter, just return the original data list
             if (filters.length === 0 || !filters[0].col) {
                 _dataList = _dataRows;
-            } else {
-                _dataList = _.filter(_dataRows, function (row) {
-                    var rowData = row.rowData;
-                    var condition = true;
-                    for (var i = 0; i < rowData.length; i++) {
-                        var column = rowData[i];
-                        for (var j = 0; j < filters.length; j++) {
-                            var filter = filters[j];
-                            var filteredField = filter.col.value;
-                            var filterConstraint = filter.constraint.value;
-                            var filterExpression = filter.expression;
-                            if (column.fieldName === filteredField) {
-                                switch (filterConstraint) {
-                                    case 'equalTo':
-                                        condition = condition && column.value == filterExpression;
-                                        break;
-                                    case 'greaterThan':
-                                        condition = condition && column.value > filterExpression;
-                                        break;
-                                    case 'lessThan':
-                                        condition = condition && column.value < filterExpression;
-                                        break;
-                                    case 'contains':
-                                        condition = condition && column.value.indexOf(filterExpression) >= 0;
-                                        break;
-                                    case 'startsWith':
-                                        condition = condition && column.value.indexOf(filterExpression) === 0;
-                                        break;
-                                }
-                                if (!condition) {
+                return _dataList;
+            }
+
+            _dataList = _.filter(_dataRows, function (row) {
+                var rowData = row.rowData;
+                var condition = true;
+                for (var i = 0; i < rowData.length; i++) {
+                    var column = rowData[i];
+                    for (var j = 0; j < filters.length; j++) {
+                        var filter = filters[j];
+                        var filteredField = filter.col.value;
+                        var filterConstraint = filter.constraint.value;
+                        var filterExpression = filter.expression;
+                        if (column.fieldName === filteredField) {
+                            switch (filterConstraint) {
+                                case 'equalTo':
+                                    condition = condition && column.value == filterExpression;
                                     break;
-                                }
+                                case 'greaterThan':
+                                    condition = condition && column.value > filterExpression;
+                                    break;
+                                case 'lessThan':
+                                    condition = condition && column.value < filterExpression;
+                                    break;
+                                case 'contains':
+                                    condition = condition && column.value.indexOf(filterExpression) >= 0;
+                                    break;
+                                case 'startsWith':
+                                    condition = condition && column.value.indexOf(filterExpression) === 0;
+                                    break;
+                            }
+                            if (!condition) {
+                                break;
                             }
                         }
-                        if (!condition) {
-                            break;
-                        }
                     }
-                    return condition;
-                });
-            }
+                    if (!condition) {
+                        break;
+                    }
+                }
+                return condition;
+            });
+
             return _dataList;
         }   // end of filterData
     }

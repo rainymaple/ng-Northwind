@@ -1,7 +1,7 @@
 (function (app) {
-    app.controller('categoryCtrl', ['repositoryService', 'dbEntityService', categoryCtrl]);
+    app.controller('categoryCtrl', ['repositoryService', 'dbEntityConfig', categoryCtrl]);
 
-    function categoryCtrl(repositoryService, dbEntityService) {
+    function categoryCtrl(repositoryService, dbEntityConfig) {
         var vm = this;
 
         activate();
@@ -10,7 +10,7 @@
 
         function activate() {
             vm.gridOptions = setGridOptions();
-            vm.gridOptions.data = repositoryService.getDataList(dbEntityService.entities.category);
+            vm.gridOptions.data = repositoryService.getDataList(dbEntityConfig.entities.category);
             vm.gridOptions.data.then(function(data){
                 if(data.length>0){
                     vm.categoryId = data[0].CategoryID;

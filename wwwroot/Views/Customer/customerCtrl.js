@@ -1,7 +1,7 @@
 (function (app) {
-    app.controller('customerCtrl', ['repositoryService', 'dbEntityService', customerCtrl]);
+    app.controller('customerCtrl', ['repositoryService', 'dbEntityConfig', customerCtrl]);
 
-    function customerCtrl(repositoryService, dbEntityService) {
+    function customerCtrl(repositoryService, dbEntityConfig) {
         var vm = this;
         activate();
 
@@ -9,7 +9,7 @@
 
         function activate() {
             vm.gridOptions = setGridOptions();
-            vm.gridOptions.data = repositoryService.getDataList(dbEntityService.entities.customer);
+            vm.gridOptions.data = repositoryService.getDataList(dbEntityConfig.entities.customer);
         }
 
     }

@@ -1,9 +1,9 @@
 (function (app) {
-    app.factory('dbEntityService', [dbEntityService]);
+    app.factory('dbEntityConfig', [dbEntityConfig]);
 
     var apiBase = '/api/';
 
-    function dbEntityService() {
+    function dbEntityConfig() {
         return {
             entities: {
                 category: {

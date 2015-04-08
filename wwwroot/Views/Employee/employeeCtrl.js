@@ -1,7 +1,7 @@
 (function (app) {
-    app.controller('employeeCtrl', ['repositoryService', 'dbEntityService', 'rainGridService', employeeCtrl]);
+    app.controller('employeeCtrl', ['repositoryService', 'dbEntityConfig', 'rainGridService', employeeCtrl]);
 
-    function employeeCtrl(repositoryService, dbEntityService, rainGridService) {
+    function employeeCtrl(repositoryService, dbEntityConfig, rainGridService) {
         var vm = this;
         vm.showDetail = false;
         vm.isFromBack = false;
@@ -11,7 +11,7 @@
 
         function activate() {
             vm.gridOptions = setGridOptions();
-            var employeeData = repositoryService.getDataList(dbEntityService.entities.employee);
+            var employeeData = repositoryService.getDataList(dbEntityConfig.entities.employee);
 
             vm.gridOptions.data = employeeData;
             employeeData.then(function (data) {

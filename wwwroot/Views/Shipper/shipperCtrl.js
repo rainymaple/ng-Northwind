@@ -1,7 +1,7 @@
 (function (app) {
-    app.controller('shipperCtrl', ['repositoryService', 'dbEntityService', shipperCtrl]);
+    app.controller('shipperCtrl', ['repositoryService', 'dbEntityConfig', shipperCtrl]);
 
-    function shipperCtrl(repositoryService, dbEntityService) {
+    function shipperCtrl(repositoryService, dbEntityConfig) {
         var vm = this;
 
         activate();
@@ -10,7 +10,7 @@
 
         function activate() {
             setGridOptions();
-            vm.gridOptions.data =repositoryService.getDataList(dbEntityService.entities.shipper);
+            vm.gridOptions.data =repositoryService.getDataList(dbEntityConfig.entities.shipper);
         }
 
         function setGridOptions() {

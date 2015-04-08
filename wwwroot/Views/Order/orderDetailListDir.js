@@ -1,8 +1,8 @@
 (function (app) {
-    app.directive('orderDetailListDir', ['repositoryService', 'dbEntityService',
+    app.directive('orderDetailListDir', ['repositoryService', 'dbEntityConfig',
         'commonService', 'rainGridService',orderDetailListDir]);
 
-    function orderDetailListDir(repositoryService, dbEntityService, commonService,rainGridService) {
+    function orderDetailListDir(repositoryService, dbEntityConfig, commonService,rainGridService) {
         return {
             restrict: 'AE',
             templateUrl: 'wwwroot/Views/Order/orderDetailListDir.html',
@@ -28,7 +28,7 @@
                     $scope.orderId = 0;
                 }
                 $scope.gridOptions.data = repositoryService.getDataById(
-                    dbEntityService.entities.orderDetails, $scope.orderId);
+                    dbEntityConfig.entities.orderDetails, $scope.orderId);
             }
 
 

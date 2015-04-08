@@ -2,7 +2,7 @@
     angular.module(app).directive('minimizeSidebar', function ($timeout) {
         return {
             restrict: 'A',
-            template: '<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="" ng-click="minimize()"><i class="glyphicon glyphicon-fullscreen" ></i></a>',
+            template: getTemplate(),
             controller: function ($scope, $element) {
 
                 var sideNav = 'body';//'body .side-navigation';
@@ -28,6 +28,11 @@
                 }
             }
         };
+        function getTemplate() {
+            return '<a class="btn btn-sm btn-default btn-side-nav" ' +
+                'style="margin-left: 5px; background-color: transparent;" ' +
+                'ng-click="minimize()"><i class="fa fa-bars" ></i></a>';
+        }
     });
     angular.module(app).directive('sideNavigation', function sideNavigation() {
         return {

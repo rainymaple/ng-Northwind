@@ -6,6 +6,7 @@
  * Made by Osman Nuri Okumus
  * Under MIT License
  */
+
 ;(function($, window, document, undefined) {
 
     var pluginName = "metisMenu",
@@ -118,3 +119,4 @@
     };
 
 })(jQuery, window, document);
+

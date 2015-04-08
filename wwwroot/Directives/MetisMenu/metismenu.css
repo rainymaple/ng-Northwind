@@ -1,3 +1,5 @@
+
+
 body {
     color: #676a6c;
     font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -115,4 +117,15 @@ a {
     font-size: 30px;
     margin: -20px;
     padding-left: 18px;
+}
+
+
+
+.collapse {
+    display: none;
+    visibility: hidden;
+}
+.collapse.in {
+    display: block;
+    visibility: visible;
 }

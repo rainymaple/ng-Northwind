@@ -1,7 +1,7 @@
 (function (app) {
-    app.controller('orderListCtrl', ['repositoryService', 'dbEntityService','commonService', orderListCtrl]);
+    app.controller('orderListCtrl', ['repositoryService', 'dbEntityConfig','commonService', orderListCtrl]);
 
-    function orderListCtrl(repositoryService, dbEntityService,commonService) {
+    function orderListCtrl(repositoryService, dbEntityConfig,commonService) {
         var vm = this;
         vm.selectedRow = false;
         vm.showDetail = true;
@@ -12,7 +12,7 @@
 
         function activate() {
             vm.gridOptions = setGridOptions();
-            vm.gridOptions.data = repositoryService.getDataList(dbEntityService.entities.order);
+            vm.gridOptions.data = repositoryService.getDataList(dbEntityConfig.entities.order);
             vm.gridOptions.data.then(function (data) {
                 if (data.length > 0) {
                     vm.orderId = data[0].OrderID;

@@ -1,7 +1,7 @@
 (function (app) {
     app.factory('repositoryService', ['$http', '$timeout', repositoryService]);
 
-    // entity is defined in dbEntityService
+    // entity is defined in dbEntityConfig
 
     function repositoryService($http, $timeout) {
         return {

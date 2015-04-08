@@ -27,33 +27,36 @@
     <link rel="stylesheet" href="libs/angular-ui-grid/ui-grid.css"/>
     <!--<link rel="stylesheet" href="libs/angular-loading-bar/build/loading-bar.css"/>-->
     <link rel="stylesheet" href="wwwroot/Style/animate.css"/>
-    <link rel="stylesheet" href="wwwroot/Style/ui-checkbox.css"/>
+    <link rel="stylesheet" href="wwwroot/Directives/RainCheckbox/rain-checkbox.css"/>
+    <link rel="stylesheet" href="wwwroot/Style/mini-nav.css"/>
+    <link rel="stylesheet" href="wwwroot/Directives/MetisMenu/metismenu.css"/>
 
 
     <!--Modules and config-->
     <script src="wwwroot/_Main/northwindMock.js"></script>
     <script src="wwwroot/_Main/app.js"></script>
     <script src="wwwroot/_Main/routeConfig.js"></script>
+    <script src="wwwroot/_Main/dbEntityConfig.js"></script>
+    <script src="wwwroot/_Main/northwindDb.js"></script>
 
     <!--Services-->
     <script src="wwwroot/Services/commonService.js"></script>
-    <script src="wwwroot/_Main/northwindDb.js"></script>
-    <script src="wwwroot/Services/dbEntityService.js"></script>
     <script src="wwwroot/Services/repositoryService.js"></script>
     <script src="wwwroot/Directives/RainGrid/rainGridService.js"></script>
 
     <!--Directives-->
-    <script src="wwwroot/Directives/metismenu.js"></script>
+    <script src="wwwroot/Directives/MetisMenu/metismenu.js"></script>
     <script src="wwwroot/Directives/sideMenu.js"></script>
     <script src="wwwroot/Directives/RainGrid/rainGrid.js"></script>
-    <script src="wwwroot/Directives/rainCheckbox.js"></script>
+    <script src="wwwroot/Directives/RainCheckbox/rainCheckbox.js"></script>
     <script src="wwwroot/Directives/RainGrid/rainGridCell.js"></script>
     <script src="wwwroot/Views/Product/productListDir.js"></script>
     <script src="wwwroot/Views/Order/orderDetailListDir.js"></script>
     <script src="wwwroot/Directives/RainGrid/rainGridMenu.js"></script>
-    <script src="wwwroot/Directives/RainGrid/rainGridFilter/rainGridFilter.js"></script>
+    <script src="wwwroot/Directives/RainGrid/rainGridFilter.js"></script>
 
     <!-- Controllers-->
+    <script src="wwwroot/Layout/topNavCtrl.js"></script>
     <script src="wwwroot/Views/Employee/employeeCtrl.js"></script>
     <script src="wwwroot/Views/Customer/customerCtrl.js"></script>
     <script src="wwwroot/Views/Shipper/shipperCtrl.js"></script>
@@ -69,13 +72,12 @@
     <script src="priceAnalyticsCtrl.js"></script>
 
     <!--Styles-->
-    <link rel="stylesheet" href="wwwroot/Style/navMenu.css"/>
     <link rel="stylesheet" href="wwwroot/Style/style.css"/>
 </head>
 
 <body ng-app="appNorthwind">
 <!-- Wrapper-->
-<div id="wrapper">
+<div id="wrapper" ng-controller="appCtrl">
 
     <!-- Navigation -->
     <div ng-include="'wwwroot/Layout/navigation.html'"></div>
@@ -83,9 +85,9 @@
     <!-- Page wrapper -->
     <div id="page-wrapper" class="gray-bg">
         <!-- Page wrapper -->
-        <!--<div ng-include="'App/Layout/topNavBar.html'"></div>
+        <div ng-include="'wwwroot/Layout/topNav.html'"></div>
 
-        <!-- Main view  -->
+        <!-- Main view -->
         <div id="main-view" style="position:relative;">
             <div ui-view></div>
         </div>

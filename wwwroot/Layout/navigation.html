@@ -4,23 +4,28 @@
             <li class="nav-header">
 
                 <div class="nav-label nav-logo">
-                    Northwind</div>
-                <div class="logo-element">
                     Northwind
+                </div>
+                <div class="logo-element">
+                    N-W
                 </div>
 
             </li>
             <li ng-class="{active: $state.includes('students')}">
-                <a ><i class="glyphicon glyphicon-user"></i> <span class="nav-label">Orders</span> <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level" ng-class="{in: $state.includes('students')}">
+                <a><i class="glyphicon glyphicon-user"></i> <span class="nav-label">Orders</span> <span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" ><!--ng-class="{in: $state.includes('students')}"-->
                     <li ui-sref-active="active"><a ui-sref="orderList">Order List</a></li>
-                    <li ><a >New Order</a></li>
+                    <li><a>New Order</a></li>
                 </ul>
             </li>
 
             <li ng-class="{active: $state.includes('dataCollection')}">
-                <a ui-sref="dataCollection.studentList"><i class="glyphicon glyphicon-cloud-download"></i> <span class="nav-label">Data Management</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level" ng-class="{in: $state.includes('dataCollection')}">
+                <a><i class="glyphicon glyphicon-cloud-download"></i>
+                    <span class="nav-label">Data Management</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
                     <li ui-sref-active="active"><a ui-sref="employeeList">Employees</a></li>
                     <li ui-sref-active="active"><a ui-sref="customerList">Customers</a></li>
                     <li ui-sref-active="active"><a ui-sref="shipperList">Shippers</a></li>
@@ -32,16 +37,25 @@
                 </ul>
             </li>
             <li ng-class="{active: $state.includes('reports')}">
-                <a ui-sref="reports.report_1"><i class="glyphicon glyphicon-list-alt"></i> <span class="nav-label">Reports </span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level" ng-class="{in: $state.includes('reports')}">
-                </ul>
+                <a>
+                    <i class="glyphicon glyphicon-list-alt"></i>
+                    <span class="nav-label">Reports </span>
+                    <span class="fa arrow"></span>
+                </a>
+                <!--<ul class="nav nav-second-level" ng-class="{in: $state.includes('reports')}">
+                </ul>-->
             </li>
             <li ng-class="{active: $state.includes('settings')}">
-                <a href=""><i class="glyphicon glyphicon-cog"></i> <span class="nav-label">App Settings</span>  <span class="pull-right label label-primary">SPECIAL</span></a>
+                <a>
+                    <i class="glyphicon glyphicon-cog"></i>
+                    <span class="nav-label">App Settings</span>
+                    <span class="pull-right label label-primary">SPECIAL</span>
+                </a>
 
             </li>
             <li class="landing_link">
-                <a  href="app/common/Login.html"><i class="fa fa-sign-out"></i> <span class="nav-label">Log Out</span> </a>
+                <a href="app/common/Login.html"><i class="fa fa-sign-out"></i> <span class="nav-label">Log Out</span>
+                </a>
             </li>
         </ul>
 

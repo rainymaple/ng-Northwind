@@ -33,10 +33,10 @@
             <tr ng-repeat="row in list" ng-click="selectRow(row)" ng-class="{'row-selected':row.rowSelected}">
                 <td ng-repeat="field in row.rowData" ng-if="!field.isHidden">
                     <span grid-cell-template="field.value"
-                          is-date = "field.isDate"
+                          is-date="field.isDate"
                           is-checkbox="field.isCheckbox"
-                          is-currency = "field.isCurrency"
-                          is-number = "field.isNumber"
+                          is-currency="field.isCurrency"
+                          is-number="field.isNumber"
                           is-link="field.isLink"
                           is-hidden="field.isHidden"
                           decimal="field.decimal"
@@ -48,23 +48,36 @@
             </tbody>
         </table>
         <div>
-            <div class="pull-left" style="margin-top: 5px; margin-right: 5px;" ng-show="enablePage">Page size:</div>
-            <div class="pull-left" style="margin-right: 20px;" ng-show="enablePage">
-                <select class="form-control input-sm" ng-model="pageSize" style=""
-                        ng-change="pageSizeChanged(pageSize)"
-                        ng-options="size as size.label for size in pageSizes">
-                </select>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="row">
+                    <div class="col-xs-5" style="margin-top: 5px; margin-right: 5px;" ng-show="enablePage">Page size:
+                    </div>
+                    <div class="col-xs-5" style="margin-right: 20px;" ng-show="enablePage">
+                        <select class="form-control input-sm" ng-model="pageSize" style=""
+                                ng-change="pageSizeChanged(pageSize)"
+                                ng-options="size as size.label for size in pageSizes">
+                        </select>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-5 clearfix">
+                    <div class="pull-left" style="height: 24px;" ng-show="enablePage">
+                        <pagination total-items="rowCount" ng-model="currentPage" max-size="maxSize"
+                                    class="pagination-sm" boundary-links="true" rotate="false"
+                                    first-text="<<" previous-text="<" next-text=">" last-text=">>"
+                                    items-per-page="pageSize.value" ng-change="pageChanged()">
+                        </pagination>
+                    </div>
+                </div>
+                <div class="col-sm-2 clearfix">
+                    <div class="pull-left" style="margin: 5px 5px 0 15px;">
+                        <span style="margin-right: 5px;">Total:</span>{{rowCount}}
+                    </div>
+                </div>
             </div>
-            <div class="pull-left" style="height: 24px;" ng-show="enablePage">
-                <pagination total-items="rowCount" ng-model="currentPage" max-size="maxSize"
-                            class="pagination-sm" boundary-links="true" rotate="false"
-                            first-text="<<" previous-text="<" next-text=">" last-text=">>"
-                            items-per-page="pageSize.value" ng-change="pageChanged()">
-                </pagination>
-            </div>
-            <div class="pull-left" style="margin: 5px 5px 0 15px;">
-                <span style="margin-right: 5px;">Total:</span>{{rowCount}}
-            </div>
+
+
         </div>
     </div>
 </div>

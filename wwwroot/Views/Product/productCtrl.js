@@ -1,8 +1,8 @@
 (function (app) {
-    app.controller('productCtrl', ['repositoryService', 'dbEntityService', 'commonService',
-        'rainGridService','$parse', productCtrl]);
+    app.controller('productCtrl', ['repositoryService', 'dbEntityConfig', 'commonService',
+        'rainGridService', '$parse', productCtrl]);
 
-    function productCtrl(repositoryService, dbEntityService, commonService,rainGridService, $parse) {
+    function productCtrl(repositoryService, dbEntityConfig, commonService, rainGridService) {
         var vm = this;
 
         activate();
@@ -11,7 +11,7 @@
 
         function activate() {
             vm.gridOptions = setGridOptions();
-            vm.gridOptions.data = repositoryService.getDataList(dbEntityService.entities.product);
+            vm.gridOptions.data = repositoryService.getDataList(dbEntityConfig.entities.product);
         }
 
         var linkFunctions = {
@@ -20,7 +20,7 @@
             }
         };
         vm.linkFunc = function (params) {
-            rainGridService.rainGridLinkFunc(params,linkFunctions);
+            rainGridService.rainGridLinkFunc(params, linkFunctions);
         };
 
 
