@@ -171,9 +171,15 @@ ul.pagination .page-arrow{
 .top-nav{
     margin-bottom: 10px;margin-left: 10px;margin-right: 10px;
 }
-.top-nav a.link{
+
+.btn-hover-border{
     color: #999c9e;
     font-size: 14px;
-    min-height: 50px;
     font-weight: 600;
+    background-color: transparent;
+    border-color: transparent;
+}
+.btn-hover-border:hover{
+    background-color: transparent;
+    border-color: #adadad;
 }
