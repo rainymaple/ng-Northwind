@@ -1,5 +1,5 @@
 (function (app) {
-    angular.module(app).directive('minimizeSidebar', function ($timeout) {
+    angular.module(app).directive('minimizeSidebar', function ($timeout,$rootScope) {
         return {
             restrict: 'A',
             template: getTemplate(),
@@ -25,6 +25,8 @@
                     }
                     /*$('.context-buttons .nav li a span').css({"display": "inline-block"});
                      $('.context-buttons .nav li a').css({"font-size": "13px"});*/
+
+                    $rootScope.$broadcast("SideMenuSizeChanged", 'windowSize');
                 }
             }
         };

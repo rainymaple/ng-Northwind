@@ -1,3 +1,4 @@
+/*
 (function (app) {
     app.controller('topNavCtrl', ["$rootScope", "$scope", "$window", topNavCtrl]);
 
@@ -17,10 +18,11 @@
                 } else {
                     $('body').removeClass('body-small')
                 }
-                /*var windowSize = common.currentWindowSize();
-                 $rootScope.$broadcast("windowSizeChanged", windowSize);*/
+                //var windowSize = common.currentWindowSize();
+                 $rootScope.$broadcast("SideMenuSizeChanged", 'windowSize');
             });
         }
     }
 
 })(angular.module('appNorthwind'));
+*/

@@ -42,6 +42,10 @@
                 .state("orderList", {
                     url: "/orders",
                     templateUrl: "wwwroot/Views/Order/orderList.html"
+                })
+                .state("orderReport", {
+                    url: "/OrderReport",
+                    templateUrl: "wwwroot/Views/Report/orderReport.html"
                 });
         }
     ]);
