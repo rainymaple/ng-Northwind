@@ -45,12 +45,12 @@
 
         function doCancel() {
             cleanFilters();
-            $modalInstance.close({filters: $scope.filters,isCancel: true});
+            $modalInstance.close({filters: $scope.filters, isCancel: true});
         }
 
-        function cleanFilters(){
+        function cleanFilters() {
             _.remove($scope.filters, function (filter) {
-                return !filter.col|| !filter.constraint || !filter.expression
+                return !filter.col || !filter.constraint || filter.expression === undefined || filter.expression === ''
             });
             if ($scope.filters.length === 0) {
                 $scope.filters.push({col: {}, constraint: {}, expression: ''});
@@ -59,4 +59,4 @@
     }
 
 
-})(angular.module('appNorthwind'));
+})(angular.module('rainGrid'));

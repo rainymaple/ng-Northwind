@@ -6,7 +6,7 @@
 
         return {
             restrict: 'AE',
-            templateUrl: 'wwwroot/Directives/RainGrid/rainGridCell.html',
+            templateUrl: 'wwwroot/_Modules/RainGrid/rainGridCell.html',
             replace: false,
             scope: {
                 gridCellTemplate: '=',
@@ -36,4 +36,4 @@
 
 
     }
-})(angular.module('appNorthwind'));
+})(angular.module('rainGrid'));

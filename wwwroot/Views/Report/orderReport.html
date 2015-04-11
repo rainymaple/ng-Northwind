@@ -1,20 +1,38 @@
-<div ng-controller="orderReportCtrl">
-    <div class="panel panel-default" style="margin: 20px auto;width: 60%;">
-        <div class="panel-heading">Monthly Order</div>
-        <div class="panel-body">
-            <canvas id="line" class="chart chart-line" data="data" style="height: 230px;"
-                    labels="labels" legend="true" series="series"
-                    click="onClick">
-            </canvas>
+<div ng-controller="orderReportCtrl" class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 col-sm-10 col-lg-5">
+            <div class="panel panel-default" style="margin: 10px auto;width: 90%;">
+                <div class="panel-heading">Monthly Orders</div>
+                <div class="panel-body">
+                    <canvas id="line" class="chart chart-line" data="data"
+                            labels="labels" legend="true" series="series"
+                            click="onClick">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-10 col-lg-5" >
+            <div class="panel panel-default" style="margin: 10px auto;width: 90%;">
+                <div class="panel-heading">Order percentage by year</div>
+                <div class="panel-body">
+                    <canvas id="pie" class="chart chart-pie" data="pieData" legend="pieLegend"
+                            labels="pieLabels">
+                    </canvas>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="panel panel-default" style="margin: 10px auto;width: 60%;">
-        <div class="panel-heading">Order percentage by year</div>
-        <div class="panel-body">
-            <canvas id="pie" class="chart chart-pie" data="pieData" legend="pieLegend"
-                    labels="pieLabels">
-            </canvas>
+    <div class="row">
+        <div class="col-md-6 col-lg-5">
+            <div class="panel panel-default" style="margin: 10px auto;width: 90%;">
+                <div class="panel-heading">Monthly Orders</div>
+                <div class="panel-body">
+                    <canvas id="barChart" class="chart chart-bar" data="data" style="width:300px"
+                            labels="labels" legend="true" series="series"
+                            click="onClick">
+                    </canvas>
+                </div>
+            </div>
         </div>
     </div>
 </div>

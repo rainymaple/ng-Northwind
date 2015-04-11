@@ -5,7 +5,7 @@
     function rainGridFilter(rainGridService) {
         return {
             restrict: 'AE',
-            templateUrl: 'wwwroot/Directives/RainGrid/rainGridFilter.html',
+            templateUrl: 'wwwroot/_Modules/RainGrid/rainGridFilter.html',
             replace: false,
             scope: {
                 filter: '=',
@@ -75,4 +75,4 @@
     }   // end of fieldSelect
 
 
-})(angular.module('appNorthwind'));
+})(angular.module('rainGrid'));

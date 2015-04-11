@@ -1,12 +1,20 @@
-(function (app) {
-    app.directive('rainGrid', ['$timeout', 'rainGridService', rainGrid]);
+(function () {
+    var app = angular.module('rainGrid', []);
+
+    var config = {
+        baseUrl: 'wwwroot/_Modules/RainGrid/',
+        version: '1.0.0'
+    };
+
+    app.value("rainGridConfig", config);
+
+    app.directive('rainGrid', ['rainGridService', rainGrid]);
 
     /*-- Function Directive --*/
-    function rainGrid() {
-
+    function rainGrid(rainGridService) {
         return {
             restrict: 'AE',
-            templateUrl: 'wwwroot/Directives/RainGrid/rainGrid.html',
+            templateUrl: rainGridService.baseUrl + 'rainGrid.html',
             replace: false,
             scope: {
                 rainGrid: '=',
@@ -209,4 +217,4 @@
 
 
     }   // end of rainGrid
-})(angular.module('appNorthwind'));
+})();

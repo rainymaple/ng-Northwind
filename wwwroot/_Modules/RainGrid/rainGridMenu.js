@@ -4,7 +4,7 @@
     function rainGridMenu(rainGridService) {
         return {
             restrict: "AE",
-            templateUrl: "wwwroot/Directives/RainGrid/rainGridMenu.html",
+            templateUrl: "wwwroot/_Modules/RainGrid/rainGridMenu.html",
             replace: false,
             scope: {
                 filterData: '&',
@@ -48,7 +48,8 @@
                         $scope.hasFiltered = false;
                     } else {
                         var filter = $scope.filters[0];
-                        $scope.hasFiltered = !!filter.col && !!filter.constraint && !!filter.expression;
+                        $scope.hasFiltered = !!filter.col && !!filter.constraint
+                        && filter.expression !== undefined && filter.expression !== '';
                     }
                 }
 
@@ -73,4 +74,4 @@
     }
 
 
-})(angular.module('appNorthwind'));
+})(angular.module('rainGrid'));

@@ -1,7 +1,8 @@
 (function (app) {
-    app.factory('rainGridService', ['$parse', '$modal', rainGridService]);
-    function rainGridService($parse, $modal) {
+    app.factory('rainGridService', ['$parse', '$modal','rainGridConfig', rainGridService]);
+    function rainGridService($parse, $modal,rainGridConfig) {
         return {
+            baseUrl:rainGridConfig.baseUrl,
             rainGridLinkFunc: rainGridLinkFunc,
             modifyPaginationIcons: modifyPaginationIcons,
             getDataListByPage: getDataListByPage,
@@ -256,4 +257,4 @@
             return _dataList;
         }   // end of filterData
     }
-})(angular.module('appNorthwind'));
+})(angular.module('rainGrid'));

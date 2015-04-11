@@ -3,7 +3,6 @@
         orderReportCtrl]);
 
     function orderReportCtrl($scope, repositoryService, dbEntityConfig, commonService) {
-        var vm = this;
         var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         var series = ['1996', '1997', '1998'];
 
@@ -18,7 +17,12 @@
                     return;
                 }
 
-                var orderCounts = {'1996': getMonthCount(), '1997': getMonthCount(), '1998': getMonthCount()};
+                var orderCounts = {};
+
+                _.forEach(series, function (serie) {
+                    orderCounts[serie] = getMonthCount();
+                });
+
                 angular.forEach(data, function (order) {
                     var d = new Date(order.OrderDate);
                     var orderYear = d.getFullYear();
@@ -30,11 +34,11 @@
                 // for line-chart
                 $scope.labels = months;
                 $scope.series = series;
-                $scope.data = [
-                    orderCounts['1996'],
-                    orderCounts['1997'],
-                    orderCounts['1998']
-                ];
+                $scope.data = [];
+                _.forEach(series, function (serie) {
+                    $scope.data.push(orderCounts[serie])
+                });
+
                 $scope.onClick = function (points, evt) {
                     console.log(points, evt);
                 };
@@ -43,15 +47,7 @@
                 $scope.pieLabels = series;
                 $scope.pieData = sumOrders(orderCounts);
                 $scope.pieLegend = true;
-                $scope.refreshChart = function () {
 
-                    $scope.pieLabels = [];
-                    $scope.series = [];
-                    var s = series;
-                    s[0] = s[0] + ' ';
-                    $scope.series = s;
-                    $scope.pieLabels = s;
-                };
 
                 // refresh the charts after size of side menu is changed
                 // in sideMenu.js:
