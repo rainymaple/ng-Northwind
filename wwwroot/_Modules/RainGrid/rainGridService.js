@@ -1,8 +1,9 @@
 (function (app) {
-    app.factory('rainGridService', ['$parse', '$modal','rainGridConfig', rainGridService]);
-    function rainGridService($parse, $modal,rainGridConfig) {
+    app.factory('rainGridService', ['$parse', '$modal', 'rainGridConfig', rainGridService]);
+    function rainGridService($parse, $modal, rainGridConfig) {
+        var baseUrl = rainGridConfig.baseUrl;
         return {
-            baseUrl:rainGridConfig.baseUrl,
+            baseUrl: baseUrl,
             rainGridLinkFunc: rainGridLinkFunc,
             modifyPaginationIcons: modifyPaginationIcons,
             getDataListByPage: getDataListByPage,
@@ -143,7 +144,7 @@
         // Filtering
         function showFilterModal(gridOptions, filters) {
             var modalInstance = $modal.open({
-                templateUrl: 'wwwroot/Directives/RainGrid/rainGridFilterModal.html',
+                templateUrl: baseUrl + 'rainGridFilterModal.html',
                 controller: 'rainGridFilterModalCtrl',
                 resolve: {
                     columnDefs: function () {

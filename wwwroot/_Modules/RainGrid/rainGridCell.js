@@ -1,12 +1,12 @@
 (function (app) {
-    app.directive('gridCellTemplate', ['$parse', gridCellTemplate]);
+    app.directive('gridCellTemplate', ['rainGridService', gridCellTemplate]);
 
     /*-- Function Directive --*/
-    function gridCellTemplate() {
+    function gridCellTemplate(rainGridService) {
 
         return {
             restrict: 'AE',
-            templateUrl: 'wwwroot/_Modules/RainGrid/rainGridCell.html',
+            templateUrl: rainGridService.baseUrl + 'rainGridCell.html',
             replace: false,
             scope: {
                 gridCellTemplate: '=',

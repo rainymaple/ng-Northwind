@@ -4,7 +4,7 @@
     function rainGridMenu(rainGridService) {
         return {
             restrict: "AE",
-            templateUrl: "wwwroot/_Modules/RainGrid/rainGridMenu.html",
+            templateUrl: rainGridService.baseUrl + "rainGridMenu.html",
             replace: false,
             scope: {
                 filterData: '&',

@@ -5,7 +5,7 @@
     function rainGridFilter(rainGridService) {
         return {
             restrict: 'AE',
-            templateUrl: 'wwwroot/_Modules/RainGrid/rainGridFilter.html',
+            templateUrl: rainGridService.baseUrl + 'rainGridFilter.html',
             replace: false,
             scope: {
                 filter: '=',
