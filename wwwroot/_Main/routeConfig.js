@@ -4,11 +4,15 @@
 
         function ($stateProvider, $urlRouterProvider) {
 
-            $urlRouterProvider.otherwise("/"); // default view
+            $urlRouterProvider.otherwise("/login"); // default view
 
             $stateProvider
+                .state("login", {
+                    url: "/login",
+                    templateUrl: "wwwroot/Views/Authentication/login.html"
+                })
                 .state("home", {
-                    url: "/",
+                    url: "/home",
                     templateUrl: "wwwroot/Views/Home/home.html"
                 })
                 .state("employeeList", {

@@ -1,28 +1,13 @@
-/*
 (function (app) {
-    app.controller('topNavCtrl', ["$rootScope", "$scope", "$window", topNavCtrl]);
+    app.controller('topNavCtrl', ["$scope", '$state', 'currentUser', topNavCtrl]);
 
-    function topNavCtrl($rootScope, $scope, $window) {
+    function topNavCtrl($scope, $state, currentUser) {
 
-        activate();
+        $scope.username = currentUser.profile.username;
 
-        function activate() {
-            //setupWindowSize($window);
-        }
-
-        function setupWindowSize($window) {
-            var win = angular.element($window);
-            win.bind("load resize", function () {
-                if ($(this).width() < 769) {
-                    $('body').addClass('body-small');
-                } else {
-                    $('body').removeClass('body-small')
-                }
-                //var windowSize = common.currentWindowSize();
-                 $rootScope.$broadcast("SideMenuSizeChanged", 'windowSize');
-            });
+        $scope.logout = function () {
+            $state.go('login');
         }
     }
 
 })(angular.module('appNorthwind'));
-*/

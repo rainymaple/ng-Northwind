@@ -43,6 +43,8 @@
     <script src="wwwroot/_Main/northwindDb.js"></script>
 
     <!--Services-->
+    <script src="wwwroot/Services/currentUser.js"></script>
+    <script src="wwwroot/Services/addToken.js"></script>
     <script src="wwwroot/Services/commonService.js"></script>
     <script src="wwwroot/Services/repositoryService.js"></script>
     <script src="wwwroot/_Modules/RainGrid/rainGridService.js"></script>
@@ -58,6 +60,7 @@
     <script src="wwwroot/_Modules/RainGrid/rainGridFilter.js"></script>
 
     <!-- Controllers-->
+    <script src="wwwroot/Views/Authentication/authenticationCtrl.js"></script>
     <script src="wwwroot/Layout/topNavCtrl.js"></script>
     <script src="wwwroot/Views/Employee/employeeCtrl.js"></script>
     <script src="wwwroot/Views/Customer/customerCtrl.js"></script>
@@ -81,12 +84,12 @@
 <div id="wrapper" ng-controller="appCtrl">
 
     <!-- Navigation -->
-    <div ng-include="'wwwroot/Layout/navigation.html'"></div>
+    <div ng-include="'wwwroot/Layout/navigation.html'" ng-if="isLoggedIn"></div>
 
     <!-- Page wrapper -->
-    <div id="page-wrapper" class="gray-bg">
+    <div id="page-wrapper" class="gray-bg" ng-class="{'not-authenticated':!isLoggedIn}">
         <!-- Page wrapper -->
-        <div ng-include="'wwwroot/Layout/topNav.html'"></div>
+        <div ng-include="'wwwroot/Layout/topNav.html'" ng-if="isLoggedIn"></div>
 
         <!-- Main view -->
         <div id="main-view" style="position:relative;">

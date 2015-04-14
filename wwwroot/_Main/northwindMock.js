@@ -1,8 +1,20 @@
 (function () {
     "use strict";
 
+    var users=[
+        {
+            username:'user',
+            password:'user'
+        },
+        {
+            username:'admin',
+            password:'admin'
+        }
+    ];
+
+
     var app = angular.module("northwindDbMock", ["ngMockE2E"]);
-    app.run(function ($httpBackend,NorthWindDb) {
+    app.run(function ($httpBackend, NorthWindDb) {
 
         var northwindDb = NorthWindDb.getNorthwindDb();
 
@@ -67,12 +79,14 @@
         angular.forEach(requests, function (request) {
 
             /* -- e.g. url = "api/employee" --*/
-            $httpBackend.whenGET(request.endpoint).respond(northwindDb[request.entities]);
+            $httpBackend.whenGET(request.endpoint).respond(function (method, url, data, headers) {
+                return [200, northwindDb[request.entities], {}];
+            });
 
             /* -- e.g. url = "api/employee/2" --*/
             var editingRegex = new RegExp(request.endpoint + "/[0-9][0-9]*", '');
 
-            $httpBackend.whenGET(editingRegex).respond(function (method, url, data) {
+            $httpBackend.whenGET(editingRegex).respond(function (method, url, data, headers) {
 
                 var entity = []; // return this if not found
 
@@ -95,7 +109,7 @@
 
             /* -- e.g. post: url = "api/employee" --*/
 
-            $httpBackend.whenPOST(request.endpoint).respond(function (method, url, data) {
+            $httpBackend.whenPOST(request.endpoint).respond(function (method, url, data, headers) {
 
                 // deserialize the posted data
                 var postData = angular.fromJson(data);
@@ -119,7 +133,31 @@
             });
         });
 
+        $httpBackend.whenPOST('/api/login').respond(function (method, url, data) {
 
+            // deserialize the posted data
+            var credential = parseQueryString(data);
+
+            var data = {
+                access_token: credential.username + credential.password
+            };
+
+            return [200, data, {}];
+        });
     });
 
+    function parseQueryString(queryString) {
+        var params = {}, queries, temp, i, l;
+
+        // Split into key/value pairs
+        queries = queryString.split("&");
+
+        // Convert the array of strings into an object
+        for (i = 0, l = queries.length; i < l; i++) {
+            temp = queries[i].split('=');
+            params[temp[0]] = temp[1];
+        }
+
+        return params;
+    };
 })();
