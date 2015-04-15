@@ -12,7 +12,7 @@
                     templateUrl: "wwwroot/Views/Authentication/login.html"
                 })
                 .state("home", {
-                    url: "/home",
+                    url: "/",
                     templateUrl: "wwwroot/Views/Home/home.html"
                 })
                 .state("employeeList", {

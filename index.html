@@ -35,19 +35,21 @@
 
 
     <!--Modules and config-->
-    <script src="wwwroot/_Main/northwindMock.js"></script>
     <script src="wwwroot/_Modules/RainGrid/rainGrid.js"></script>
+    <script src="wwwroot/_Modules/Common/common.js"></script>
+    <script src="wwwroot/_Main/northwindMock.js"></script>
     <script src="wwwroot/_Main/app.js"></script>
     <script src="wwwroot/_Main/routeConfig.js"></script>
     <script src="wwwroot/_Main/dbEntityConfig.js"></script>
     <script src="wwwroot/_Main/northwindDb.js"></script>
 
     <!--Services-->
-    <script src="wwwroot/Services/currentUser.js"></script>
-    <script src="wwwroot/Services/addToken.js"></script>
-    <script src="wwwroot/Services/commonService.js"></script>
-    <script src="wwwroot/Services/repositoryService.js"></script>
+    <script src="wwwroot/_Modules/Common/commonService.js"></script>
+    <script src="wwwroot/_Modules/Common/currentUser.js"></script>
+    <script src="wwwroot/_Modules/Common/httpInterceptors.js"></script>
     <script src="wwwroot/_Modules/RainGrid/rainGridService.js"></script>
+    <script src="wwwroot/Services/nwCommonService.js"></script>
+    <script src="wwwroot/Services/repositoryService.js"></script>
 
     <!--Directives-->
     <script src="wwwroot/Directives/MetisMenu/metismenu.js"></script>
@@ -60,7 +62,7 @@
     <script src="wwwroot/_Modules/RainGrid/rainGridFilter.js"></script>
 
     <!-- Controllers-->
-    <script src="wwwroot/Views/Authentication/authenticationCtrl.js"></script>
+    <script src="wwwroot/Views/Authentication/loginCtrl.js"></script>
     <script src="wwwroot/Layout/topNavCtrl.js"></script>
     <script src="wwwroot/Views/Employee/employeeCtrl.js"></script>
     <script src="wwwroot/Views/Customer/customerCtrl.js"></script>

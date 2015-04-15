@@ -1,17 +1,24 @@
 (function () {
     "use strict";
 
-    var users=[
+    var users = [
         {
-            username:'user',
-            password:'user'
+            username: 'user',
+            password: 'user',
+            get token() {
+                return createToken(this.username, this.password);
+            }
         },
         {
-            username:'admin',
-            password:'admin'
+            username: 'admin',
+            password: 'admin',
+            get token() {
+                return createToken(this.username, this.password);
+            }
         }
     ];
 
+    var error401 = 'You are not authenticated to access this resource.';
 
     var app = angular.module("northwindDbMock", ["ngMockE2E"]);
     app.run(function ($httpBackend, NorthWindDb) {
@@ -80,6 +87,9 @@
 
             /* -- e.g. url = "api/employee" --*/
             $httpBackend.whenGET(request.endpoint).respond(function (method, url, data, headers) {
+                if (!isAuthenticated(headers)) {
+                    return [401, {status: 'error 401'}, headers, error401]
+                }
                 return [200, northwindDb[request.entities], {}];
             });
 
@@ -87,6 +97,10 @@
             var editingRegex = new RegExp(request.endpoint + "/[0-9][0-9]*", '');
 
             $httpBackend.whenGET(editingRegex).respond(function (method, url, data, headers) {
+
+                if (!isAuthenticated(headers)) {
+                    return [401, {status: 'error 401'}, headers, error401]
+                }
 
                 var entity = []; // return this if not found
 
@@ -111,6 +125,10 @@
 
             $httpBackend.whenPOST(request.endpoint).respond(function (method, url, data, headers) {
 
+                if (!isAuthenticated(headers)) {
+                    return [401, {status: 'error 401'}, headers, error401]
+                }
+
                 // deserialize the posted data
                 var postData = angular.fromJson(data);
 
@@ -133,16 +151,20 @@
             });
         });
 
-        $httpBackend.whenPOST('/api/login').respond(function (method, url, data) {
+        $httpBackend.whenPOST('/api/login').respond(function (method, url, data, headers) {
 
             // deserialize the posted data
             var credential = parseQueryString(data);
 
-            var data = {
-                access_token: credential.username + credential.password
+            if (!isAuthenticated(null, credential.username, credential.password)) {
+                return [401, {status: 'error 401'}, headers, 'The user name or password is incorrect']
+            }
+
+            var tokenData = {
+                access_token: createToken(credential.username, credential.password)
             };
 
-            return [200, data, {}];
+            return [200, tokenData, {}];
         });
     });
 
@@ -159,5 +181,31 @@
         }
 
         return params;
-    };
+    }
+
+    function isAuthenticated(headers, username, password) {
+        var loggedIn = false;
+        if (headers && headers.Authorization) {
+            for (var i = 0; i < users.length; i++) {
+                if (headers.Authorization.indexOf(users[i].token) >= 0) {
+                    loggedIn = true;
+                    break;
+                }
+            }
+        }
+        if (username && password) {
+            var token = createToken(username, password);
+            for (var j = 0; j < users.length; j++) {
+                if (token.indexOf(users[j].token) >= 0) {
+                    loggedIn = true;
+                    break;
+                }
+            }
+        }
+        return loggedIn;
+    }
+
+    function createToken(username, password) {
+        return username.trim() + password.trim();
+    }
 })();

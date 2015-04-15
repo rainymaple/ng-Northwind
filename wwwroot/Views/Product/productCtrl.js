@@ -1,8 +1,8 @@
 (function (app) {
-    app.controller('productCtrl', ['repositoryService', 'dbEntityConfig', 'commonService',
+    app.controller('productCtrl', ['repositoryService', 'dbEntityConfig', 'nwCommonService',
         'rainGridService', '$parse', productCtrl]);
 
-    function productCtrl(repositoryService, dbEntityConfig, commonService, rainGridService) {
+    function productCtrl(repositoryService, dbEntityConfig, nwCommonService, rainGridService) {
         var vm = this;
 
         activate();
@@ -25,7 +25,7 @@
 
 
         function showProductModal(id) {
-            var modalInstance = commonService.showProductModal(id);
+            var modalInstance = nwCommonService.showProductModal(id);
             modalInstance.then(function () {
             });
         }
