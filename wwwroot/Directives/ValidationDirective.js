@@ -40,4 +40,4 @@
         }
 
     });
-})(angular.module('appNorthwind'));
+})(angular.module('form'));

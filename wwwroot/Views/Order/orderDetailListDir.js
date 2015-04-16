@@ -1,8 +1,8 @@
 (function (app) {
     app.directive('orderDetailListDir', ['repositoryService', 'dbEntityConfig',
-        'commonService', 'rainGridService',orderDetailListDir]);
+        'nwCommonService', 'rainGridService',orderDetailListDir]);
 
-    function orderDetailListDir(repositoryService, dbEntityConfig, commonService,rainGridService) {
+    function orderDetailListDir(repositoryService, dbEntityConfig, nwCommonService,rainGridService) {
         return {
             restrict: 'AE',
             templateUrl: 'wwwroot/Views/Order/orderDetailListDir.html',
@@ -34,7 +34,7 @@
 
             var linkFunctions = {
                 productDetail: function (id) {
-                    var modalInstance = commonService.showProductModal(id);
+                    var modalInstance = nwCommonService.showProductModal(id);
                     modalInstance.then(function () {
                     });
                 }

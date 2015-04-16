@@ -11,12 +11,12 @@
 
             <p>Login with Token-Based Authentication</p>
 
-            <form class="m-t" role="form" ng-submit="vm.login()">
-                <div class="form-group">
-                    <input type="text" ng-model="vm.username" class="form-control" placeholder="Username" required="">
+            <form class="m-t" role="form" ng-submit="vm.login()" novalidate>
+                <div class="form-group" form-input>
+                    <input type="text" ng-model="vm.username" name="username" placeholder="Username" required="">
                 </div>
-                <div class="form-group">
-                    <input type="password" ng-model="vm.password" class="form-control" placeholder="Password"
+                <div class="form-group" form-input>
+                    <input type="password" ng-model="vm.password" name="password" placeholder="Password"
                            required="">
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b">Login</button>

@@ -1,5 +1,10 @@
-(function () {
-    var common = angular.module('common', []);
+(function(){
+    angular.module('common', []);
+})();
+
+/*  -- Service localStorage --   */
+
+(function (common) {
 
     common.factory('localStorage', ['$window', localStorage]);
 
@@ -31,4 +36,4 @@
             store.removeItem(key);
         }
     }
-})();
+})( angular.module('common'));
