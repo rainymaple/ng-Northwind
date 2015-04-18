@@ -8,7 +8,7 @@
             getDataList: getDataList,
             getDataById: getDataById,
             deleteDataById: deleteDataById,
-            putData: putData
+            addOrUpdateData: addOrUpdateData
         };
 
 
@@ -35,7 +35,7 @@
             // todo
         }
 
-        function putData(entity, object) {
+        function addOrUpdateData(entity, object) {
             // todo
         }
 

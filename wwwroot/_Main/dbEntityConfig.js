@@ -6,6 +6,10 @@
     function dbEntityConfig() {
         return {
             entities: {
+                user: {
+                    name: 'user',
+                    url: getUrl('user')
+                },
                 category: {
                     name: 'category',
                     url: getUrl('category')

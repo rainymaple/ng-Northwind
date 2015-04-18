@@ -1,4 +1,4 @@
-(function(app){
+(function (app) {
 
     app.config(["$stateProvider", "$urlRouterProvider",
 
@@ -50,6 +50,10 @@
                 .state("orderReport", {
                     url: "/OrderReport",
                     templateUrl: "wwwroot/Views/Report/orderReport.html"
+                })
+                .state("userAdmin", {
+                    url: "/users",
+                    templateUrl: "wwwroot/Views/User/userAdmin.html"
                 });
         }
     ]);

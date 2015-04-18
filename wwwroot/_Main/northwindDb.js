@@ -10,6 +10,21 @@
 
     function getNorthwindDb() {
         return {
+            "Users":
+                [
+                    {
+                        "id":1,
+                        "username":"admin",
+                        "password":"admin",
+                        "role":"role_admin"
+                    },
+                    {
+                        "id":2,
+                        "username":"user",
+                        "password":"user",
+                        "role":"role_user"
+                    }
+                ],
             "Categories":
                 [
                 {

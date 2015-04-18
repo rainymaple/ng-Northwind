@@ -9,7 +9,7 @@
     var watcherFor = function (form, name) {
         return function () {
             if (name && form[name]) {
-                if(!form[name].$dirty){
+                if (!form[name].$dirty) {
                     return false;
                 }
                 return form[name].$invalid;
@@ -21,10 +21,12 @@
         return function (hasError) {
             if (hasError) {
                 element.addClass("has-error");
-                    //.removeClass("has-success");
+                element.find('.help-block').show();
+                //.removeClass("has-success");
             } else {
                 element.removeClass("has-error");
-                    //.addClass("has-success");
+                element.find('.help-block').hide();
+                //.addClass("has-success");
             }
         };
     };
@@ -55,9 +57,11 @@
     };
 
     var addMessages = function (form, element, name, $compile, scope) {
-        var messages = "<div class='help-block' ng-messages='" +
+        var messages = "<span class='help-block' ng-messages='" +
             form.$name + "." + name + ".$error" +
-            "' ng-messages-include='templates/messages.html'><div>";
+            "' ng-messages-include='error-messages'>" +
+            //"<div ng-message='minlength'>length must be larger than 3</div>" +
+            "<span>";
         element.append($compile(messages)(scope));
     };
 

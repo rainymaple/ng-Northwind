@@ -1,26 +1,12 @@
 (function () {
     "use strict";
 
-    var users = [
-        {
-            username: 'user',
-            password: 'user',
-            get token() {
-                return createToken(this.username, this.password);
-            }
-        },
-        {
-            username: 'admin',
-            password: 'admin',
-            get token() {
-                return createToken(this.username, this.password);
-            }
-        }
-    ];
+    var _users = [];    // populated below
 
     var error401 = 'You are not authenticated to access this resource.';
 
     var app = angular.module("northwindDbMock", ["ngMockE2E"]);
+
     app.run(function ($httpBackend, NorthWindDb) {
 
         var northwindDb = NorthWindDb.getNorthwindDb();
@@ -29,6 +15,11 @@
         $httpBackend.whenGET(/wwwroot/).passThrough();
 
         var requests = {
+            user: {
+                endpoint: "/api/user",
+                entities: 'Users',
+                idField: 'id'
+            },
             employee: {
                 endpoint: "/api/employee",
                 entities: 'Employees',
@@ -81,6 +72,18 @@
                 filterId: 'CategoryID'
             }
         };
+
+        // populate the _users array
+        angular.forEach(northwindDb[requests.user.entities], function (user) {
+            _users.push({
+                username: user.username,
+                password: user.password,
+                role: user.role,
+                get token() {
+                    return createToken(this.username, this.password);
+                }
+            })
+        });
 
 
         angular.forEach(requests, function (request) {
@@ -186,8 +189,8 @@
     function isAuthenticated(headers, username, password) {
         var loggedIn = false;
         if (headers && headers.Authorization) {
-            for (var i = 0; i < users.length; i++) {
-                if (headers.Authorization.indexOf(users[i].token) >= 0) {
+            for (var i = 0; i < _users.length; i++) {
+                if (headers.Authorization.indexOf(_users[i].token) >= 0) {
                     loggedIn = true;
                     break;
                 }
@@ -195,8 +198,8 @@
         }
         if (username && password) {
             var token = createToken(username, password);
-            for (var j = 0; j < users.length; j++) {
-                if (token.indexOf(users[j].token) >= 0) {
+            for (var j = 0; j < _users.length; j++) {
+                if (token.indexOf(_users[j].token) >= 0) {
                     loggedIn = true;
                     break;
                 }
