@@ -1,9 +1,9 @@
 (function (app) {
 
-    var _loginState = 'login';
-    var _locationPath = '/login';
+    var _stateLogin = 'login';
+    var _loginPath = '/login';
 
-    // service addToken
+    // service: addToken
 
     app.factory('addToken', ['$q', 'currentUser', addToken]);
 
@@ -25,7 +25,7 @@
     }
 
 
-    // service loginRedirect
+    // service: loginRedirect
 
     app.factory('loginRedirect', ['$q', '$injector', '$location', loginRedirect]);
 
@@ -39,12 +39,17 @@
         var responseError = function (response) {
             if (response.status == 401 || response.status == 403) {
 
+                if(response.status == 401) {
+                    toastr.error('You are not authenticated to access this resource.', '401');
+                }else{
+                    toastr.error('You are not authorized to access this resource.', '403');
+                }
                 var stateService = $injector.get('$state');
                 var locationPath = $location.path();
-                if (locationPath !== _locationPath) {
+                if (locationPath !== _loginPath) {
                     lastPath = locationPath;
                 }
-                stateService.go(_loginState);
+                stateService.go(_stateLogin);
             }
             return $q.reject(response);
         };

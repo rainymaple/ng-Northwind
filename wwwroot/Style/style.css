@@ -86,6 +86,11 @@ form legend {
   background-color: transparent;
   border-color: #adadad; }
 
+.authentication h1 {
+  font-size: 170px; }
+.authentication h3 {
+  font-size: 16px;
+  font-weight: 600; }
 .authentication .m-t {
   margin-top: 15px; }
 .authentication .text-muted {
@@ -119,5 +124,16 @@ form legend {
 
 .not-authenticated {
   margin: 0 !important; }
+
+.admin-form .form-control {
+  display: inline; }
+.admin-form .help-block {
+  display: inline;
+  margin-left: 10px; }
+.admin-form textarea {
+  max-width: 400px; }
+.admin-form .table-container {
+  max-height: 270px;
+  overflow-y: auto; }
 
 /*# sourceMappingURL=style.css.map */

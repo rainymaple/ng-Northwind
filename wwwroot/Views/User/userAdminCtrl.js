@@ -5,6 +5,7 @@
     function userAdminCtrl($scope, repositoryService, dbEntityConfig, $state, $stateParams) {
 
         var _entityType = dbEntityConfig.entities.user;
+        $scope.dataReady = false;
 
         resetUser();
 
@@ -53,6 +54,7 @@
             repositoryService.getDataList(_entityType)
                 .then(function (data) {
                     if (data && data.data) {
+                        $scope.dataReady = true;
                         $scope.userList = data.data;
                         $scope.hasUser = $scope.userList.length > 0;
                     }});

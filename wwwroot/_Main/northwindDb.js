@@ -16,13 +16,19 @@
                         "id":1,
                         "username":"admin",
                         "password":"admin",
-                        "role":"role_admin"
+                        "roles":'role-admin'
                     },
                     {
                         "id":2,
                         "username":"user",
                         "password":"user",
-                        "role":"role_user"
+                        "roles":'role-user'
+                    },
+                    {
+                        "id":3,
+                        "username":"orderuser",
+                        "password":"orderuser",
+                        "roles":'role-user,role-orderuser'
                     }
                 ],
             "Categories":

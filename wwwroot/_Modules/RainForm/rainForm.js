@@ -57,10 +57,24 @@
     };
 
     var addMessages = function (form, element, name, $compile, scope) {
+
+        // if ng-messages block already exists, just return.
+        if (element.find('div[ng-messages]').length > 0 || element.find('span[ng-messages]').length > 0) {
+            return;
+        }
+
+        // adding the generic error messages template to the current form
+        var formElement = element.closest('form');
+        if (formElement.find('#rain-form-error-messages').length === 0) {
+            var messageBlock = getGenericErrorMessages();
+            formElement.prepend($compile(messageBlock)(scope));
+        }
+
+        // adding the ng-messages block
         var messages = "<span class='help-block' ng-messages='" +
             form.$name + "." + name + ".$error" +
-            "' ng-messages-include='error-messages'>" +
-            //"<div ng-message='minlength'>length must be larger than 3</div>" +
+            "' ng-messages-include='rain-form-error-messages'>" +
+                //"<div ng-message='minlength'>length must be larger than 3</div>" +
             "<span>";
         element.append($compile(messages)(scope));
     };
@@ -75,6 +89,15 @@
         }
     };
 
+    function getGenericErrorMessages() {
+
+        var msg = '<script type="text/ng-template" id="rain-form-error-messages">' +
+            '<span ng-message="required">This field is required</span>' +
+            '<span ng-message="minlength">This field is too short</span>' +
+            '</script>';
+        return msg;
+    }
+
     var formInput = function ($compile) {
 
         return {
@@ -85,50 +108,8 @@
 
     };
 
+
     module.directive("formInput", formInput);
 
 }(angular.module("rainForm")));
 
-(function (app) {
-
-    app.directive('showErrors', function ($timeout) {
-
-        return {
-            restrict: 'A',
-            require: '^form',
-            link: function (scope, el, attrs, formCtrl) {
-
-                // find the text box element, which has the 'name' attribute
-                var inputEl = el[0].querySelector("[name]");
-
-                // convert the native text box element to an angular element
-                var inputNgEl = angular.element(inputEl);
-
-                // get the name on the text box so we know the property to check
-                // on the form controller
-                var inputName = inputNgEl.attr('name');
-
-                //var helpText = angular.element(el[0].querySelector(".help-block"));
-
-                // only apply the has-error class after the user leaves the text box
-                inputNgEl.bind('keypress', function () {
-                    el.toggleClass('has-error', formCtrl[inputName].$invalid);
-                    //helpText.toggleClass('hide', formCtrl[inputName].$valid);
-                });
-
-                scope.$on('show-errors-event', function () {
-                    el.toggleClass('has-error', formCtrl[inputName].$invalid);
-                });
-
-                scope.$on('hide-errors-event', function () {
-                    $timeout(function () {
-                        el.removeClass('has-error');
-                    }, 0, false);
-                });
-
-
-            }
-        }
-
-    });
-})(angular.module('rainForm'));

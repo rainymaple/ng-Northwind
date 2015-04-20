@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Unauthorized</title>
-</head>
-<body>
-<div class="error-middle-box text-center animated fadeInDown">
-    <h1>401</h1>
-    <h2>Unauthorized</h2>
-    <h2>You are not authorized to access this resource.</h2>
+<div class="authentication" ng-controller="loginCtrl">
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <h1>403</h1>
+
+        <h3 class="font-bold">Unauthorized</h3>
+
+        <div>You are not authorized to access this resource.</div>
+        <div>Please <a ui-sref="login">login</a> with authorized user</div>
+    </div>
 </div>
-</body>
-</html>

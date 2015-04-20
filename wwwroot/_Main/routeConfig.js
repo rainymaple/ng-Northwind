@@ -11,6 +11,14 @@
                     url: "/login",
                     templateUrl: "wwwroot/Views/Authentication/login.html"
                 })
+                .state("error401", {
+                    url: "/error401",
+                    templateUrl: "wwwroot/Views/Authentication/error401.html"
+                })
+                .state("error403", {
+                    url: "/error403",
+                    templateUrl: "wwwroot/Views/Authentication/error403.html"
+                })
                 .state("home", {
                     url: "/",
                     templateUrl: "wwwroot/Views/Home/home.html"

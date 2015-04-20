@@ -3,13 +3,18 @@
 
     var _users = [];    // populated below
 
+    var _currentUser = {};
+
     var error401 = 'You are not authenticated to access this resource.';
+    var error403 = "You are not authorized to access this resource.";
+
 
     var app = angular.module("northwindDbMock", ["ngMockE2E"]);
 
     app.run(function ($httpBackend, NorthWindDb) {
 
         var northwindDb = NorthWindDb.getNorthwindDb();
+
 
         // pass through any local request
         $httpBackend.whenGET(/wwwroot/).passThrough();
@@ -18,58 +23,75 @@
             user: {
                 endpoint: "/api/user",
                 entities: 'Users',
-                idField: 'id'
+                idField: 'id',
+                roles: ['role-admin']
             },
             employee: {
                 endpoint: "/api/employee",
                 entities: 'Employees',
-                idField: 'EmployeeID'
+                idField: 'EmployeeID',
+                roles: ['role-admin', 'role-user', 'role-orderuser']
             },
             category: {
                 endpoint: "/api/category",
                 entities: 'Categories',
-                idField: 'CategoryID'
+                idField: 'CategoryID',
+                roles: ['role-admin', 'role-user', 'role-orderuser']
             },
             customer: {
                 endpoint: "/api/customer",
                 entities: 'Customers',
-                idField: 'CustomerID'
+                idField: 'CustomerID',
+                roles: ['role-admin', 'role-user', 'role-orderuser']
             },
             shipper: {
                 endpoint: "/api/shipper",
                 entities: 'Shippers',
-                idField: 'ShipperID'
+                idField: 'ShipperID',
+                roles: ['role-admin', 'role-user', 'role-orderuser']
             },
             supplier: {
                 endpoint: "/api/supplier",
                 entities: 'Suppliers',
-                idField: 'SupplierID'
+                idField: 'SupplierID',
+                roles: ['role-admin', 'role-user', 'role-orderuser']
             },
             territory: {
                 endpoint: "/api/territory",
                 entities: 'Territories',
-                idField: 'TerritoryID'
+                idField: 'TerritoryID',
+                roles: ['role-admin', 'role-user', 'role-orderuser']
             },
             order: {
                 endpoint: "/api/order",
                 entities: 'Orders',
-                idField: 'OrderID'
+                idField: 'OrderID',
+                roles: ['role-admin', 'role-user', 'role-orderuser']
             },
             orderDetails: {
                 endpoint: "/api/orderDetails",
                 entities: 'OrderDetails',
-                idField: 'OrderID'
+                idField: 'OrderID',
+                roles: ['role-admin', 'role-user', 'role-orderuser']
+            },
+            newOrder: {
+                endpoint: "/api/newOrder",
+                entities: 'Orders',
+                idField: 'OrderID',
+                roles: ['role-admin', 'role-orderuser']
             },
             product: {
                 endpoint: "/api/product",
                 entities: 'Products',
-                idField: 'ProductID'
+                idField: 'ProductID',
+                roles: ['role-admin', 'role-user', 'role-orderuser']
             },
             productByCategoryId: {
                 endpoint: '/api/productByCategoryId',
                 entities: 'Products',
                 idField: 'ProductID',
-                filterId: 'CategoryID'
+                filterId: 'CategoryID',
+                roles: ['role-admin', 'role-user', 'role-orderuser']
             }
         };
 
@@ -78,9 +100,9 @@
             _users.push({
                 username: user.username,
                 password: user.password,
-                role: user.role,
+                roles: user.roles,
                 get token() {
-                    return createToken(this.username, this.password);
+                    return createToken(this.username, this.password, this.roles);
                 }
             })
         });
@@ -93,6 +115,10 @@
                 if (!isAuthenticated(headers)) {
                     return [401, {status: 'error 401'}, headers, error401]
                 }
+                if (!isAuthorized(request.roles)) {
+                    return [403, {status: 'error 403'}, headers, error403]
+                }
+
                 return [200, northwindDb[request.entities], {}];
             });
 
@@ -159,12 +185,13 @@
             // deserialize the posted data
             var credential = parseQueryString(data);
 
-            if (!isAuthenticated(null, credential.username, credential.password)) {
+            var loggedInUser = getLoggedInUser(credential.username, credential.password);
+            if (!loggedInUser) {
                 return [401, {status: 'error 401'}, headers, 'The user name or password is incorrect']
             }
 
             var tokenData = {
-                access_token: createToken(credential.username, credential.password)
+                access_token: loggedInUser.token
             };
 
             return [200, tokenData, {}];
@@ -186,21 +213,29 @@
         return params;
     }
 
-    function isAuthenticated(headers, username, password) {
-        var loggedIn = false;
-        if (headers && headers.Authorization) {
+    function getLoggedInUser(username, password) {
+        var loggedInUser = {};
+        if (username && password) {
             for (var i = 0; i < _users.length; i++) {
-                if (headers.Authorization.indexOf(_users[i].token) >= 0) {
-                    loggedIn = true;
+                if (_users[i].username === username && _users[i].password === password) {
+                    loggedInUser = _users[i];
                     break;
                 }
             }
         }
-        if (username && password) {
-            var token = createToken(username, password);
-            for (var j = 0; j < _users.length; j++) {
-                if (token.indexOf(_users[j].token) >= 0) {
+
+        return loggedInUser;
+    }
+
+    function isAuthenticated(headers) {
+        var loggedIn = false;
+        var token = '';
+        if (headers && headers.Authorization) {
+            for (var i = 0; i < _users.length; i++) {
+                token = _users[i].token;
+                if (headers.Authorization.indexOf(token) >= 0) {
                     loggedIn = true;
+                    _currentUser = decryptToken(token);
                     break;
                 }
             }
@@ -208,7 +243,28 @@
         return loggedIn;
     }
 
-    function createToken(username, password) {
-        return username.trim() + password.trim();
+    function isAuthorized(requiredRoles) {
+        var isAuthorized = false;
+        var currentRoles = _currentUser.roles.split(',');
+        for (var i = 0; i < currentRoles.length; i++) {
+            if (requiredRoles.indexOf(currentRoles[i]) >= 0) {
+                isAuthorized = true;
+                break;
+            }
+        }
+        return isAuthorized;
+    }
+
+    function createToken(username, password, roles) {
+        var roleString = '';
+        if (roles) {
+            roleString = '&roles=' + roles.trim();
+        }
+        return 'username=' + username.trim() + '&password=' + password.trim() + roleString;
+    }
+
+    function decryptToken(token) {
+        var profile = parseQueryString(token);
+        return profile;
     }
 })();
