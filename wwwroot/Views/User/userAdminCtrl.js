@@ -1,15 +1,15 @@
 (function (app) {
 
-    app.controller("userAdminCtrl", ["$scope", "repositoryService", "dbEntityConfig", "$state", "$stateParams","logService", userAdminCtrl]);
+    app.controller("userAdminCtrl", ["$scope", "repositoryService", "dbEntityConfig", "$state", "$stateParams", userAdminCtrl]);
 
-    function userAdminCtrl($scope, repositoryService, dbEntityConfig, $state, $stateParams, logService) {
+    function userAdminCtrl($scope, repositoryService, dbEntityConfig, $state, $stateParams) {
 
         var _entityType = dbEntityConfig.entities.user;
 
         resetUser();
 
         $scope.hasUser = false;
-        $scope.deleteUser = function(id) {
+        $scope.deleteUser = function (id) {
             deleteUser(id);
         };
 
@@ -27,8 +27,8 @@
         $scope.saveUser = function (formUser) {
             if (!formUser.$invalid) {
 
-                repositoryService.addOrUpdateData(_entityType,$scope.user)
-                    .success(function(data) {
+                repositoryService.addOrUpdateData(_entityType, $scope.user)
+                    .success(function (data) {
                         if (data.error) {
                             toastr.warning(data.error.message);
                         } else {
@@ -40,8 +40,8 @@
                             toastr.success("Save Successful");
                         }
                     })
-                    .error(function(data, status, headers, config) {
-                        logService.logError(data);
+                    .error(function (data, status, headers, config) {
+                        //logService.logError(data);
                     });
             } else {
                 toastr.warning("Please correct the validation errors");
@@ -51,39 +51,45 @@
 
         function getUsers() {
             repositoryService.getDataList(_entityType)
-                .success(function(data) {
-                if (data && data.data) {
-                    $scope.userList = data.data;
-                    $scope.hasUser = $scope.userList.length > 0;
-                }
-            }).error(function (data, status, headers, config) {
-                logService.logError(data);
-            });
+                .then(function (data) {
+                    if (data && data.data) {
+                        $scope.userList = data.data;
+                        $scope.hasUser = $scope.userList.length > 0;
+                    }});
+ /*               .success(function (data) {
+                    if (data && data.data) {
+                        $scope.userList = data.data;
+                        $scope.hasUser = $scope.userList.length > 0;
+                    }
+                }).error(function (data, status, headers, config) {
+                    logService.logError(data);
+                });*/
         }
 
         function getUserById(id) {
-            repositoryService.getDataById(_entityType,id).success(function (data) {
+            repositoryService.getDataById(_entityType, id).success(function (data) {
                 if (data && data.data) {
                     $scope.user = data.data;
                     $scope.user.password = "";
                 }
             }).error(function (data, status, headers, config) {
-                logService.logError(data);
+                //logService.logError(data);
             });
         }
+
         function deleteUser(id) {
-            repositoryService.deleteDataById(_entityType,id).success(function (data) {
+            repositoryService.deleteDataById(_entityType, id).success(function (data) {
                 if (data && data.data) {
                     $scope.userList = data.data;
                     $scope.hasUser = $scope.userList.length > 0;
                 }
             }).error(function (data, status, headers, config) {
-                logService.logError(data);
+                //logService.logError(data);
             });
         }
 
         function resetUser() {
-            $scope.user = { userName: "", password: "", role: "User" };
+            $scope.user = {userName: "", password: "", role: "User"};
         }
     }
 
