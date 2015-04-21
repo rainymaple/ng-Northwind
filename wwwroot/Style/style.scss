@@ -20,20 +20,32 @@ body {
   /*padding: 30px 5px;*/
 }
 
-.wizard a {
-  background: #efefef;
-  display: inline-block;
-  margin-right: 5px;
-  min-width: 120px;
-  outline: none;
-  padding: 10px 10px 10px;
-  position: relative;
-  text-decoration: none;
+.wizard {
+  a {
+    background: #8CB5C0;
+    display: inline-block;
+    margin-right: 5px;
+    min-width: 120px;
+    outline: none;
+    padding: 10px 10px 10px;
+    position: relative;
+    text-decoration: none;
+    border-radius: 4px 4px 0 0;
+  }
+  .active {
+    background: #007ACC;
+    color: #fff;
+  }
 }
 
-.wizard .active {
-  background: #007ACC;
-  color: #fff;
+.wizard-content {
+  /*background-color: #A4C8E8;*/
+  border-radius: 2px;
+  box-shadow: 1px 1px 1px 1px #9d9999;
+  color: #404040;
+  font-size: 14px;
+  padding: 30px 20px;
+  height: 680px;
 }
 
 /*form {
@@ -44,13 +56,19 @@ body {
   font-size: 14px;
   padding: 30px 20px;
 }*/
-form legend {
-  border-radius: 2px;
-  font-family: 'Cookie', cursive;
-  font-weight: normal;
-  color: #404040;
-  font-size: 20px;
-  line-height: 1;
+form {
+  .inline-error-message {
+    padding-top: 6px;
+    padding-left: 0;
+  }
+  legend {
+    border-radius: 2px;
+    font-family: 'Cookie', cursive;
+    font-weight: normal;
+    color: #404040;
+    font-size: 20px;
+    line-height: 1;
+  }
 }
 
 .legend {

@@ -18,9 +18,9 @@
 
         if ($scope.isEditMode && $stateParams.id) {
             getUserById($stateParams.id);
-            $scope.title = "Edit User";
+            $scope.title = "Edit Admin";
         } else {
-            $scope.title = "Add User";
+            $scope.title = "Add Admin";
         }
 
         getUsers();
@@ -53,19 +53,20 @@
         function getUsers() {
             repositoryService.getDataList(_entityType)
                 .then(function (data) {
-                    if (data && data.data) {
+                    if (data) {
                         $scope.dataReady = true;
-                        $scope.userList = data.data;
-                        $scope.hasUser = $scope.userList.length > 0;
-                    }});
- /*               .success(function (data) {
-                    if (data && data.data) {
-                        $scope.userList = data.data;
+                        $scope.userList = data;
                         $scope.hasUser = $scope.userList.length > 0;
                     }
-                }).error(function (data, status, headers, config) {
-                    logService.logError(data);
-                });*/
+                });
+            /*               .success(function (data) {
+             if (data && data.data) {
+             $scope.userList = data.data;
+             $scope.hasUser = $scope.userList.length > 0;
+             }
+             }).error(function (data, status, headers, config) {
+             logService.logError(data);
+             });*/
         }
 
         function getUserById(id) {
@@ -91,9 +92,48 @@
         }
 
         function resetUser() {
-            $scope.user = {userName: "", password: "", role: "User"};
+            $scope.user = {userName: "", password: "", role: "Admin"};
         }
+
     }
 
 
+    function setGridOptions() {
+        return {
+            columnDefs: getColumnDefs(),
+            enablePage: true,
+            idField: 'EmployeeID',
+            selectable: false
+        };
+    }
+
+    function getColumnDefs() {
+        return [
+            {
+                field: 'EmployeeID',
+                displayName: 'Id'
+            }, {
+                field: 'FirstName',
+                displayName: 'First Name',
+                isLink: true,
+                linkFunc: {funcName: 'employeeDetail', funcIdField: 'EmployeeID'}
+            },
+            {
+                field: 'LastName',
+                displayName: 'Last Name'
+            },
+            {
+                field: 'Title',
+                displayName: 'Title'
+            },
+            {
+                field: 'Country',
+                displayName: 'Country'
+            },
+            {
+                field: 'Region',
+                displayName: 'Region'
+            }
+        ];
+    }
 })(angular.module('appNorthwind'));

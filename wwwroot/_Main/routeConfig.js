@@ -59,9 +59,17 @@
                     url: "/OrderReport",
                     templateUrl: "wwwroot/Views/Report/orderReport.html"
                 })
-                .state("userAdmin", {
+                .state("admin", {
+                    url: "/admin",
+                    templateUrl: "wwwroot/Views/Admin/admin.html"
+                })
+                .state("admin.user", {
                     url: "/users",
-                    templateUrl: "wwwroot/Views/User/userAdmin.html"
+                    templateUrl: "wwwroot/Views/Admin/userAdmin.html"
+                })
+                .state("admin.permission", {
+                    url: "/permissions",
+                    templateUrl: "wwwroot/Views/Admin/permissionAdmin.html"
                 });
         }
     ]);
