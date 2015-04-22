@@ -1,7 +1,7 @@
 (function (app) {
-    app.controller('loginCtrl', ['$scope', 'commonService', '$state', 'config', 'loginRedirect', loginCtrl]);
+    app.controller('loginCtrl', ['$scope', 'commonService', 'config', 'loginRedirect', loginCtrl]);
 
-    function loginCtrl($scope, commonService, $state, config, loginRedirect) {
+    function loginCtrl($scope, commonService, config, loginRedirect) {
 
         $scope.username = '';
         $scope.password = '';
@@ -11,6 +11,8 @@
         activate();
 
         // controller functions
+
+        // --- appCtrl handles 'SetAuthentication' event to toggle some features
 
         function activate() {
             commonService.oauth.logout();
@@ -33,7 +35,6 @@
                             loginRedirect.redirectPostLogin();
                         }
                     }
-                    //$state.go('home');
                 }, function (response) {
                 })
         };

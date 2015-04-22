@@ -31,6 +31,9 @@
       tr.row-selected td {
         background-color: #B9F0E3;
       }
+      td .cell-center{
+        text-align: center;width: 100%;
+      }
     }
 
     /* rainGrid pagination*/

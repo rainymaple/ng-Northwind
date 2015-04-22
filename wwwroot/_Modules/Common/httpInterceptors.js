@@ -39,17 +39,21 @@
         var responseError = function (response) {
             if (response.status == 401 || response.status == 403) {
 
-                if(response.status == 401) {
-                    toastr.error('You are not authenticated to access this resource.', '401');
-                }else{
-                    toastr.error('You are not authorized to access this resource.', '403');
-                }
                 var stateService = $injector.get('$state');
-                var locationPath = $location.path();
-                if (locationPath !== _loginPath) {
-                    lastPath = locationPath;
+
+                // if current page is 'login' already, just ignore it
+                if (stateService.current.name !== _stateLogin) {
+                    if (response.status == 401) {
+                        toastr.error('You are not authenticated to access this resource.', '401');
+                    } else {
+                        toastr.error('You are not authorized to access this resource.', '403');
+                    }
+                    var locationPath = $location.path();
+                    if (locationPath !== _loginPath) {
+                        lastPath = locationPath;
+                    }
+                    stateService.go(_stateLogin);
                 }
-                stateService.go(_stateLogin);
             }
             return $q.reject(response);
         };

@@ -15,6 +15,7 @@
                 isNumber: '=',
                 isCheckbox: '=',
                 isLink: '=',
+                isButton: '=',
                 isHidden: '=',
                 decimal:'=',
                 funcLink: '&'
@@ -25,11 +26,10 @@
 
         function link(scope, el, attr) {
             scope.value = scope.gridCellTemplate;
-            if (scope.isLink) {
+            if (scope.isLink || scope.isButton) {
                 scope.linkFunc = function () {
                     scope.funcLink();
                 }
-
             }
 
         }

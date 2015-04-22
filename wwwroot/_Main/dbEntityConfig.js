@@ -10,6 +10,10 @@
                     name: 'user',
                     url: getUrl('user')
                 },
+                role: {
+                    name: 'role',
+                    url: getUrl('role')
+                },
                 category: {
                     name: 'category',
                     url: getUrl('category')

@@ -33,6 +33,8 @@
 
         $scope.isLoggedIn = currentUser.profile.loggedIn;
 
+        // loginCtrl emits 'SetAuthentication' after login or logout
+
         $scope.$on('SetAuthentication', function (e, response) {
             $scope.isLoggedIn = currentUser.profile.loggedIn;
         });

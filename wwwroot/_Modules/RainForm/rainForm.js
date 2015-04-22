@@ -65,9 +65,9 @@
 
         // adding the generic error messages template to the current form
         var formElement = element.closest('form');
-        if (formElement.find('#rain-form-error-messages').length === 0) {
+        if ($('body').find('#rain-form-error-messages').length === 0) {
             var messageBlock = getGenericErrorMessages();
-            formElement.prepend($compile(messageBlock)(scope));
+            $('body').prepend($compile(messageBlock)(scope));
         }
 
         // adding the ng-messages block

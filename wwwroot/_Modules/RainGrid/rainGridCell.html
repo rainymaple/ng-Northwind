@@ -4,6 +4,9 @@
     <a ng-click="linkFunc()">{{value}}</a>
 </span>
 
+<div style="display: inline-block;" ng-if="isButton">
+    <a class="btn btn-primary btn-xs" ng-click="linkFunc()">{{value}}</a>
+</div>
 
 <div class="clearfix" ng-if="isCurrency">
     <div class="pull-right">
@@ -27,7 +30,7 @@
     </div>
 </div>
 
-<span ng-if="!isCheckbox && !isLink && !isCurrency && !isNumber && !isDate &&!isHidden">
+<span ng-if="!isCheckbox && !isLink && !isButton && !isCurrency && !isNumber && !isDate && !isHidden">
     {{value}}
 </span>
 

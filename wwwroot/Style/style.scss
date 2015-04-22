@@ -22,6 +22,8 @@ body {
 
 .wizard {
   a {
+    font-weight: bold;
+    text-align: center;
     background: #8CB5C0;
     display: inline-block;
     margin-right: 5px;
@@ -46,6 +48,13 @@ body {
   font-size: 14px;
   padding: 30px 20px;
   height: 680px;
+
+  .edit-mode {
+    color: cornflowerblue;
+  }
+  .add-mode {
+    color: brown;
+  }
 }
 
 /*form {

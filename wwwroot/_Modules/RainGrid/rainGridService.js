@@ -93,13 +93,14 @@
                         row.push({
                             id: rowData[gridOptions.idField],
                             fieldName: col.field,
-                            value: rowData[col.field],
+                            value: rowData[col.field]||col.field,
                             displayName: col.displayName,
                             isCheckbox: col.isCheckbox,
                             isCurrency: col.isCurrency,
                             isNumber: col.isNumber,
                             decimal: col.decimal,
                             isLink: col.isLink,
+                            isButton: col.isButton,
                             isDate: col.isDate,
                             isHidden: col.isHidden || false,
                             linkFunc: col.linkFunc || {funcName: '', funcIdField: ''}

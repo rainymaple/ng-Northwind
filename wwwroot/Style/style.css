@@ -17,6 +17,8 @@ body {
   /*padding: 30px 5px;*/ }
 
 .wizard a {
+  font-weight: bold;
+  text-align: center;
   background: #8CB5C0;
   display: inline-block;
   margin-right: 5px;
@@ -38,6 +40,10 @@ body {
   font-size: 14px;
   padding: 30px 20px;
   height: 680px; }
+  .wizard-content .edit-mode {
+    color: cornflowerblue; }
+  .wizard-content .add-mode {
+    color: brown; }
 
 /*form {
   background-color: #A4C8E8;

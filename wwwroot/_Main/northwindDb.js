@@ -16,21 +16,47 @@
                         "id":1,
                         "username":"admin",
                         "password":"admin",
-                        "roles":'role-admin'
+                        "role":{
+                            "key":"role-admin",
+                            "name":"Administrator"
+                        }
                     },
                     {
                         "id":2,
                         "username":"user",
                         "password":"user",
-                        "roles":'role-user'
+                        "role":{
+                            "key":"role-user",
+                            "name":"Regular User"
+                        }
                     },
                     {
                         "id":3,
                         "username":"orderuser",
                         "password":"orderuser",
-                        "roles":'role-user,role-orderuser'
+                        "role":{
+                            "key":"role-orderuser",
+                            "name":"Order Specialist"
+                        }
                     }
                 ],
+            "Roles":[
+                {
+                    //"id":1,
+                    "key":"role-admin",
+                    "name":"Administrator"
+                },
+                {
+                    //"id":2,
+                    "key":"role-user",
+                    "name":"Regular User"
+                },
+                {
+                    //"id":3,
+                    "key":"role-orderuser",
+                    "name":"Order Specialist"
+                }
+            ],
             "Categories":
                 [
                 {

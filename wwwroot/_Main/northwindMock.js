@@ -26,6 +26,12 @@
                 idField: 'id',
                 roles: ['role-admin']
             },
+            role: {
+                endpoint: "/api/role",
+                entities: 'Roles',
+                idField: 'role',
+                roles: ['role-admin']
+            },
             employee: {
                 endpoint: "/api/employee",
                 entities: 'Employees',
@@ -96,27 +102,29 @@
         };
 
         // populate the _users array
-        angular.forEach(northwindDb[requests.user.entities], function (user) {
-            _users.push({
-                username: user.username,
-                password: user.password,
-                roles: user.roles,
-                get token() {
-                    return createToken(this.username, this.password, this.roles);
-                }
-            })
-        });
+        getAllUsers();
 
+        function getAllUsers() {
+            angular.forEach(northwindDb[requests.user.entities], function (user) {
+                _users.push({
+                    username: user.username,
+                    password: user.password,
+                    role: user.role,
+                    get token() {
+                        return createToken(this.username, this.password, this.role);
+                    }
+                })
+            });
+        }
 
         angular.forEach(requests, function (request) {
 
             /* -- e.g. url = "api/employee" --*/
             $httpBackend.whenGET(request.endpoint).respond(function (method, url, data, headers) {
-                if (!isAuthenticated(headers)) {
-                    return [401, {status: 'error 401'}, headers, error401]
-                }
-                if (!isAuthorized(request.roles)) {
-                    return [403, {status: 'error 403'}, headers, error403]
+
+                var errorResult = validatePermission(headers,request,url);
+                if (errorResult) {
+                    return errorResult;
                 }
 
                 return [200, northwindDb[request.entities], {}];
@@ -127,8 +135,9 @@
 
             $httpBackend.whenGET(editingRegex).respond(function (method, url, data, headers) {
 
-                if (!isAuthenticated(headers)) {
-                    return [401, {status: 'error 401'}, headers, error401]
+                var errorResult = validatePermission(headers,request,url);
+                if (errorResult) {
+                    return errorResult;
                 }
 
                 var entity = []; // return this if not found
@@ -150,12 +159,46 @@
                 return [200, entity, {}];
             });
 
+            /* -- e.g. "DELETE api/employee/2" --*/
+
+            $httpBackend.whenDELETE(editingRegex).respond(function (method, url, data, headers) {
+
+                var errorResult = validatePermission(headers,request,url);
+                if (errorResult) {
+                    return errorResult;
+                }
+
+                var entity = []; // return this if not found
+
+                var filterId = request.filterId || request.idField;
+
+                var entities = northwindDb[request.entities];
+                var parameters = url.split('/');
+                var length = parameters.length;
+                var id = parameters[length - 1];
+
+                var index = -1;
+                if (id > 0) {
+                    for (var i = 0; i < entities.length; i++) {
+                        if (entities[i][filterId] == id) {
+                            index = i;
+                            entity=entities[i];
+                            break;
+                        }
+                    }
+                }
+                if (index >= 0) {
+                    entities.splice(index, 1);
+                }
+                return [200, entity, {}];
+            });
             /* -- e.g. post: url = "api/employee" --*/
 
             $httpBackend.whenPOST(request.endpoint).respond(function (method, url, data, headers) {
 
-                if (!isAuthenticated(headers)) {
-                    return [401, {status: 'error 401'}, headers, error401]
+                var errorResult = validatePermission(headers,request,url);
+                if (errorResult) {
+                    return errorResult;
                 }
 
                 // deserialize the posted data
@@ -176,6 +219,8 @@
                         }
                     }
                 }
+                // refresh variable _users
+                getAllUsers();
                 return [200, postData, {}];
             });
         });
@@ -196,6 +241,8 @@
 
             return [200, tokenData, {}];
         });
+
+
     });
 
     function parseQueryString(queryString) {
@@ -214,7 +261,7 @@
     }
 
     function getLoggedInUser(username, password) {
-        var loggedInUser = {};
+        var loggedInUser = null;
         if (username && password) {
             for (var i = 0; i < _users.length; i++) {
                 if (_users[i].username === username && _users[i].password === password) {
@@ -245,20 +292,16 @@
 
     function isAuthorized(requiredRoles) {
         var isAuthorized = false;
-        var currentRoles = _currentUser.roles.split(',');
-        for (var i = 0; i < currentRoles.length; i++) {
-            if (requiredRoles.indexOf(currentRoles[i]) >= 0) {
-                isAuthorized = true;
-                break;
-            }
+        if (requiredRoles.indexOf(_currentUser.role) >= 0) {
+            isAuthorized = true;
         }
         return isAuthorized;
     }
 
-    function createToken(username, password, roles) {
+    function createToken(username, password, role) {
         var roleString = '';
-        if (roles) {
-            roleString = '&roles=' + roles.trim();
+        if (role) {
+            roleString = '&role=' + role.key.trim();
         }
         return 'username=' + username.trim() + '&password=' + password.trim() + roleString;
     }
@@ -266,5 +309,17 @@
     function decryptToken(token) {
         var profile = parseQueryString(token);
         return profile;
+    }
+
+    function validatePermission(headers,request,url) {
+
+        if (!isAuthenticated(headers)) {
+            return [401, {'request url': url}, headers, error401]
+        }
+        if (!isAuthorized(request.roles)) {
+            return [403, {'request url': url}, headers, error403]
+        }
+
+        return false;
     }
 })();
