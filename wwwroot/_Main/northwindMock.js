@@ -15,7 +15,6 @@
 
         var northwindDb = NorthWindDb.getNorthwindDb();
 
-
         // pass through any local request
         $httpBackend.whenGET(/wwwroot/).passThrough();
 
@@ -24,80 +23,86 @@
                 endpoint: "/api/user",
                 entities: 'Users',
                 idField: 'id',
-                roles: ['role-admin']
+                roles: {read: ['role-admin'], modify: ['role-admin']}
             },
-            role: {
+            permission: {
                 endpoint: "/api/role",
                 entities: 'Roles',
                 idField: 'role',
-                roles: ['role-admin']
+                roles: {read: ['role-admin'], modify: ['role-admin']}
             },
             employee: {
                 endpoint: "/api/employee",
                 entities: 'Employees',
                 idField: 'EmployeeID',
-                roles: ['role-admin', 'role-user', 'role-orderuser']
+                roles: {read: ['role-admin', 'role-user', 'role-orderuser'], modify: ['role-admin']}
             },
             category: {
                 endpoint: "/api/category",
                 entities: 'Categories',
                 idField: 'CategoryID',
-                roles: ['role-admin', 'role-user', 'role-orderuser']
+                roles: {read: ['role-admin', 'role-user', 'role-orderuser'], modify: ['role-admin']}
             },
             customer: {
                 endpoint: "/api/customer",
                 entities: 'Customers',
                 idField: 'CustomerID',
-                roles: ['role-admin', 'role-user', 'role-orderuser']
+                roles: {read: ['role-admin', 'role-user', 'role-orderuser'], modify: ['role-admin']}
             },
             shipper: {
                 endpoint: "/api/shipper",
                 entities: 'Shippers',
                 idField: 'ShipperID',
-                roles: ['role-admin', 'role-user', 'role-orderuser']
+                roles: {read: ['role-admin', 'role-user', 'role-orderuser'], modify: ['role-admin']}
             },
             supplier: {
                 endpoint: "/api/supplier",
                 entities: 'Suppliers',
                 idField: 'SupplierID',
-                roles: ['role-admin', 'role-user', 'role-orderuser']
+                roles: {read: ['role-admin', 'role-user', 'role-orderuser'], modify: ['role-admin']}
             },
             territory: {
                 endpoint: "/api/territory",
                 entities: 'Territories',
                 idField: 'TerritoryID',
-                roles: ['role-admin', 'role-user', 'role-orderuser']
+                roles: {read: ['role-admin', 'role-user', 'role-orderuser'], modify: ['role-admin']}
             },
             order: {
                 endpoint: "/api/order",
                 entities: 'Orders',
                 idField: 'OrderID',
-                roles: ['role-admin', 'role-user', 'role-orderuser']
+                roles: {read: ['role-admin', 'role-user', 'role-orderuser'], modify: ['role-admin', 'role-orderuser']}
             },
             orderDetails: {
                 endpoint: "/api/orderDetails",
                 entities: 'OrderDetails',
                 idField: 'OrderID',
-                roles: ['role-admin', 'role-user', 'role-orderuser']
+                roles: {read: ['role-admin', 'role-user', 'role-orderuser'], modify: ['role-admin']}
             },
-            newOrder: {
-                endpoint: "/api/newOrder",
-                entities: 'Orders',
-                idField: 'OrderID',
-                roles: ['role-admin', 'role-orderuser']
-            },
+            /*            newOrder: {
+             endpoint: "/api/newOrder",
+             entities: 'Orders',
+             idField: 'OrderID',
+             roles: {read: ['role-admin', 'role-user', 'role-orderuser'], modify: ['role-admin', 'role-orderuser']}
+             },*/
             product: {
                 endpoint: "/api/product",
                 entities: 'Products',
                 idField: 'ProductID',
-                roles: ['role-admin', 'role-user', 'role-orderuser']
+                roles: {read: ['role-admin', 'role-user', 'role-orderuser'], modify: ['role-admin']}
             },
             productByCategoryId: {
                 endpoint: '/api/productByCategoryId',
                 entities: 'Products',
                 idField: 'ProductID',
                 filterId: 'CategoryID',
-                roles: ['role-admin', 'role-user', 'role-orderuser']
+                roles: {read: ['role-admin', 'role-user', 'role-orderuser'], modify: ['role-admin']}
+            },
+            country: {
+                endpoint: "/api/country",
+                entities: 'Countries',
+                idField: 'code',
+                roles: {read: ['role-admin', 'role-user', 'role-orderuser'], modify: ['role-admin']}
             }
         };
 
@@ -122,7 +127,7 @@
             /* -- e.g. url = "api/employee" --*/
             $httpBackend.whenGET(request.endpoint).respond(function (method, url, data, headers) {
 
-                var errorResult = validatePermission(headers,request,url);
+                var errorResult = validatePermission(headers, method, request, url);
                 if (errorResult) {
                     return errorResult;
                 }
@@ -135,7 +140,7 @@
 
             $httpBackend.whenGET(editingRegex).respond(function (method, url, data, headers) {
 
-                var errorResult = validatePermission(headers,request,url);
+                var errorResult = validatePermission(headers, method, request, url);
                 if (errorResult) {
                     return errorResult;
                 }
@@ -163,7 +168,7 @@
 
             $httpBackend.whenDELETE(editingRegex).respond(function (method, url, data, headers) {
 
-                var errorResult = validatePermission(headers,request,url);
+                var errorResult = validatePermission(headers, method, request, url);
                 if (errorResult) {
                     return errorResult;
                 }
@@ -182,7 +187,7 @@
                     for (var i = 0; i < entities.length; i++) {
                         if (entities[i][filterId] == id) {
                             index = i;
-                            entity=entities[i];
+                            entity = entities[i];
                             break;
                         }
                     }
@@ -196,7 +201,7 @@
 
             $httpBackend.whenPOST(request.endpoint).respond(function (method, url, data, headers) {
 
-                var errorResult = validatePermission(headers,request,url);
+                var errorResult = validatePermission(headers, method, request, url);
                 if (errorResult) {
                     return errorResult;
                 }
@@ -290,9 +295,15 @@
         return loggedIn;
     }
 
-    function isAuthorized(requiredRoles) {
+    function isAuthorized(requiredRoles, method) {
         var isAuthorized = false;
-        if (requiredRoles.indexOf(_currentUser.role) >= 0) {
+
+        var roles = requiredRoles.read;
+        if (method !== 'GET') {
+            roles = requiredRoles.modify;
+        }
+
+        if (roles.indexOf(_currentUser.role) >= 0) {
             isAuthorized = true;
         }
         return isAuthorized;
@@ -311,12 +322,12 @@
         return profile;
     }
 
-    function validatePermission(headers,request,url) {
+    function validatePermission(headers, method, request, url) {
 
         if (!isAuthenticated(headers)) {
             return [401, {'request url': url}, headers, error401]
         }
-        if (!isAuthorized(request.roles)) {
+        if (!isAuthorized(request.roles, method)) {
             return [403, {'request url': url}, headers, error403]
         }
 

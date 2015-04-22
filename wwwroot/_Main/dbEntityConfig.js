@@ -53,6 +53,10 @@
                 employee:{
                     name:'employee',
                     url: getUrl('employee')
+                },
+                country:{
+                    name:'country',
+                    url:getUrl('country')
                 }
             }
         }
