@@ -43,9 +43,10 @@
                 </label>
 
                 <div class="col-xs-10">
-                    <div class="col-xs-8" ng-class="{'has-error':formUser.password2.$dirty && password2!==user.password}">
+                    <div class="col-xs-8"
+                         ng-class="{'has-error':formUser.password2.$dirty && password2!==user.password}">
                         <input type="password" id="password2" name="password2"
-                               required ng-minlength="4"  ng-model="password2" placeholder="Password">
+                               required ng-minlength="4" ng-model="password2" placeholder="Password">
                     </div>
                     <div class="col-xs-4 inline-error-message">
                     <span class='help-block' ng-messages='formUser.password2.$error'>
@@ -53,7 +54,7 @@
                         <span ng-message="minlength">at least 4 characters</span>
 
                     </span>
-                    <span  ng-show='!formUser.password2.$error.required && !formUser.password2.$error.minlength'>
+                    <span ng-show='!formUser.password2.$error.required && !formUser.password2.$error.minlength'>
                         <span ng-show="formUser.password2.$dirty && password2!==user.password" style="color: #a94442;">
                             passwords do not match
                         </span>
@@ -93,8 +94,7 @@
     </form>
 
 
-
-    <div class="row center-block" style="margin-top: 20px;" >
+    <div class="row center-block" style="margin-top: 20px;">
         <div class="table-container">
             <div style="padding: 10px;" class="table-responsive">
                 <div rain-grid="gridOptions" func-link="linkFunc(params)"></div>

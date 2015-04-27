@@ -75,29 +75,25 @@
                 toastr.warning('Please fix the validation error');
                 return;
             }
-            if (!formUser.$invalid) {
 
-                $scope.user.role = _.find($scope.roles, function (role) {
-                    return role.key === $scope.user.role;
+            $scope.user.role = _.find($scope.roles, function (role) {
+                return role.key === $scope.user.role;
+            });
+
+            repositoryService.addOrUpdateData(_entityUser, $scope.user)
+                .then(function (data) {
+                    if (data.error) {
+                        toastr.warning(data.error.message);
+                    } else {
+                        getUsers();
+                        resetUser();
+                        setEditMode(false);
+                        toastr.success("Save Successful");
+                    }
+                },
+                function (data, status, headers, config) {
+                    //logService.logError(data);
                 });
-
-                repositoryService.addOrUpdateData(_entityUser, $scope.user)
-                    .then(function (data) {
-                        if (data.error) {
-                            toastr.warning(data.error.message);
-                        } else {
-                            getUsers();
-                            resetUser();
-                            setEditMode(false);
-                            toastr.success("Save Successful");
-                        }
-                    },
-                    function (data, status, headers, config) {
-                        //logService.logError(data);
-                    });
-            } else {
-                toastr.warning("Please correct the validation errors");
-            }
         }
 
 

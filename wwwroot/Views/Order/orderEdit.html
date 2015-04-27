@@ -1,15 +1,14 @@
 <div ng-controller="orderEditCtrl" class="animated fadeIn">
-
-
-    <form class="form-horizontal admin-form" novalidate name="formUser" id="formUser">
+    <!--<div class="legend">Order</div>-->
+    <form class="form-horizontal admin-form" novalidate name="formOrder" id="formOrder">
         <filedset>
             <legend ng-class="{'edit-mode':isEditMode,'add-mode':!isEditMode}">{{title}}</legend>
             <div class="form-group" form-input>
-                <label class="col-xs-2">Customer</label>
+                <label class="col-xs-3">Customer</label>
 
-                <div class="col-xs-10">
+                <div class="col-xs-9">
                     <div class="col-xs-8">
-                        <ui-select ng-model="customer.selected" theme="select2" style="min-width: 260px;">
+                        <ui-select ng-model="order.customer" theme="select2" style="min-width: 300px;">
                             <ui-select-match placeholder="Select or search by company/country...">
                                 {{$select.selected.CompanyName}}
                             </ui-select-match>
@@ -24,17 +23,188 @@
                         </ui-select>
                     </div>
                     <div class="col-xs-4 inline-error-message">
-                    <span class='help-block' ng-messages='formUser.username.$error'>
+                    <span class='help-block' ng-messages='formOrder.username.$error'>
+                        <span ng-message="required">*</span>
+                    </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" form-input>
+                <label class="col-xs-3">Country</label>
+
+                <div class="col-xs-9">
+                    <div class="col-xs-8">
+                        <ui-select ng-model="order.country" theme="select2" ng-disabled="disabled" required
+                                   style="min-width: 300px;">
+                            <ui-select-match placeholder="Select or search by country/code...">
+                                {{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices
+                                    repeat="country in countries | propsFilter: {name: $select.search, code: $select.search}">
+                                <div ng-bind-html="country.name | highlight: $select.search"></div>
+                                <small style="margin-left: 10px;">
+                                    Code: {{country.code}}
+                                </small>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="col-xs-4 inline-error-message">
+                    <span class='help-block' ng-messages='formOrder.country.$error'>
+                        <span ng-message="required">*</span>
+                    </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" form-input>
+                <label class="col-xs-3">Ship City</label>
+
+                <div class="col-xs-9">
+                    <div class="col-xs-8" style="width: 330px;">
+                        <input type="text" id="shipCity" name="shipCity" ng-disabled="isEditMode"
+                               required ng-minlength="2"
+                               ng-model="order.shipCity" placeholder="Required">
+                    </div>
+                    <div class="col-xs-4 inline-error-message">
+                    <span class='help-block' ng-messages='formOrder.shipCity.$error'>
+                        <span ng-message="required">*</span>
+                        <span ng-message="minlength">at least 2 characters</span>
+                    </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" form-input>
+                <label class="col-xs-3">Ship Address</label>
+
+                <div class="col-xs-9">
+                    <div class="col-xs-8" style="width: 330px;">
+                        <input type="text" id="shipAddress" name="shipAddress" ng-disabled="isEditMode"
+                               required ng-minlength="4"
+                               ng-model="order.shipAddress" placeholder="Required">
+                    </div>
+                    <div class="col-xs-4 inline-error-message">
+                    <span class='help-block' ng-messages='formOrder.shipAddress.$error'>
+                        <span ng-message="required">*</span>
+                        <span ng-message="minlength">at least 4 characters</span>
+                    </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group form-group-sm" >
+                <label class="col-xs-3 control-label">Ship Name</label>
+
+                <div class="col-xs-9">
+                    <div class="col-xs-8" style="width: 330px;">
+                        <input type="text" id="shipName" name="shipName" ng-disabled="isEditMode"
+                               required ng-minlength="4" class="form-control"
+                               ng-model="order.shipName" placeholder="Required">
+                    </div>
+                    <div class="col-xs-3 inline-error-message">
+                    <span class='help-block' ng-show='formOrder.$submitted || formOrder.shipName.$touched'>
+                        <span ng-show="formOrder.shipName.$error.required">*</span>
+                        <span ng-show="formOrder.shipName.$error.minlength">at least 4 characters</span>
+                    </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" form-input>
+                <label class="col-xs-3">Freight</label>
+
+                <div class="col-xs-9">
+                    <div class="col-xs-8" style="width: 210px;">
+                        <input type="text" id="freight" name="freight" ng-disabled="isEditMode"
+                               required number-only="2"
+                               ng-model="order.freight" placeholder="Required, Numbers Only">
+                    </div>
+                    <div class="col-xs-4 inline-error-message">
+                    <span class='help-block' ng-messages='formOrder.freight.$error'>
+                        <span ng-message="required">*</span>
+                    </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" form-input>
+                <label class="col-xs-3">Order Date</label>
+
+                <div class="col-xs-9">
+                    <div class="col-xs-4">
+                        <div class="input-group input-group-sm" style="width: 210px;">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="order.orderDate"
+                                   is-open="orderDate_opened" min-date="minDate" max-date="'2018-06-22'"
+                                   datepicker-options="dateOptions"
+                                   date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
+                              <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="open($event,'orderDate')">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                          </span>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 inline-error-message">
+                    <span class='help-block' ng-messages='formOrder.country.$error'>
+                        <span ng-message="required">*</span>
+                    </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" form-input>
+                <label class="col-xs-3">Required Date</label>
+
+                <div class="col-xs-9">
+                    <div class="col-xs-4">
+                        <div class="input-group input-group-sm" style="width: 210px;">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="order.requiredDate"
+                                   is-open="requiredDate_opened" min-date="minDate" max-date="'2018-06-22'"
+                                   datepicker-options="dateOptions"
+                                   date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
+                              <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="open($event,'requiredDate')">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                          </span>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 inline-error-message">
+                    <span class='help-block' ng-messages='formOrder.country.$error'>
+                        <span ng-message="required">*</span>
+                    </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" form-input>
+                <label class="col-xs-3">Shipped Date</label>
+
+                <div class="col-xs-9">
+                    <div class="col-xs-4">
+                        <div class="input-group input-group-sm" style="width: 210px;">
+                            <input type="text" class="form-control" datepicker-popup="{{format}}"
+                                   ng-model="order.shippedDate"
+                                   is-open="shippedDate_opened" min-date="minDate" max-date="'2018-06-22'"
+                                   datepicker-options="dateOptions"
+                                   date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
+                              <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="open($event,'shippedDate')">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                          </span>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 inline-error-message">
+                    <span class='help-block' ng-messages='formOrder.country.$error'>
                         <span ng-message="required">*</span>
                     </span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-xs-offset-2 col-xs-10">
+                <div class="col-xs-offset-3 col-xs-9">
                     <div class="col-xs-5">
                         <button type="submit" class="btn btn-info"
-                                ng-click="saveUser(formUser)">
+                                ng-click="saveOrder(formOrder)">
                             <i class="glyphicon glyphicon-ok"></i>
                             Save
                         </button>
@@ -50,49 +220,4 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-    <div class="legend">Orders</div>
-
-    <p>Selected: {{customer.selected}}</p>
-
-
-    <h3>Select2 theme</h3>
-
-    <p>Selected: {{country.selected}}</p>
-    <ui-select ng-model="country.selected" theme="select2" ng-disabled="disabled" style="min-width: 200px;">
-        <ui-select-match placeholder="Select or search by country/code...">
-            {{$select.selected.name}}
-        </ui-select-match>
-        <ui-select-choices repeat="country in countries | propsFilter: {name: $select.search, code: $select.search}">
-            <div ng-bind-html="country.name | highlight: $select.search"></div>
-            <small style="margin-left: 10px;">
-                Code: {{country.code}}
-            </small>
-        </ui-select-choices>
-    </ui-select>
-
-    <div class="form-group form-group-sm">
-        <div class="col-xs-4 input-group input-group-sm">
-            <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt"
-                   is-open="opened" min-date="minDate" max-date="'2018-06-22'" datepicker-options="dateOptions"
-                   date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="open($event)">
-                    <i class="glyphicon glyphicon-calendar"></i>
-                </button>
-              </span>
-        </div>
-    </div>
-
-    <input type="text" ng-model="test" number-only="2">
 </div>

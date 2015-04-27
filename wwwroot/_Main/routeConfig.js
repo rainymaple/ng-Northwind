@@ -55,9 +55,17 @@
                     url: "/orders",
                     templateUrl: "wwwroot/Views/Order/orderList.html"
                 })
-                .state("orderEdit", {
-                    url: "/order",
+                .state("order", {
+                    url: "/orderAdmin",
+                    templateUrl: "wwwroot/Views/Order/orderAdmin.html"
+                })
+                .state("order.orderEdit", {
+                    url: "/orderEdit",
                     templateUrl: "wwwroot/Views/Order/orderEdit.html"
+                })
+                .state("order.orderDetailEdit", {
+                    url: "/orderDetail",
+                    templateUrl: "wwwroot/Views/Order/orderDetailEdit.html"
                 })
                 .state("orderReport", {
                     url: "/OrderReport",

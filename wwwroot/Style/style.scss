@@ -47,7 +47,8 @@ body {
   color: #404040;
   font-size: 14px;
   padding: 30px 20px;
-  height: 680px;
+  min-height: 680px;
+  min-width: 480px;
 
   .edit-mode {
     color: cornflowerblue;

@@ -37,6 +37,8 @@
             var html = element.html();
             var newHtml = '<div class="form-group form-group-sm">' + html + '</div>'
             element.html($compile(newHtml)(scope));
+        }else{
+            element.addClass('form-group-sm');
         }
 
 

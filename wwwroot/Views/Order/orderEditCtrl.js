@@ -2,10 +2,10 @@
     app.controller('orderEditCtrl', ['$scope', 'repositoryService', 'dbEntityConfig', 'commonService', orderEditCtrl]);
 
     function orderEditCtrl($scope, repositoryService, dbEntityConfig, commonService) {
-        $scope.order = {customer:'',shipName:'',shipCountry:'',freight:'',shippedDate:'',requiredDate:'',orderDate:''};
-        $scope.customer = {};
-        $scope.country = {};
-        $scope.test=null;
+        $scope.order = {
+            customer: '', shipName: '', shipCountry: '', freight: '', shippedDate: '', requiredDate: '',
+            orderDate: '', shipAddress: '', shipCity: ''
+        };
 
         activate();
 
@@ -13,10 +13,17 @@
 
         function activate() {
 
+            setEditMode(false);
             setDatePicker();
             getLookupData();
 
+        }
 
+        $scope.saveOrder = saveOrder;
+
+        function setEditMode(isEdit) {
+            $scope.isEditMode = isEdit;
+            $scope.title = isEdit ? "Edit Order" : "Add Order";
         }
 
         function getLookupData() {
@@ -30,31 +37,36 @@
                 });
         }
 
+        function saveOrder(formOrder){
+            if (!formOrder || formOrder.$invalid) {
+                toastr.warning('Please fix the validation error');
+                return;
+            }
+        }
+
         function setDatePicker() {
             $scope.today = function () {
-                $scope.dt = new Date();
+                $scope.order.orderDate = new Date();
+                $scope.order.requiredDate = new Date();
+                $scope.order.shippedDate = new Date();
             };
             $scope.today();
 
-            $scope.clear = function () {
-                $scope.dt = null;
-            };
-
-            // Disable weekend selection
-            $scope.disableWeekend = function (date, mode) {
-                return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-            };
-
-            $scope.toggleMin = function () {
-                $scope.minDate = $scope.minDate ? null : new Date();
-            };
-            $scope.toggleMin();
-
-            $scope.open = function ($event) {
+            $scope.open = function ($event, dt) {
                 $event.preventDefault();
                 $event.stopPropagation();
 
-                $scope.opened = true;
+                switch (dt) {
+                    case 'orderDate':
+                        $scope.orderDate_opened = true;
+                        break;
+                    case 'requiredDate':
+                        $scope.requiredDate_opened = true;
+                        break;
+                    case 'shippedDate':
+                        $scope.shippedDate_opened = true;
+                        break;
+                }
             };
 
             $scope.dateOptions = {
@@ -64,6 +76,21 @@
 
             $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
             $scope.format = $scope.formats[0];
+            /*
+             $scope.clear = function () {
+             $scope.dt = null;
+             };
+
+             // Disable weekend selection
+             $scope.disableWeekend = function (date, mode) {
+             return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+             };
+
+             $scope.toggleMin = function () {
+             $scope.minDate = $scope.minDate ? null : new Date();
+             };
+             $scope.toggleMin();
+             */
         }
     }
 
