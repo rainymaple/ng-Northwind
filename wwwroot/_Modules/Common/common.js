@@ -49,6 +49,7 @@
 
             link: function (scope, element, attrs, ngModel) {
                 scope.$watch(attrs.ngModel, function (newValue, oldValue) {
+                    if(!newValue) return;
                     var splitArray = String(newValue).split("");
                     if (splitArray.length === 0) return;
                     if (splitArray.length === 1

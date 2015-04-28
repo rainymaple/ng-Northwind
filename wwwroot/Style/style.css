@@ -148,11 +148,18 @@ form legend {
   display: inline; }
 .admin-form .help-block {
   display: inline;
-  margin-left: 10px; }
+  /*margin-left: 10px;*/ }
 .admin-form textarea {
   max-width: 400px; }
 .admin-form .table-container {
   max-height: 270px;
   overflow-y: auto; }
+
+.help-block {
+  display: inline-block;
+  padding-top: 3px;
+  margin-left: 5px;
+  margin-top: 0;
+  margin-bottom: 0; }
 
 /*# sourceMappingURL=style.css.map */

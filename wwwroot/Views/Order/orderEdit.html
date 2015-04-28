@@ -1,6 +1,6 @@
 <div ng-controller="orderEditCtrl" class="animated fadeIn">
     <!--<div class="legend">Order</div>-->
-    <form class="form-horizontal admin-form" novalidate name="formOrder" id="formOrder">
+    <form class="form-horizontal " novalidate name="formOrder" id="formOrder">
         <filedset>
             <legend ng-class="{'edit-mode':isEditMode,'add-mode':!isEditMode}">{{title}}</legend>
             <div class="form-group" form-input>
@@ -8,7 +8,8 @@
 
                 <div class="col-xs-9">
                     <div class="col-xs-8">
-                        <ui-select ng-model="order.customer" theme="select2" style="min-width: 300px;">
+                        <ui-select ng-model="order.customer" theme="select2" style="min-width: 300px;"
+                                   name="customer" required>
                             <ui-select-match placeholder="Select or search by company/country...">
                                 {{$select.selected.CompanyName}}
                             </ui-select-match>
@@ -22,10 +23,8 @@
                             </ui-select-choices>
                         </ui-select>
                     </div>
-                    <div class="col-xs-4 inline-error-message">
-                    <span class='help-block' ng-messages='formOrder.username.$error'>
-                        <span ng-message="required">*</span>
-                    </span>
+                    <div class='help-block' ng-messages='formOrder.customer.$error'>
+                        <span ng-message="required">required</span>
                     </div>
                 </div>
             </div>
@@ -34,8 +33,8 @@
 
                 <div class="col-xs-9">
                     <div class="col-xs-8">
-                        <ui-select ng-model="order.country" theme="select2" ng-disabled="disabled" required
-                                   style="min-width: 300px;">
+                        <ui-select ng-model="order.country" theme="select2" ng-disabled="disabled"
+                                   name="country" required style="min-width: 300px;">
                             <ui-select-match placeholder="Select or search by country/code...">
                                 {{$select.selected.name}}
                             </ui-select-match>
@@ -48,10 +47,8 @@
                             </ui-select-choices>
                         </ui-select>
                     </div>
-                    <div class="col-xs-4 inline-error-message">
-                    <span class='help-block' ng-messages='formOrder.country.$error'>
-                        <span ng-message="required">*</span>
-                    </span>
+                    <div class='help-block' ng-messages='formOrder.country.$error'>
+                        <span ng-message="required">required</span>
                     </div>
                 </div>
             </div>
@@ -64,11 +61,9 @@
                                required ng-minlength="2"
                                ng-model="order.shipCity" placeholder="Required">
                     </div>
-                    <div class="col-xs-4 inline-error-message">
-                    <span class='help-block' ng-messages='formOrder.shipCity.$error'>
-                        <span ng-message="required">*</span>
+                    <div class='help-block' ng-messages='formOrder.shipCity.$error'>
+                        <span ng-message="required">required</span>
                         <span ng-message="minlength">at least 2 characters</span>
-                    </span>
                     </div>
                 </div>
             </div>
@@ -81,15 +76,13 @@
                                required ng-minlength="4"
                                ng-model="order.shipAddress" placeholder="Required">
                     </div>
-                    <div class="col-xs-4 inline-error-message">
-                    <span class='help-block' ng-messages='formOrder.shipAddress.$error'>
-                        <span ng-message="required">*</span>
+                    <div class='help-block' ng-messages='formOrder.shipAddress.$error'>
+                        <span ng-message="required">required</span>
                         <span ng-message="minlength">at least 4 characters</span>
-                    </span>
                     </div>
                 </div>
             </div>
-            <div class="form-group form-group-sm" >
+            <div class="form-group form-group-sm" form-input>
                 <label class="col-xs-3 control-label">Ship Name</label>
 
                 <div class="col-xs-9">
@@ -98,11 +91,9 @@
                                required ng-minlength="4" class="form-control"
                                ng-model="order.shipName" placeholder="Required">
                     </div>
-                    <div class="col-xs-3 inline-error-message">
-                    <span class='help-block' ng-show='formOrder.$submitted || formOrder.shipName.$touched'>
-                        <span ng-show="formOrder.shipName.$error.required">*</span>
-                        <span ng-show="formOrder.shipName.$error.minlength">at least 4 characters</span>
-                    </span>
+                    <div class='help-block' ng-messages='formOrder.shipName.$error'>
+                        <span ng-message="required">required</span>
+                        <span ng-message="minlength">at least 4 characters</span>
                     </div>
                 </div>
             </div>
@@ -115,10 +106,8 @@
                                required number-only="2"
                                ng-model="order.freight" placeholder="Required, Numbers Only">
                     </div>
-                    <div class="col-xs-4 inline-error-message">
-                    <span class='help-block' ng-messages='formOrder.freight.$error'>
-                        <span ng-message="required">*</span>
-                    </span>
+                    <div class='help-block' ng-messages='formOrder.freight.$error'>
+                        <span ng-message="required">required</span>
                     </div>
                 </div>
             </div>
@@ -127,24 +116,22 @@
                 <label class="col-xs-3">Order Date</label>
 
                 <div class="col-xs-9">
-                    <div class="col-xs-4">
-                        <div class="input-group input-group-sm" style="width: 210px;">
+                    <div class="col-xs-12">
+                        <div class="input-group input-group-sm pull-left" style="width: 210px;">
                             <input type="text" class="form-control" datepicker-popup="{{format}}"
-                                   ng-model="order.orderDate"
+                                   ng-model="order.orderDate" name="orderDate" required
                                    is-open="orderDate_opened" min-date="minDate" max-date="'2018-06-22'"
                                    datepicker-options="dateOptions"
-                                   date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
+                                   date-disabled="disabled(date, mode)" close-text="Close"/>
                               <span class="input-group-btn">
                                 <button type="button" class="btn btn-default" ng-click="open($event,'orderDate')">
                                     <i class="glyphicon glyphicon-calendar"></i>
                                 </button>
                           </span>
                         </div>
-                    </div>
-                    <div class="col-xs-4 inline-error-message">
-                    <span class='help-block' ng-messages='formOrder.country.$error'>
-                        <span ng-message="required">*</span>
-                    </span>
+                        <div class='help-block' ng-messages='formOrder.orderDate.$error'>
+                            <span ng-message="required">required</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -153,8 +140,8 @@
                 <label class="col-xs-3">Required Date</label>
 
                 <div class="col-xs-9">
-                    <div class="col-xs-4">
-                        <div class="input-group input-group-sm" style="width: 210px;">
+                    <div class="col-xs-12">
+                        <div class="input-group input-group-sm pull-left" style="width: 210px;">
                             <input type="text" class="form-control" datepicker-popup="{{format}}"
                                    ng-model="order.requiredDate"
                                    is-open="requiredDate_opened" min-date="minDate" max-date="'2018-06-22'"
@@ -166,11 +153,9 @@
                                 </button>
                           </span>
                         </div>
-                    </div>
-                    <div class="col-xs-4 inline-error-message">
-                    <span class='help-block' ng-messages='formOrder.country.$error'>
-                        <span ng-message="required">*</span>
-                    </span>
+                        <div class='help-block' ng-messages='formOrder.country.$error'>
+                            <span ng-message="required">required</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -179,8 +164,8 @@
                 <label class="col-xs-3">Shipped Date</label>
 
                 <div class="col-xs-9">
-                    <div class="col-xs-4">
-                        <div class="input-group input-group-sm" style="width: 210px;">
+                    <div class="col-xs-12">
+                        <div class="input-group input-group-sm pull-left" style="width: 210px;">
                             <input type="text" class="form-control" datepicker-popup="{{format}}"
                                    ng-model="order.shippedDate"
                                    is-open="shippedDate_opened" min-date="minDate" max-date="'2018-06-22'"
@@ -192,11 +177,9 @@
                                 </button>
                           </span>
                         </div>
-                    </div>
-                    <div class="col-xs-4 inline-error-message">
-                    <span class='help-block' ng-messages='formOrder.country.$error'>
-                        <span ng-message="required">*</span>
-                    </span>
+                        <div class='help-block' ng-messages='formOrder.country.$error'>
+                            <span ng-message="required">required</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -217,7 +200,7 @@
             </div>
         </filedset>
     </form>
-
+    {{formOrder.$submitted}}
 
 
 </div>

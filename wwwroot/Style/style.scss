@@ -189,7 +189,7 @@ form {
   }
   .help-block {
     display: inline;
-    margin-left: 10px;
+    /*margin-left: 10px;*/
   }
   textarea {
     max-width: 400px;
@@ -198,5 +198,12 @@ form {
     max-height: 270px;
     overflow-y: auto;
   }
+}
+.help-block{
+  display: inline-block;
+  padding-top: 3px;
+  margin-left: 5px;
+  margin-top:0;
+  margin-bottom: 0;
 }
 

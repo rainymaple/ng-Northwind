@@ -9,6 +9,9 @@
     var watcherFor = function (form, name) {
         return function () {
             if (name && form[name]) {
+                if(form.$submitted){
+                    return form[name].$invalid;
+                }
                 if (!form[name].$dirty) {
                     return false;
                 }
@@ -47,7 +50,7 @@
             label.classList.add("control-label");
         }
 
-        var input = element[0].querySelector("input, textarea, select");
+        var input = element[0].querySelector("input, textarea, select,[ng-model]");
         if (input) {
             var type = input.getAttribute("type");
             var name = input.getAttribute("name");
