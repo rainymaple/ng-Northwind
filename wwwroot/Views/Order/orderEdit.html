@@ -7,7 +7,7 @@
                 <label class="col-xs-3">Customer</label>
 
                 <div class="col-xs-9">
-                    <div class="col-xs-8">
+                    <div class="col-xs-8" style="min-width: 330px;">
                         <ui-select ng-model="order.customer" theme="select2" style="min-width: 300px;"
                                    name="customer" required>
                             <ui-select-match placeholder="Select or search by company/country...">
@@ -32,9 +32,9 @@
                 <label class="col-xs-3">Country</label>
 
                 <div class="col-xs-9">
-                    <div class="col-xs-8">
-                        <ui-select ng-model="order.country" theme="select2" ng-disabled="disabled"
-                                   name="country" required style="min-width: 300px;">
+                    <div class="col-xs-8" style="min-width: 330px;">
+                        <ui-select ng-model="order.country" theme="select2" style="min-width: 300px;"
+                                   name="country" required>
                             <ui-select-match placeholder="Select or search by country/code...">
                                 {{$select.selected.name}}
                             </ui-select-match>

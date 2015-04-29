@@ -1,7 +1,7 @@
 <div ng-controller="employeeCtrl as vm" class="animated fadeIn">
     <div class="legend">Employees</div>
     <div class="row" ng-class="{'go-backward':vm.isFromBack}" ng-show="!vm.showDetail">
-        <div class="col-lg-10 table-container">
+        <div class="col-xs-12">
             <div style="padding: 10px;" class="table-responsive">
                 <div rain-grid="vm.gridOptions"  func-link="vm.linkFunc(params)"></div>
             </div>
