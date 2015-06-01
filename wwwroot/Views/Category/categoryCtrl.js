@@ -1,7 +1,9 @@
 (function (app) {
-    app.controller('categoryCtrl', ['repositoryService', 'dbEntityConfig', categoryCtrl]);
+    app.controller('categoryCtrl', ['$scope', 'repositoryService', 'dbEntityConfig', categoryCtrl]);
 
-    function categoryCtrl(repositoryService, dbEntityConfig) {
+    var _rowSelectedEvent = 'categoryCtrl.rowSelectedEvent';
+
+    function categoryCtrl($scope, repositoryService, dbEntityConfig) {
         var vm = this;
 
         activate();
@@ -11,16 +13,16 @@
         function activate() {
             vm.gridOptions = setGridOptions();
             vm.gridOptions.data = repositoryService.getDataList(dbEntityConfig.entities.category);
-            vm.gridOptions.data.then(function(data){
-                if(data.length>0){
+            vm.gridOptions.data.then(function (data) {
+                if (data.length > 0) {
                     vm.categoryId = data[0].CategoryID;
                 }
             })
         }
 
-        vm.onSelect = function(id){
-            vm.categoryId= id;
-        }
+        $scope.$on(_rowSelectedEvent, function (event, data) {
+            vm.categoryId = data.id;
+        });
     }
 
 
@@ -31,7 +33,8 @@
             idField: 'CategoryID',
             //pageSize: 5,
             selectable: true,
-            selectFirstRow: true
+            selectFirstRow: true,
+            rowSelectedEvent: {funcEvent: _rowSelectedEvent}
         };
     }
 

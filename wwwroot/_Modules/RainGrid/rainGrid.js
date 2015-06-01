@@ -8,18 +8,16 @@
 
     app.value("rainGridConfig", config);
 
-    app.directive('rainGrid', ['rainGridService', rainGrid]);
+    app.directive('rainGrid', ['rainGridService', '$rootScope', rainGrid]);
 
     /*-- Function Directive --*/
-    function rainGrid(rainGridService) {
+    function rainGrid() {
         return {
             restrict: 'AE',
-            templateUrl: rainGridService.baseUrl + 'rainGrid.html',
+            templateUrl:  'wwwroot/_Modules/RainGrid/rainGrid.html',
             replace: false,
             scope: {
-                rainGrid: '=',
-                funcLink: '&',
-                funcOnSelect: '&'
+                rainGrid: '='
             },
             controller: controller
 
@@ -27,7 +25,7 @@
 
         /*-- Function Controller --*/
 
-        function controller($scope, rainGridService) {
+        function controller($scope, rainGridService, $rootScope) {
 
             $scope.gridOptions = {};
             var _dataList = [];
@@ -160,12 +158,15 @@
 
             // page event handlers
 
-            $scope.linkTo = function (row, funcName, funcIdField) {
-                /*if (!id) {
-                 throw "gridOptions.idField is missing or invalid";
-                 }*/
-                var params = {'row': row, 'funcName': funcName, 'funcIdField': funcIdField};
-                $scope.funcLink({params: params});
+            $scope.linkTo = function (row, funcEvent, funcIdField) {
+                // execute the link function of this field
+                var field = _.find(row, function (col) {
+                    return col.fieldName === funcIdField;
+                });
+                if (field) {
+                    var id = field.value;
+                    $rootScope.$broadcast(funcEvent, {id: id});
+                }
             };
 
             $scope.pageSizeChanged = function (pageSize) {
@@ -207,8 +208,9 @@
                 if (row.rowSelected) {
                     $scope.selectedRow = row;
                 }
-                if (row.rowSelected && $scope.funcOnSelect) {
-                    $scope.funcOnSelect({id: row.id});
+                if (row.rowSelected && $scope.gridOptions.rowSelectedEvent) {
+                    var funcEvent = $scope.gridOptions.rowSelectedEvent.funcEvent;
+                    $rootScope.$broadcast(funcEvent, {id: row.id});
                 }
             };
 

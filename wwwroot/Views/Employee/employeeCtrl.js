@@ -1,7 +1,9 @@
 (function (app) {
-    app.controller('employeeCtrl', ['repositoryService', 'dbEntityConfig', 'rainGridService', employeeCtrl]);
+    app.controller('employeeCtrl', ['$scope','repositoryService', 'dbEntityConfig', 'rainGridService', employeeCtrl]);
 
-    function employeeCtrl(repositoryService, dbEntityConfig, rainGridService) {
+    var _employeeDetailEvent ='employeeCtrl.employeeDetail';
+
+    function employeeCtrl($scope,repositoryService, dbEntityConfig, rainGridService) {
         var vm = this;
         vm.showDetail = false;
         vm.isFromBack = false;
@@ -19,17 +21,13 @@
             });
         }
 
-        var linkFunctions = {
-            employeeDetail: function (id) {
-                vm.employee = _.find(vm.employeeList, function (e) {
-                    vm.showDetail = true;
-                    return e.EmployeeID === id;
-                });
-            }
-        };
-        vm.linkFunc = function (params) {
-            rainGridService.rainGridLinkFunc(params,linkFunctions);
-        };
+        $scope.$on(_employeeDetailEvent,function(event,data){
+            var id=data.id;
+            vm.employee = _.find(vm.employeeList, function (e) {
+                vm.showDetail = true;
+                return e.EmployeeID === id;
+            });
+        });
 
         vm.backToList = function () {
             vm.isFromBack = true;
@@ -55,7 +53,7 @@
                 field: 'FirstName',
                 displayName: 'First Name',
                 isLink: true,
-                linkFunc: {funcName: 'employeeDetail', funcIdField: 'EmployeeID'}
+                linkFunc: {funcEvent: _employeeDetailEvent, funcIdField: 'EmployeeID'}
             },
             {
                 field: 'LastName',

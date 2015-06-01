@@ -1,7 +1,9 @@
 (function (app) {
-    app.controller('orderListCtrl', ['repositoryService', 'dbEntityConfig','commonService', orderListCtrl]);
+    app.controller('orderListCtrl', ['$scope', 'repositoryService', 'dbEntityConfig', orderListCtrl]);
 
-    function orderListCtrl(repositoryService, dbEntityConfig,commonService) {
+    var _rowSelectedEvent='orderListCtrl.rowSelected';
+
+    function orderListCtrl($scope, repositoryService, dbEntityConfig) {
         var vm = this;
         vm.selectedRow = false;
         vm.showDetail = true;
@@ -20,11 +22,11 @@
             })
         }
 
-        vm.onSelect = function (id) {
+        $scope.$on(_rowSelectedEvent, function (event, data) {
+            var id = data.id;
             vm.orderId = id;
             vm.selectedRow = true;
-        };
-
+        })
 
 
     }
@@ -38,7 +40,8 @@
             pageSize: 5,
             title: 'Order List',
             selectable: true,
-            selectFirstRow: false
+            selectFirstRow: false,
+            rowSelectedEvent: {funcEvent:_rowSelectedEvent,funcIdField:'OrderID'}
         };
     }
 

@@ -1,8 +1,10 @@
 (function (app) {
     app.directive('orderDetailListDir', ['repositoryService', 'dbEntityConfig',
-        'nwCommonService', 'rainGridService',orderDetailListDir]);
+        'nwCommonService', 'rainGridService', orderDetailListDir]);
 
-    function orderDetailListDir(repositoryService, dbEntityConfig, nwCommonService,rainGridService) {
+    var _productDetailEvent = 'orderDetailListDir.productDetail';
+
+    function orderDetailListDir(repositoryService, dbEntityConfig, nwCommonService, rainGridService) {
         return {
             restrict: 'AE',
             templateUrl: 'wwwroot/Views/Order/orderDetailListDir.html',
@@ -32,6 +34,19 @@
             }
 
 
+            $scope.$on(_productDetailEvent, function (event, data) {
+                var id = data.id;
+                var modalInstance = nwCommonService.showProductModal(id);
+                modalInstance.then(function () {
+                });
+            });
+
+            function productDetail(id) {
+                var modalInstance = nwCommonService.showProductModal(id);
+                modalInstance.then(function () {
+                });
+            }
+
             var linkFunctions = {
                 productDetail: function (id) {
                     var modalInstance = nwCommonService.showProductModal(id);
@@ -40,7 +55,7 @@
                 }
             };
             $scope.linkFunc = function (params) {
-                rainGridService.rainGridLinkFunc(params,linkFunctions);
+                rainGridService.rainGridLinkFunc(params, linkFunctions);
             };
         }   // controller
 
@@ -69,7 +84,10 @@
                 field: 'ProductName',
                 displayName: 'Product Name',
                 isLink: true,
-                linkFunc: {funcName: 'productDetail', funcIdField: 'ProductID'}
+                linkFunc: {
+                    funcIdField: 'ProductID',
+                    funcEvent: _productDetailEvent
+                }
             },
             {
                 field: 'UnitPrice',

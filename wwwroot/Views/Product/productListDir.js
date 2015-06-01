@@ -1,8 +1,9 @@
 (function (app) {
-    app.directive('productListDir', ['repositoryService', 'dbEntityConfig', 'nwCommonService', 'rainGridService',
-        productListDir]);
+    app.directive('productListDir', ['repositoryService', 'dbEntityConfig', 'nwCommonService', productListDir]);
 
-    function productListDir(repositoryService, dbEntityConfig, nwCommonService, rainGridService) {
+    var _eventGetProductDetail = 'productListDir.productDetail';
+
+    function productListDir(repositoryService, dbEntityConfig, nwCommonService) {
         return {
             restrict: 'AE',
             templateUrl: 'wwwroot/Views/Product/productListDir.html',
@@ -31,17 +32,13 @@
                     dbEntityConfig.entities.productByCategoryId, $scope.categoryId);
             }
 
+            $scope.$on(_eventGetProductDetail, function (event, data) {
+                var id = data.id;
+                var modalInstance = nwCommonService.showProductModal(id);
+                modalInstance.then(function () {
+                });
+            });
 
-            var linkFunctions = {
-                productDetail: function (id) {
-                    var modalInstance = nwCommonService.showProductModal(id);
-                    modalInstance.then(function () {
-                    });
-                }
-            };
-            $scope.linkFunc = function (params) {
-                rainGridService.rainGridLinkFunc(params, linkFunctions);
-            };
         }   // controller
 
     }
@@ -65,7 +62,7 @@
                 field: 'ProductName',
                 displayName: 'Name',
                 isLink: true,
-                linkFunc: {funcName: 'productDetail', funcIdField: 'ProductID'}
+                linkFunc: {funcEvent: _eventGetProductDetail, funcIdField: 'ProductID'}
             },
             {
                 field: 'QuantityPerUnit',

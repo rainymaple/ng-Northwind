@@ -1,8 +1,9 @@
 (function (app) {
-    app.controller('productCtrl', ['repositoryService', 'dbEntityConfig', 'nwCommonService',
-        'rainGridService', '$parse', productCtrl]);
+    app.controller('productCtrl', ['$scope', 'repositoryService', 'dbEntityConfig','nwCommonService', productCtrl]);
 
-    function productCtrl(repositoryService, dbEntityConfig, nwCommonService, rainGridService) {
+    var _eventGetProductDetail = 'productCtrl.productDetail';
+
+    function productCtrl($scope, repositoryService, dbEntityConfig, nwCommonService) {
         var vm = this;
 
         activate();
@@ -14,15 +15,10 @@
             vm.gridOptions.data = repositoryService.getDataList(dbEntityConfig.entities.product);
         }
 
-        var linkFunctions = {
-            productDetail: function (id) {
-                showProductModal(id);
-            }
-        };
-        vm.linkFunc = function (params) {
-            rainGridService.rainGridLinkFunc(params, linkFunctions);
-        };
-
+        $scope.$on(_eventGetProductDetail, function (event, data) {
+            var id = data.id;
+            showProductModal(id);
+        });
 
         function showProductModal(id) {
             var modalInstance = nwCommonService.showProductModal(id);
@@ -48,7 +44,7 @@
                 field: 'ProductName',
                 displayName: 'Name',
                 isLink: true,
-                linkFunc: {funcName: 'productDetail', funcIdField: 'ProductID'}
+                linkFunc: {funcEvent: _eventGetProductDetail, funcIdField: 'ProductID'}
             },
             {
                 field: 'QuantityPerUnit',
