@@ -18,6 +18,8 @@
         // pass through any local request
         $httpBackend.whenGET(/wwwroot/).passThrough();
 
+        $httpBackend.whenGET(/rainModules/).passThrough();
+
         var requests = {
             user: {
                 endpoint: "/api/user",

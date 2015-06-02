@@ -28,8 +28,8 @@
         function controller($scope, rainGridService, $rootScope) {
 
             $scope.gridOptions = {};
-            var _dataList = [];
-            var _dataRows = [];
+            var _dataRows = []; // _dataRows is original(neither sorted nor filtered)
+            var _dataList = []; // _dataList might be sorted and/or filtered
             var _sortings = [null, 'ASC', 'DSC'];
             var _sortIndex = 0;
             var _sortField = null;
