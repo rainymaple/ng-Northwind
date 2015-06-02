@@ -2,7 +2,7 @@
     "use strict";
     var app = angular.module("appNorthwind", [
         "ui.router", "ui.mask", "ui.bootstrap", 'ngAnimate', 'chart.js','ngMessages','ui.select', 'ngSanitize',
-        'rainGrid','rainForm','common'
+        'rainGrid','rainForm','rainCheckbox','common'
         /*,'angular-loading-bar'*/
         , 'northwindDbMock'
     ]);
